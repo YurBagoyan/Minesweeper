@@ -1,2 +1,2 @@
 # Minesweeper
-Course 2021
+С++ сourse 2021
