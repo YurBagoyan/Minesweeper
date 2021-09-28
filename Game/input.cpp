@@ -4,6 +4,8 @@
 #include <unistd.h>
 #include <termios.h>
 #include <sys/select.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 int tty_mode = 0;
 struct termios orig_tty;
@@ -56,4 +58,9 @@ int keypress()
    }
 
    return -1;
+}
+
+void gotoxy(int x, int y)
+{
+    printf("%c[%d;%df", 0x1B, y, x);
 }
