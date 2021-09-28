@@ -17,4 +17,6 @@ void normal();
 */
 int keypress();
 
+void gotoxy(int,int);
+
 #endif // INPUT_HPP
