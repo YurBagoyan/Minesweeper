@@ -1,5 +1,5 @@
-#ifndef SHOW_GAME_NAME
-#define SHOW_GAME_NAME
+#ifndef SHOW
+#define SHOW
 
 #include <iostream>
 
