@@ -49,20 +49,6 @@ int main()
                     show_menu(Menu_Rows, Menu_Count, select);
                 }
                 break;
-            
-            /*case 'W':
-                if(select == 0)
-                {
-                    select = 4;
-                    show_menu(Menu_Rows, Menu_Count, select);
-                }
-                else
-                {
-                    --select;
-                    show_menu(Menu_Rows, Menu_Count, select);
-                }
-                break;*/
-
 
             case 's':
             case 'S':
@@ -77,19 +63,6 @@ int main()
                     show_menu(Menu_Rows, Menu_Count, select);
                 }
                 break;
-
-            /*case 'S':
-                if(select == 4)
-                {
-                    select = 0;
-                    show_menu(Menu_Rows, Menu_Count, select);
-                }
-                else
-                {
-                    ++select;
-                    show_menu(Menu_Rows, Menu_Count, select);
-                }
-                break;*/
         }
     }
 }
