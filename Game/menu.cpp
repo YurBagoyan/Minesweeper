@@ -10,7 +10,7 @@ void show_menu(std::string Menu_Rows[], int const Menu_Count, int const select)
     {
         if(i == select)
         {
-            std::cout << "> " << Menu_Rows[i] << "\n";
+            std::cout << ">  " << Menu_Rows[i] << "\n";
         }
         else
         {
@@ -36,19 +36,7 @@ int main()
 
         switch(key)
         {
-            case 'w': 
-                if(select == 0)
-                {
-                    select = 4;
-                    show_menu(Menu_Rows, Menu_Count, select);
-                }
-                else
-                {
-                    --select;
-                    show_menu(Menu_Rows, Menu_Count, select);
-                }
-                break;
-            
+            case 'w':
             case 'W':
                 if(select == 0)
                 {
@@ -61,21 +49,22 @@ int main()
                     show_menu(Menu_Rows, Menu_Count, select);
                 }
                 break;
-
-
-            case 's':
-                if(select == 4)
+            
+            /*case 'W':
+                if(select == 0)
                 {
-                    select = 0;
+                    select = 4;
                     show_menu(Menu_Rows, Menu_Count, select);
                 }
                 else
                 {
-                    ++select;
+                    --select;
                     show_menu(Menu_Rows, Menu_Count, select);
                 }
-                break;
+                break;*/
 
+
+            case 's':
             case 'S':
                 if(select == 4)
                 {
@@ -88,6 +77,19 @@ int main()
                     show_menu(Menu_Rows, Menu_Count, select);
                 }
                 break;
+
+            /*case 'S':
+                if(select == 4)
+                {
+                    select = 0;
+                    show_menu(Menu_Rows, Menu_Count, select);
+                }
+                else
+                {
+                    ++select;
+                    show_menu(Menu_Rows, Menu_Count, select);
+                }
+                break;*/
         }
     }
 }
