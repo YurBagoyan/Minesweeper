@@ -11,7 +11,7 @@
 void Show_GameName()
 {
     int const CENTER_ROW = 10; 
-    for(float i = 1; i <= CENTER_ROW; ++i)
+    for(int i = 1; i <= CENTER_ROW; ++i)
     {
         system("clear");
         gotoxy(0, i);
