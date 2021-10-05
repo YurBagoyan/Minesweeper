@@ -30,20 +30,4 @@ void Show_GameName()    //Animation print of GameName
     }
 }
 
-// MENU
-const int MENU_ROW_COUNT = 5;
-std::string Menu[MENU_ROW_COUNT] = { " Start", "Records", "Options", " About", " Exit" };
-
-void Show_Menu()    //Print Menu
-{   
-    gotoxy(70, 22);
-    colorCout(Menu[0], 3);
-    for(int i = 1; i < MENU_ROW_COUNT; ++i)
-    {
-        gotoxy(70, 22 + i);
-        std::cout << Menu[i];
-    }
-    std::cout << std::endl;
-}
-
 #endif
