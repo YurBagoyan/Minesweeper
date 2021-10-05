@@ -19,4 +19,6 @@ int keypress();
 
 void gotoxy(int,int);
 
+void colorCout(std::string, int);
+
 #endif // INPUT_HPP
