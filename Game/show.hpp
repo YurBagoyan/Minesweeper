@@ -10,7 +10,11 @@
 
 void Show_GameName()    //Animation print of GameName
 {
+
     int const CENTER_ROW = 12; 
+
+    int const CENTER_ROW = 10; 
+
     for(int i = 1; i <= CENTER_ROW; ++i)
     {
         system("clear");
