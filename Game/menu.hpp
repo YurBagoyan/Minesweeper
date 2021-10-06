@@ -37,9 +37,9 @@ void Menu_choose()
     std::cout << std::endl;
 
     int choose = 0;
+    bool return_to_menu = false;
     for(char key = -1; key != 27; )
     {
-        bool return_to_menu = false;
         if (return_to_menu)
         {
             break;
