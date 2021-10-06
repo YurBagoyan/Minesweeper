@@ -62,11 +62,17 @@ void Show_About()
     gotoxy(58,37);
     colorCout("Press Esc to retun to main menu", 7);
     
-    for(int key = -1; key != 27; )
+    for(int key = -1; ; )
     {
         cbreak();
         key = keypress();
         normal();   
+
+        if(key == 27)
+        {
+            system("clear");
+            break;
+        }
     }   
 }
 
