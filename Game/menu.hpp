@@ -2,15 +2,31 @@
 #define MENU
 
 #include <iostream>
+#include <stdlib.h>
 
 #include "input.hpp"
 #include "show.hpp"
 
 const int MENU_ROW_COUNT = 5, menu_start_row = 22, menu_start_colum = 70;
-std::string Menu[MENU_ROW_COUNT] = { " Start", "Records", "Options", " About", " Exit" };
+std::string Menu[MENU_ROW_COUNT] = { "Start", "Records", "Options", "About", "Exit" };
 
-void Show_Menu()    //Print Menu
-{   
+void Selected_Menu(int choose)
+{
+    switch(choose)
+    {
+        //case 0:                          //Start
+        //case 1:                          //Records
+        //case 2:                                 //Options
+        case 3:  Show_About(); break;           //About
+        case 4:  exit(0); break;                   //Exit
+    }
+}
+
+void Menu_choose()
+{
+    gotoxy(0, 12);
+    Show_GameName();
+
     gotoxy(menu_start_colum, menu_start_row);
     colorCout(Menu[0], 3);
     for(int i = 1; i < MENU_ROW_COUNT; ++i)
@@ -19,14 +35,15 @@ void Show_Menu()    //Print Menu
         std::cout << Menu[i];                                
     }
     std::cout << std::endl;
-}
 
-
-void Menu_choose()
-{
     int choose = 0;
     for(char key = -1; key != 27; )
     {
+        bool return_to_menu = false;
+        if (return_to_menu)
+        {
+            break;
+        }
         cbreak();
         key = keypress();
         normal();
@@ -36,6 +53,12 @@ void Menu_choose()
         case 'w': case 'W':
             if(choose == 0)
             {
+                for(int i = 22; i < 29; ++i)
+                {
+                    gotoxy(0, i);
+                    std::cout << "  ";
+                }
+
                 gotoxy(menu_start_colum, menu_start_row);
                 std::cout << Menu[choose];
                 
@@ -45,6 +68,12 @@ void Menu_choose()
             }
             else
             {
+                for(int i = 22; i < 29; ++i)
+                {       
+                    gotoxy(0, i);
+                    std::cout << "  ";
+                }
+
                 gotoxy(menu_start_colum, menu_start_row + choose);
                 std::cout << Menu[choose];
 
@@ -57,7 +86,13 @@ void Menu_choose()
             
         case 's': case 'S':
             if(choose == MENU_ROW_COUNT - 1)
-            {
+            { 
+                for(int i = 22; i < 29; ++i)
+                {
+                    gotoxy(0, i);
+                    std::cout << "  ";
+                }
+
                 gotoxy(menu_start_colum, menu_start_row + choose);
                 std::cout << Menu[choose];
                             
@@ -66,7 +101,13 @@ void Menu_choose()
                 colorCout(Menu[choose], 3);
             }
             else
-            {
+            { 
+                for(int i = 22; i < 29; ++i)
+                {
+                    gotoxy(0, i);
+                    std::cout << "  ";
+                }
+
                 gotoxy(menu_start_colum, menu_start_row + choose);
                 std::cout << Menu[choose];
                 
@@ -77,8 +118,8 @@ void Menu_choose()
             break;
 
         case 0x0A:
-            gotoxy(70,28);
-            std::cout << "Enter is pressed" << std::endl;
+            Selected_Menu(choose);
+            return_to_menu = true;
             break;
         }
     }
