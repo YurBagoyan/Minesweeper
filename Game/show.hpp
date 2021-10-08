@@ -23,6 +23,20 @@ void Show_GameName()    //Print Game Name
 }
 
 
+void Show_Levels()
+{
+    system("clear");
+
+    gotoxy(70, 10);
+    colorCout("Levels", 4);
+
+    gotoxy(67, 12);
+    
+}
+
+
+
+
 void Show_About()
 {
     system("clear");
@@ -75,5 +89,7 @@ void Show_About()
         }
     }   
 }
+
+
 
 #endif
