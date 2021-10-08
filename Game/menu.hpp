@@ -50,79 +50,65 @@ void Menu_choose()
 
         switch(key)
         {
-        case 'w': case 'W':
-            if(choose == 0)
-            {
+            case 'w': case 'W':
                 for(int i = 22; i < 29; ++i)
                 {
                     gotoxy(0, i);
                     std::cout << "  ";
                 }
 
-                gotoxy(menu_start_colum, menu_start_row);
-                std::cout << Menu[choose];
-                
-                choose = MENU_ROW_COUNT - 1;
-                gotoxy(menu_start_colum, menu_start_row + choose);
-                colorCout(Menu[choose], 3);
-            }
-            else
-            {
+                if(choose == 0)
+                {
+                    gotoxy(menu_start_colum, menu_start_row);
+                    std::cout << Menu[choose];
+                    
+                    choose = MENU_ROW_COUNT - 1;
+                    gotoxy(menu_start_colum, menu_start_row + choose);
+                    colorCout(Menu[choose], 3);
+                }
+                else
+                {    
+                    gotoxy(menu_start_colum, menu_start_row + choose);
+                    std::cout << Menu[choose];
+    
+                    gotoxy(menu_start_colum, menu_start_row + (--choose));
+                    colorCout(Menu[choose], 3);
+                }
+                break;
+                    
+            case 's': case 'S':
                 for(int i = 22; i < 29; ++i)
-                {       
+                {
                     gotoxy(0, i);
                     std::cout << "  ";
                 }
 
-                gotoxy(menu_start_colum, menu_start_row + choose);
-                std::cout << Menu[choose];
-
-                --choose;
-                gotoxy(menu_start_colum, menu_start_row + choose);
-                colorCout(Menu[choose], 3);
-            }
-            break;
+                if(choose == MENU_ROW_COUNT - 1)
+                {        
+                    gotoxy(menu_start_colum, menu_start_row + choose);
+                    std::cout << Menu[choose];
+                                
+                    choose = 0;
+                    gotoxy(menu_start_colum, menu_start_row);
+                    colorCout(Menu[choose], 3);
+                }
+                else
+                { 
+                    gotoxy(menu_start_colum, menu_start_row + choose);
+                    std::cout << Menu[choose];
+                    
+                    gotoxy(menu_start_colum, menu_start_row + (++choose));
+                    colorCout(Menu[choose], 3);   
+                }
+                break;
             
+            case 0x0A:
+                Selected_Menu(choose);
+                return_to_menu = true;
+                break;
             
-        case 's': case 'S':
-            if(choose == MENU_ROW_COUNT - 1)
-            { 
-                for(int i = 22; i < 29; ++i)
-                {
-                    gotoxy(0, i);
-                    std::cout << "  ";
-                }
-
-                gotoxy(menu_start_colum, menu_start_row + choose);
-                std::cout << Menu[choose];
-                            
-                choose = 0;
-                gotoxy(menu_start_colum, menu_start_row);
-                colorCout(Menu[choose], 3);
-            }
-            else
-            { 
-                for(int i = 22; i < 29; ++i)
-                {
-                    gotoxy(0, i);
-                    std::cout << "  ";
-                }
-
-                gotoxy(menu_start_colum, menu_start_row + choose);
-                std::cout << Menu[choose];
-                
-                ++choose;
-                gotoxy(menu_start_colum, menu_start_row + choose);
-                colorCout(Menu[choose], 3);   
-            }
-            break;
-
-        case 0x0A:
-            Selected_Menu(choose);
-            return_to_menu = true;
-            break;
-        }
+        }   
     }
-}
-
+}           
+    
 #endif
