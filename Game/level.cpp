@@ -3,19 +3,7 @@
 #include <ctime>
 
 #include "input.hpp"
-#include "design.hpp"
-
-void showBack(int** Back, int size)
-{
-    for (int i = 1; i < size - 1; ++i)
-    {
-        for (int j = 1; j < size - 1; ++j)
-        {
-            std::cout << std::setw(2) << "\t" << Back[i][j];
-        }
-        std::cout << std::endl;
-    }
-}
+#include "game.hpp"
 
 void showFront(char** Front, int size)
 {
@@ -53,8 +41,8 @@ int main()
     }
 
 
-    int Bomb_Count = 15;
-
+    int Bomb_Count = 40;
+    int BombPort = Bomb_Count;
     //Random -> Bomb
     int min = 1, max = size - 2;
     while (Bomb_Count != 0)
@@ -93,22 +81,26 @@ int main()
         }
     }
 
-    //showBack(Back_Matrix, size);
-    //std::cout << "\n\n";
+    for(int i = 0; i < size; ++i)
+    {
+        Back[0][i] = -2;
+        Back[i][0] = -2;
+    }
 
     gotoxy(70, 15);
     showFront(Front, size);
     gotoxy(71, 15);
     colorCout("#", 3);
     
-
-    step(Back, Front, size);
+    game(Back, Front, size, BombPort);
+    
 
     for(int i = 0; i < size; ++i)
     {
         delete[] Back[i];
         delete[] Front[i];
     }
+
     delete[] Back;
     delete[] Front;
 }

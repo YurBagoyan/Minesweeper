@@ -6,6 +6,7 @@
 
 #include "input.hpp"
 #include "show.hpp"
+//#include "game.hpp"
 
 const int MENU_ROW_COUNT = 5, menu_start_row = 22, menu_start_colum = 70;
 std::string Menu[MENU_ROW_COUNT] = { "Start", "Records", "Options", "About", "Exit" };
@@ -14,7 +15,7 @@ void Selected_Menu(int choose)
 {
     switch(choose)
     {
-        //case 0:                          //Start
+        //case 0: start();                          //Start
         //case 1:                          //Records
         //case 2:                                 //Options
         case 3:  Show_About(); break;           //About
