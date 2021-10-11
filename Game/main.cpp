@@ -7,6 +7,7 @@
 
 int main()
 {
+    //Gamename animation
     for(int  i = 1; i <= 12; ++i)
     {
         gotoxy(0, i);

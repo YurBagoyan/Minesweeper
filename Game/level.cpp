@@ -7,10 +7,8 @@
 
 void showFront(char** Front, int size)
 {
-    for (int i = 1; i < size - 1; ++i)
-    {
-        for (int j = 1; j < size - 1; ++j)
-        {
+    for (int i = 1; i < size - 1; ++i){
+        for (int j = 1; j < size - 1; ++j){
             std::cout << " " << Front[i][j];
         }
         gotoxy(70, 15 + i);
@@ -23,29 +21,26 @@ int main()
     srand(time(NULL));
 
     int size = 15;
-    int** Back = new int* [size];
-    char**Front = new char* [size];
-    for (int i = 0; i < size; ++i)
-    {
+    int** Back = new int* [size];       //Back is a matrix with numbers
+    char**Front = new char* [size];     //Front is a matrix that we will see throughout the game
+
+    for (int i = 0; i < size; ++i){
         Back[i] = new int[size];
         Front[i] = new char [size];
     }
 
-    for (int i = 0; i < size; ++i)
-    {
-        for (int j = 0; j < size; j++)
-        {
+    for (int i = 0; i < size; ++i){
+        for (int j = 0; j < size; j++){
             Back[i][j] = 0;
             Front[i][j] = '#';
         }
     }
 
-
-    int Bomb_Count = 40;
-    int BombPort = Bomb_Count;
-    //Random -> Bomb
+    int Bomb_Count = 25;
+    int Bomb_temp = Bomb_Count;
+    //Choose the random cage and add there mine
     int min = 1, max = size - 2;
-    while (Bomb_Count != 0)
+    while (Bomb_temp != 0)
     {
         int i = min + rand() % (max - min);
         int j = min + rand() % (max - min);
@@ -56,33 +51,30 @@ int main()
         }
 
         Back[i][j] = -1;
-        Bomb_Count--;
+        Bomb_temp--;
     }
 
-    //Numbers around bombs
-    for (int i = 1; i < size - 1; ++i)
-    {
-        for (int j = 1; j < size - 1; ++j)
-        {
+    //Numbers around mines
+    for (int i = 1; i < size - 1; ++i){
+        for (int j = 1; j < size - 1; ++j){
+            //Find the mine
             if (Back[i][j] == -1)
             {
-                for (int row_i = i - 1; row_i <= i + 1; ++row_i)
-                {
-                    for (int col_j = j - 1; col_j <= j + 1; ++col_j)
-                    {
+                // +1 in empty cages around mine 
+                for (int row_i = i - 1; row_i <= i + 1; ++row_i){
+                    for (int col_j = j - 1; col_j <= j + 1; ++col_j){
                         if (Back[row_i][col_j] != -1)
                         {
                             Back[row_i][col_j]++;
                         }
                     }
                 }
-
             }
         }
     }
 
-    for(int i = 0; i < size; ++i)
-    {
+    //To be make sure that the hider 
+    for(int i = 0; i < size; ++i){
         Back[0][i] = -2;
         Back[i][0] = -2;
     }
@@ -92,11 +84,11 @@ int main()
     gotoxy(71, 15);
     colorCout("#", 3);
     
-    game(Back, Front, size, BombPort);
+    //This function is in game.hpp
+    game(Back, Front, size, Bomb_Count);
     
-
-    for(int i = 0; i < size; ++i)
-    {
+    //Deleting dinamic matixes
+    for(int i = 0; i < size; ++i){
         delete[] Back[i];
         delete[] Front[i];
     }
