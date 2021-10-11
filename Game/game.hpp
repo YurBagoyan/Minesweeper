@@ -6,10 +6,10 @@
 
 int matrix_start_col = 69, matrix_start_row = 14;
 
+//To print a character in green color
 void greenSymbol(char** Front, int i, int j)
 {
-    switch(Front[i][j])
-    {
+    switch(Front[i][j]){
         case 'F': colorCout("F", 3); break;
         
         case '#': colorCout("#", 3); break;
@@ -35,13 +35,15 @@ void greenSymbol(char** Front, int i, int j)
     }
 }
 
-void printSymbol(char** Front, int i, int j)
+//To print a character in its specific color
+void printSymbol(char** Front, int i, int j)  
 {
-    switch(Front[i][j])
-    {
+    switch(Front[i][j]){
         case 'X':
-            gotoxy(matrix_start_col + j*2, matrix_start_row + i);
+            //Delete previous character
+            gotoxy(matrix_start_col + j*2, matrix_start_row + i);   
             std::cout << "  ";
+            //Print new character with its specific color
             gotoxy(matrix_start_col + j*2, matrix_start_row + i);
             colorCout("X ", 5);
             break;
@@ -125,12 +127,11 @@ void printSymbol(char** Front, int i, int j)
     }
 }
 
+//Checking for a win
 bool checking(char** Front, int size)
 {
-    for(int i = 1; i < size-1; ++i)
-    {
-        for(int j = 1; j < size -1 ; ++j)
-        {
+    for(int i = 1; i < size-1; ++i){
+        for(int j = 1; j < size -1 ; ++j){
             if(Front[i][j] == '#')
             {
                 return false;
@@ -140,6 +141,7 @@ bool checking(char** Front, int size)
     return true;
 }
 
+//Print after winning
 void win(int** Back, char** Front, int size)
 {
     gotoxy(matrix_start_col + 3, matrix_start_row - 3);
@@ -154,12 +156,10 @@ void win(int** Back, char** Front, int size)
     gotoxy(matrix_start_col + 24, matrix_start_row + size + 3);
     colorCout("MAIN MENU", 5);
 
+    //Print all mines positions
     gotoxy(matrix_start_col, matrix_start_row);
-    
-    for(int i = 1; i < size-1; ++i)
-    {
-        for(int j = 1; j < size-1; ++j)
-        {
+    for(int i = 1; i < size-1; ++i){
+        for(int j = 1; j < size-1; ++j){
             if(Back[i][j] == -1)
             {
                 Front[i][j] = 'X';
@@ -170,6 +170,7 @@ void win(int** Back, char** Front, int size)
     }
 }
 
+//Open the number
 void Open(int **Back, char** Front, int i, int j, int* Fcount)
 {   
     if(Back[i][j] > 0)
@@ -179,24 +180,26 @@ void Open(int **Back, char** Front, int i, int j, int* Fcount)
             --(*Fcount);
         }
 
+        //In ASCII table symbol of the number = number + 48
         Front[i][j] = Back[i][j] + 48;
         printSymbol(Front, i, j);        
     }
 }
 
+//If there are no mines or numbers under #
 void Empty(int** Back, char** Front, int i, int j, int* Fcount)
 {
     Front[i][j] = '_';
     Back[i][j] = 10;
-
-    for(int row_i = i - 1; row_i <= i + 1; ++row_i)
-    {
-        for(int col_j = j - 1; col_j <= j + 1; ++col_j)
-        {
+    
+    //Opening all around 
+    for(int row_i = i - 1; row_i <= i + 1; ++row_i){
+        for(int col_j = j - 1; col_j <= j + 1; ++col_j){
             if(Front[row_i][col_j] == '#' || Front[row_i][col_j] == 'F')
             {
                 if(Front[row_i][col_j] == 'F')
                 {
+                    //Flag count
                     --(*Fcount);
                 }
 
@@ -215,12 +218,11 @@ void Empty(int** Back, char** Front, int i, int j, int* Fcount)
     printSymbol(Front, i, j);
 }
 
+//Game over, print all mines positions
 void Boom(int **Back, char** Front, int size)
 {   
-    for(int i = 1; i < size - 1; ++i)
-    {
-        for(int j = 1; j < size - 1; ++j)
-        {
+    for(int i = 1; i < size - 1; ++i){
+        for(int j = 1; j < size - 1; ++j){
             if(Back[i][j] == -1)
             {
                 Front[i][j] = 'X';
@@ -239,13 +241,14 @@ void Boom(int **Back, char** Front, int size)
     colorCout("MAIN MENU", 5);
     
     gotoxy(matrix_start_col + 3, matrix_start_row - 3);
-    colorCout("BoooooooM ! GAME OVER", 5);
+    colorCout("BOOOOM! GAME OVER", 5);
 
-    /*for(char key; ; )
+    /*
+    //I have a problem here
+    for(char key; ; )
     {
         cbreak();
         key = keypress();
-        normal();
 
         if(key == 'r' || key == 'R')
         {
@@ -258,17 +261,12 @@ void Boom(int **Back, char** Front, int size)
     }*/
 }
 
-void stepcol(char** Front, int i, int j)
-{
-    gotoxy(matrix_start_col + j*2, matrix_start_row + i);    
-    printSymbol(Front, i, j);
-}
-
-void game(int** Back, char** Front, int size, int BombPort)
+//Main game
+void game(int** Back, char** Front, int size, int Bomb_Count)
 {
     int i = 1, j = 1, Fcount = 0;
-    for(char key = -1; key != 27; )
-    {
+    for(char key = -1; key != 27; ){
+        //Checking the game status
         if(checking(Front, size))
         {
             win(Back, Front, size);
@@ -277,8 +275,8 @@ void game(int** Back, char** Front, int size, int BombPort)
 
         cbreak();
         key = keypress();
-        normal();
         
+        //Not done yet
         if(key == 'r' || key == 'R')
         {
             // Restart
@@ -288,17 +286,13 @@ void game(int** Back, char** Front, int size, int BombPort)
             // Exit to MAIN MENU
         }
    
-        switch (key)
-        {
+        switch (key){
             case 'w': case 'W':
-                for(int k = 16; k < size + 19; ++k)
-                {
-                     gotoxy(0, k);
-                     std::cout << "  ";
-                }
-
-                stepcol(Front, i, j);
-
+                //Print specific color of the charcter
+                gotoxy(matrix_start_col + j*2, matrix_start_row + i);    
+                printSymbol(Front, i, j);
+                
+                //Print the next symbol in green color
                 if(i == 1)
                 {
                     i = size - 2;
@@ -311,16 +305,11 @@ void game(int** Back, char** Front, int size, int BombPort)
                     greenSymbol(Front, i, j);
                     
                 }
-            break;
+                break;
 
             case 's': case 'S': 
-                for(int k = 16; k < size + 19; ++k)
-                {
-                    gotoxy(0, k);
-                    std::cout << "  ";
-                }
-                
-                stepcol(Front, i, j);
+                gotoxy(matrix_start_col + j*2, matrix_start_row + i);    
+                printSymbol(Front, i, j);
 
                 if(i == size - 2)
                 {
@@ -334,16 +323,11 @@ void game(int** Back, char** Front, int size, int BombPort)
                     greenSymbol(Front, i, j);
                     
                 }
-            break;
+                break;
 
             case 'a': case 'A': 
-                for(int k = 16; k < size + 19; ++k)
-                {
-                    gotoxy(0, k);
-                    std::cout << "  ";
-                }
-                
-                stepcol(Front, i, j);
+                gotoxy(matrix_start_col + j*2, matrix_start_row + i);    
+                printSymbol(Front, i, j);
 
                 if(j == 1)
                 {
@@ -356,16 +340,11 @@ void game(int** Back, char** Front, int size, int BombPort)
                     gotoxy(matrix_start_col + (--j)*2, matrix_start_row + i);
                     greenSymbol(Front, i, j);
                 }    
-            break;
+                break;
 
             case 'd': case 'D':  
-                for(int k = 16; k < size + 19; ++k)
-                {
-                    gotoxy(0, k);
-                    std::cout << "  ";
-                }
-
-                stepcol(Front, i, j);
+                gotoxy(matrix_start_col + j*2, matrix_start_row + i);    
+                printSymbol(Front, i, j);
 
                 if(j == size - 2)
                 {
@@ -378,12 +357,12 @@ void game(int** Back, char** Front, int size, int BombPort)
                     gotoxy(matrix_start_col + (++j)*2, matrix_start_row + i);
                     greenSymbol(Front, i, j);
                 }    
-            break;
+                break;
 
-            case 'f': case 'F':     
+            case 'f': case 'F':    //Flags 
                 if(Front[i][j] == '#')
                 {
-                    if(Fcount < BombPort)
+                    if(Fcount < Bomb_Count)
                     {    
                         ++Fcount;
                         Front[i][j] = 'F';
@@ -400,16 +379,16 @@ void game(int** Back, char** Front, int size, int BombPort)
             
             break;
 
-            case 0x0A:
+            case 0x0A:  //0x0A = Enter
                 switch(Back[i][j])
                 {
-                    case -1: 
+                    case -1: //There is mine under cage
                         Boom(Back, Front, size);
                         break;
-                    case 0: 
+                    case 0: //Empty cage
                         Empty(Back, Front, i, j, &Fcount);
                         break;
-                    default:
+                    default: //There is a number under cage
                         if(Back[i][j] != 10)
                         {
                             Open(Back, Front, i, j, &Fcount);

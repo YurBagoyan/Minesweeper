@@ -66,6 +66,7 @@ void gotoxy(int x, int y)
     printf("%c[%d;%df", 0x1B, y, x);
 }
 
+//For colors in the game
 void colorCout(std::string text, int textColor)
 {
     switch(textColor)
