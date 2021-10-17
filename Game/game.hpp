@@ -73,7 +73,7 @@ void printSymbol(char** Front, int i, int j)
             gotoxy(matrix_start_col + j*2, matrix_start_row + i);
             std::cout << "  ";
             gotoxy(matrix_start_col + j*2, matrix_start_row + i);
-            colorCout("1 ", 4); 
+            colorCout("1 ", 2); 
             break;
 
         case '2':  
@@ -94,7 +94,7 @@ void printSymbol(char** Front, int i, int j)
             gotoxy(matrix_start_col + j*2, matrix_start_row + i);
             std::cout << "  ";
             gotoxy(matrix_start_col + j*2, matrix_start_row + i);
-            colorCout("4 ", 2); 
+            colorCout("4 ", 4);
             break;
 
         case '5':  
@@ -122,7 +122,7 @@ void printSymbol(char** Front, int i, int j)
             gotoxy(matrix_start_col + j*2, matrix_start_row + i);
             std::cout << "  ";
             gotoxy(matrix_start_col + j*2, matrix_start_row + i);
-            colorCout("8 ", 8); 
+            colorCout("8 ", 9); 
             break;        
     }
 }
@@ -190,6 +190,9 @@ void Open(int **Back, char** Front, int i, int j, int* Fcount)
 void Empty(int** Back, char** Front, int i, int j, int* Fcount)
 {
     Front[i][j] = '_';
+    gotoxy(matrix_start_col + j*2, matrix_start_row + i);
+    printSymbol(Front, i, j);
+
     Back[i][j] = 10;
     
     //Opening all around 
@@ -214,8 +217,6 @@ void Empty(int** Back, char** Front, int i, int j, int* Fcount)
             }
         }   
     }
-    gotoxy(matrix_start_col + j*2, matrix_start_row + i);
-    printSymbol(Front, i, j);
 }
 
 //Game over, print all mines positions
@@ -379,7 +380,7 @@ void game(int** Back, char** Front, int size, int Bomb_Count)
             
             break;
 
-            case 0x0A:  //0x0A = Enter
+            case 10:  //10 = Enter
                 switch(Back[i][j])
                 {
                     case -1: //There is mine under cage

@@ -71,14 +71,15 @@ void colorCout(std::string text, int textColor)
 {
     switch(textColor)
     { 
-        case  1: std::cout << "\x1b[90;1m" << text << "\x1b[0m\n"; break; // gray       1
-        case  2: std::cout << "\x1b[34;1m" << text << "\x1b[0m\n"; break; // blue       2
-        case  3: std::cout << "\x1b[32;1m" << text << "\x1b[0m\n"; break; // green      3
-        case  4: std::cout << "\x1b[36;1m" << text << "\x1b[0m\n"; break; // cyan       4
-        case  5: std::cout << "\x1b[31;1m" << text << "\x1b[0m\n"; break; // red        5
-        case  6: std::cout << "\x1b[95;1m" << text << "\x1b[0m\n"; break; // pink       6
-        case  7: std::cout << "\x1b[33;1m" << text << "\x1b[0m\n"; break; // yellow     7
-        case  8: std::cout << "\x1b[97;1m" << text << "\x1b[0m\n"; break; // white      8
+        case  1: std::cout << "\x1b[90;1m" << text << "\x1b[0m\n"; break; // gray               1
+        case  2: std::cout << "\x1b[34;1m" << text << "\x1b[0m\n"; break; // blue               2
+        case  3: std::cout << "\x1b[32;1m" << text << "\x1b[0m\n"; break; // green              3
+        case  4: std::cout << "\x1b[36;1m" << text << "\x1b[0m\n"; break; // cyan               4
+        case  5: std::cout << "\x1b[31;1m" << text << "\x1b[0m\n"; break; // red                5
+        case  6: std::cout << "\x1b[95;1m" << text << "\x1b[0m\n"; break; // pink               6
+        case  7: std::cout << "\x1b[33;1m" << text << "\x1b[0m\n"; break; // yellow             7
+        case  8: std::cout << "\x1b[94;1m" << text << "\x1b[0m\n"; break; // bright blue        8
+        case  9: std::cout << "\x1b[97;1m" << text << "\x1b[0m\n"; break; // white              9 
         default: std::cout << "\x1b[97;1m" << text << "\x1b[0m\n";
     }
 }
