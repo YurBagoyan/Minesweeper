@@ -13,10 +13,9 @@ struct termios orig_tty;
 struct termios new_tty;
 
 // Sets up terminal for one-char-at-a-time reads
-void cbreak()
+void cbreak() 
 {
-   if (tty_mode == 0)
-   {
+   if (tty_mode == 0) {
       tcgetattr(0, &orig_tty);
       tty_mode = 1;
       new_tty = orig_tty;
@@ -31,8 +30,7 @@ void cbreak()
 // Returns terminal to normal state after cbreak ()
 void normal()
 {
-   if (tty_mode == 1)
-   {
+   if (tty_mode == 1) {
       tcsetattr(0, TCSANOW, &orig_tty);
       new_tty = orig_tty;
    }
@@ -50,8 +48,7 @@ int keypress()
    waittime.tv_sec = 0;
    waittime.tv_usec = 0;
 
-   if (select (1, &mask, 0, 0, &waittime))
-   {
+   if (select (1, &mask, 0, 0, &waittime)) {
       num_chars_read = read (0, &keypressed, 1);
 
       if (num_chars_read == 1)
@@ -61,7 +58,7 @@ int keypress()
    return -1;
 }
 
-void gotoxy(int x, int y)
+void gotoxy(int x, int y) 
 {
     printf("%c[%d;%df", 0x1B, y, x);
 }
@@ -69,8 +66,7 @@ void gotoxy(int x, int y)
 //For colors in the game
 void colorCout(std::string text, int textColor)
 {
-    switch(textColor)
-    { 
+    switch(textColor) { 
         case  1: std::cout << "\x1b[90;1m" << text << "\x1b[0m\n"; break; // gray               1
         case  2: std::cout << "\x1b[34;1m" << text << "\x1b[0m\n"; break; // blue               2
         case  3: std::cout << "\x1b[32;1m" << text << "\x1b[0m\n"; break; // green              3
