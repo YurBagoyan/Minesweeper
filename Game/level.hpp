@@ -8,10 +8,10 @@
 #include "input.hpp"
 #include "game.hpp"
 
-void showFront(char** Front, int size)
+void showFront(char** Front, int const size)
 {
-    for (int i = 1; i < size - 1; ++i) {
-        for (int j = 1; j < size - 1; ++j) {
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
             std::cout << " " << Front[i][j];
         }
         gotoxy(70, 15 + i);
@@ -20,6 +20,9 @@ void showFront(char** Front, int size)
 
 void lev()
 {
+    bool exitFromGame = false;
+    while(!exitFromGame) {
+
     system("clear");
     srand(time(NULL));
 
@@ -41,15 +44,14 @@ void lev()
 
     int Bomb_Count = 25;
     int Bomb_temp = Bomb_Count;
+
     //Choose the random cage and add there mine
     int min = 1, max = size - 2;
-    while (Bomb_temp != 0)
-    {
+    while (Bomb_temp != 0) {
         int i = min + rand() % (max - min);
         int j = min + rand() % (max - min);
 
-        if (Back[i][j] == -1)
-        {
+        if (Back[i][j] == -1) {
             continue;
         }
 
@@ -79,9 +81,16 @@ void lev()
     //To be make sure that the hider 
     for(int i = 0; i < size; ++i) {
         Back[0][i] = -2;
+       // Front[0][i] = '*';
+
         Back[i][0] = -2;
+        //Front[i][0] = '*';
+
         Back[i][size - 1] = -2;
+        //Front[i][size - 1] = '*';
+
         Back[size - 1][i] = -2;
+        //Front[size - 1][i] = '*';
     }
 
     /*for(int i = 0; i < size; ++i)
@@ -99,7 +108,7 @@ void lev()
     colorCout("#", 3);
     
     //This function is in game.hpp
-    game(Back, Front, size, Bomb_Count);
+    game(Back, Front, size, Bomb_Count, &exitFromGame);
     
     //Deleting dinamic matixes
     for(int i = 0; i < size; ++i) {
@@ -107,8 +116,9 @@ void lev()
         delete[] Front[i];
     }
 
-    delete[] Back;
-    delete[] Front;
+        delete[] Back;
+        delete[] Front;
+   }
 }
 
 
