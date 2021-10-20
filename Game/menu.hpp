@@ -6,15 +6,15 @@
 
 #include "input.hpp"
 #include "show.hpp"
-#include "level.hpp"
+#include "preGame.hpp"
 
 const int MENU_ROW_COUNT = 5, menu_start_row = 22, menu_start_colum = 70;
 std::string Menu[MENU_ROW_COUNT] = { "Start", "Records", "Options", "About", "Exit" };
  
-void Selected_Menu(int choose)
+void Selected_Menu(int const choose)
 {
     switch(choose) {
-        case 0: lev(); break;               //Start
+        case 0: preGame(); break;               //Start
         //case 1:                           //Records
         //case 2:                           //Options
         case 3:  Show_About(); break;       //About
