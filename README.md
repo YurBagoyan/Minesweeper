@@ -15,5 +15,7 @@ To win the game, players must uncover all non-mine cells, at which point, the ti
 # References
 
 About game in wikipedia - https://en.wikipedia.org/wiki/Minesweeper_(video_game)
+  
 Color scheme - https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit
+  
 Unusual symbols - https://coolsymbol.com
