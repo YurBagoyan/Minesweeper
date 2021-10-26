@@ -75,6 +75,63 @@ void Show_About()
     }   
 }
 
+void showGameOver(int const matrix_start_col, int const matrix_start_row, int const size)
+{
+    gotoxy(matrix_start_col + 1, matrix_start_row + size + 2);
+    colorCout("Press R to ", 7);
+    gotoxy(matrix_start_col + 12, matrix_start_row + size + 2);
+    colorCout("RESTART", 5); 
+    gotoxy(matrix_start_col + 1, matrix_start_row + size + 3); 
+    colorCout("Press Esc to return to ", 7); 
+    gotoxy(matrix_start_col + 24, matrix_start_row + size + 3);
+    colorCout("MAIN MENU", 5);
+    
+    gotoxy(matrix_start_col - 6, matrix_start_row - 9);
+    colorCout("██████████████████████████████████████████", 5);
+    gotoxy(matrix_start_col - 6, matrix_start_row - 8);
+    colorCout("█────█────█─███─█───████────█─█─█───█────█", 5);
+    gotoxy(matrix_start_col - 6, matrix_start_row - 7);
+    colorCout("█─████─██─█──█──█─██████─██─█─█─█─███─██─█", 5);
+    gotoxy(matrix_start_col - 6, matrix_start_row - 6);
+    colorCout("█─█──█────█─█─█─█───████─██─█─█─█───█────█", 5);
+    gotoxy(matrix_start_col - 6, matrix_start_row - 5);
+    colorCout("█─██─█─██─█─███─█─██████─██─█───█─███─█─██", 5);
+    gotoxy(matrix_start_col - 6, matrix_start_row - 4);
+    colorCout("█────█─██─█─███─█───████────██─██───█─█─██", 5);
+    gotoxy(matrix_start_col - 6, matrix_start_row - 3);
+    colorCout("██████████████████████████████████████████", 5);
+
+}
+
+void showWin(int const matrix_start_col, int const matrix_start_row, int const size)
+{    
+    gotoxy(matrix_start_col + 1, matrix_start_row + size + 2);
+    colorCout("Press R to ", 7);
+    gotoxy(matrix_start_col + 12, matrix_start_row + size + 2);
+    colorCout("RESTART", 3); 
+    gotoxy(matrix_start_col + 1, matrix_start_row + size + 3); 
+    colorCout("Press Esc to return to ", 7); 
+    gotoxy(matrix_start_col + 24, matrix_start_row + size + 3);
+    colorCout("MAIN MENU", 3);
+
+    gotoxy(matrix_start_col + 3, matrix_start_row - 9);
+    colorCout("████████████████████████", 3);
+    gotoxy(matrix_start_col + 3, matrix_start_row - 8);
+    colorCout("█─███─█───█─██─███─█─█─█", 3);
+    gotoxy(matrix_start_col + 3, matrix_start_row - 7);
+    colorCout("█─███─██─██──█─███─█─█─█", 3);
+    gotoxy(matrix_start_col + 3, matrix_start_row - 6);
+    colorCout("█─█─█─██─██─█──███─█─█─█", 3);
+    gotoxy(matrix_start_col + 3, matrix_start_row - 5);
+    colorCout("█─────██─██─██─█████████", 3);
+    gotoxy(matrix_start_col + 3, matrix_start_row - 4);
+    colorCout("██─█─██───█─██─███─█─█─█", 3);
+    gotoxy(matrix_start_col + 3, matrix_start_row - 3);
+    colorCout("████████████████████████", 3);
+
+
+}
+
 
 
 #endif

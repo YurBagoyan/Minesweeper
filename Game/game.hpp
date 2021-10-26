@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "input.hpp"
+#include "show.hpp"
 
 int const matrix_start_col = 69, matrix_start_row = 14;
 
@@ -144,7 +145,7 @@ bool checking(char** Front, int const size)
 //Print after winning
 void win(int** Back, char** Front, int const size)
 {
-    gotoxy(matrix_start_col + 3, matrix_start_row - 3);
+    /*gotoxy(matrix_start_col + 3, matrix_start_row - 3);
     colorCout("You are WINNER! \342\230\272", 4);
 
     gotoxy(matrix_start_col + 1, matrix_start_row + size + 2);
@@ -154,7 +155,7 @@ void win(int** Back, char** Front, int const size)
     gotoxy(matrix_start_col + 1, matrix_start_row + size + 3); 
     colorCout("Press Esc to return to ", 7); 
     gotoxy(matrix_start_col + 24, matrix_start_row + size + 3);
-    colorCout("MAIN MENU", 5);
+    colorCout("MAIN MENU", 5);*/
 
     //Print all mines positions
     gotoxy(matrix_start_col, matrix_start_row);
@@ -168,6 +169,8 @@ void win(int** Back, char** Front, int const size)
         }
         gotoxy(matrix_start_col, matrix_start_row + i);
     }
+
+    showWin(matrix_start_col, matrix_start_row, size);
 }
 
 //Open the number
@@ -224,18 +227,9 @@ void Boom(int **Back, char** Front, int const size, bool* exitFromGame, bool* re
             }
         }
     }
-
-    gotoxy(matrix_start_col + 1, matrix_start_row + size + 2);
-    colorCout("Press R to ", 7);
-    gotoxy(matrix_start_col + 12, matrix_start_row + size + 2);
-    colorCout("RESTART", 5); 
-    gotoxy(matrix_start_col + 1, matrix_start_row + size + 3); 
-    colorCout("Press Esc to return to ", 7); 
-    gotoxy(matrix_start_col + 24, matrix_start_row + size + 3);
-    colorCout("MAIN MENU", 5);
     
-    gotoxy(matrix_start_col + 3, matrix_start_row - 3);
-    colorCout("BOOOOM! GAME OVER", 5);
+//  showGameOver(matrix_start_col, matrix_start_row, size); 
+    showWin(matrix_start_col, matrix_start_row, size); 
 
     //I have a problem here
     for(char key; ; ) {
