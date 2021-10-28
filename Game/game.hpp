@@ -7,36 +7,35 @@
 
 int const matrix_start_col = 69, matrix_start_row = 14;
 
-//To print a character in green color
+//To print a character in green color, for cursor move
+/* Inputs: Front: [char], i, j: integer
+ * Pre: i < size, j < size
+ * Output: Front : [char]
+ * Post: Front[i][j] with green color
+ */
 void greenSymbol(char** Front, int const i, int const j)
 {
     switch(Front[i][j]) {
-        case 'F': colorCout("F", 3); break;
-        
+        case 'F': colorCout("F", 3); break; 
         case '#': colorCout("#", 3); break;
-        
         case '_': colorCout("_", 3); break;
-        
         case '1': colorCout("1", 3); break;
-        
         case '2': colorCout("2", 3); break;
-        
         case '3': colorCout("3", 3); break;
-        
         case '4': colorCout("4", 3); break;
-        
         case '5': colorCout("5", 3); break;
-        
         case '6': colorCout("6", 3); break;
-        
         case '7': colorCout("7", 3); break;
-        
         case '8': colorCout("8", 3); break;
-        
     }
 }
 
 //To print a character in its specific color
+/* Inputs: Front: [char]; i, j: integer
+ * Pre: i < size; j < size
+ * Output: Front : [char]
+ * Post: Front[i][j] with its specific color
+ */
 void printSymbol(char** Front, int const i, int const j)  
 {
     switch(Front[i][j]) {
@@ -44,7 +43,7 @@ void printSymbol(char** Front, int const i, int const j)
             //Delete previous character
             gotoxy(matrix_start_col + j*2, matrix_start_row + i);   
             std::cout << "  ";
-            //Print new character with its specific color
+            //Print new character in its specific color
             gotoxy(matrix_start_col + j*2, matrix_start_row + i);
             colorCout("X ", 5);
             break;
@@ -81,7 +80,7 @@ void printSymbol(char** Front, int const i, int const j)
             gotoxy(matrix_start_col + j*2, matrix_start_row + i);
             std::cout << "  ";
             gotoxy(matrix_start_col + j*2, matrix_start_row + i);
-            colorCout("2 ", 3); 
+            colorCout("2 ", 10); 
             break;
 
         case '3': 
@@ -129,7 +128,7 @@ void printSymbol(char** Front, int const i, int const j)
 }
 
 //Checking for a win
-bool checking(char** Front, int const size)
+bool winChecking(char** Front, int const size)
 {
     for(int i = 1; i < size-1; ++i) {
         for(int j = 1; j < size -1 ; ++j) {
@@ -143,20 +142,8 @@ bool checking(char** Front, int const size)
 }
 
 //Print after winning
-void win(int** Back, char** Front, int const size)
+void win(int** Back, char** Front, int const size, bool* restart, bool* exitFromGame)
 {
-    /*gotoxy(matrix_start_col + 3, matrix_start_row - 3);
-    colorCout("You are WINNER! \342\230\272", 4);
-
-    gotoxy(matrix_start_col + 1, matrix_start_row + size + 2);
-    colorCout("Press R to ", 7);
-    gotoxy(matrix_start_col + 12, matrix_start_row + size + 2);
-    colorCout("RESTART", 5); 
-    gotoxy(matrix_start_col + 1, matrix_start_row + size + 3); 
-    colorCout("Press Esc to return to ", 7); 
-    gotoxy(matrix_start_col + 24, matrix_start_row + size + 3);
-    colorCout("MAIN MENU", 5);*/
-
     //Print all mines positions
     gotoxy(matrix_start_col, matrix_start_row);
     for(int i = 1; i < size-1; ++i) {
@@ -169,8 +156,25 @@ void win(int** Back, char** Front, int const size)
         }
         gotoxy(matrix_start_col, matrix_start_row + i);
     }
-
+    
+    //Show inscription WINNER
     showWin(matrix_start_col, matrix_start_row, size);
+
+    //Restart or Exit to main menu
+    for(char key; ; ) {
+        cbreak();
+        key = keypress();
+
+        if(key == 'r' || key == 'R') {
+            *restart = true;
+            break; 
+        }
+        if(key == 27) {
+            *exitFromGame = true;
+            break;
+        }
+    }
+
 }
 
 //Open the number
@@ -188,6 +192,11 @@ void Open(int **Back, char** Front, int const i, int const j, int* Fcount)
 }
 
 //If there are no mines or numbers under #
+/* Inputs: Back: [integer], Front : [char], i, j, Fcount: integer
+ * Pre: i < size, j < size, Fcount < Bomb_Count, Back[i][j] = 0
+ * Output: Back : [integer], Front : [char], Fcount : integer 
+ * Post: Front[i][j] = '_', Back[i][j] = 10, 
+ */
 void Empty(int** Back, char** Front, int const i, int const j, int* Fcount)
 {
     Front[i][j] = '_';
@@ -196,7 +205,7 @@ void Empty(int** Back, char** Front, int const i, int const j, int* Fcount)
 
     Back[i][j] = 10;
     
-    //Opening all around 
+    //Opening all around if under # is empty
     for(int row_i = i - 1; row_i <= i + 1; ++row_i) {
         for(int col_j = j - 1; col_j <= j + 1; ++col_j) {
             if(Front[row_i][col_j] == '#' || Front[row_i][col_j] == 'F') {
@@ -227,11 +236,11 @@ void Boom(int **Back, char** Front, int const size, bool* exitFromGame, bool* re
             }
         }
     }
-    
-//  showGameOver(matrix_start_col, matrix_start_row, size); 
-    showWin(matrix_start_col, matrix_start_row, size); 
 
-    //I have a problem here
+    //show inscription Game Over
+    showGameOver(matrix_start_col, matrix_start_row, size); 
+    //showWin(matrix_start_col, matrix_start_row, size); 
+
     for(char key; ; ) {
         cbreak();
         key = keypress();
@@ -254,10 +263,14 @@ void game(int** Back, char** Front, int const size, int const Bomb_Count, bool* 
     bool restart = false;
     for(char key = -1; ; ) {
         //Checking the game status
+        if(winChecking(Front, size)) {
+            win(Back, Front, size, &restart, &(*exitFromGame));
+        }
+        
         cbreak();
         key = keypress();
         
-        //Not done yet
+        // Restart or Exit to main menu
         if(key == 'r' || key == 'R' || restart) {
             break;
         }

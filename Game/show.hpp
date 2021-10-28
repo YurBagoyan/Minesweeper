@@ -114,20 +114,20 @@ void showWin(int const matrix_start_col, int const matrix_start_row, int const s
     gotoxy(matrix_start_col + 24, matrix_start_row + size + 3);
     colorCout("MAIN MENU", 3);
 
-    gotoxy(matrix_start_col + 3, matrix_start_row - 9);
-    colorCout("████████████████████████", 3);
-    gotoxy(matrix_start_col + 3, matrix_start_row - 8);
-    colorCout("█─███─█───█─██─███─█─█─█", 3);
-    gotoxy(matrix_start_col + 3, matrix_start_row - 7);
-    colorCout("█─███─██─██──█─███─█─█─█", 3);
-    gotoxy(matrix_start_col + 3, matrix_start_row - 6);
-    colorCout("█─█─█─██─██─█──███─█─█─█", 3);
-    gotoxy(matrix_start_col + 3, matrix_start_row - 5);
-    colorCout("█─────██─██─██─█████████", 3);
-    gotoxy(matrix_start_col + 3, matrix_start_row - 4);
-    colorCout("██─█─██───█─██─███─█─█─█", 3);
-    gotoxy(matrix_start_col + 3, matrix_start_row - 3);
-    colorCout("████████████████████████", 3);
+    gotoxy(matrix_start_col - 6, matrix_start_row - 9);
+    colorCout("██████████████████████████████████████████", 10);
+    gotoxy(matrix_start_col - 6, matrix_start_row - 8);
+    colorCout("█─███─█───█─██─█─██─█───█────███████─█─█─█", 10);
+    gotoxy(matrix_start_col - 6, matrix_start_row - 7);
+    colorCout("█─███─██─██──█─█──█─█─███─██─███████─█─█─█", 10);
+    gotoxy(matrix_start_col - 6, matrix_start_row - 6);
+    colorCout("█─█─█─██─██─█──█─█──█───█────███████─█─█─█", 10);
+    gotoxy(matrix_start_col - 6, matrix_start_row - 5);
+    colorCout("█─────██─██─██─█─██─█─███─█─██████████████", 10);
+    gotoxy(matrix_start_col - 6, matrix_start_row - 4);
+    colorCout("██─█─██───█─██─█─██─█───█─█─████████─█─█─█", 10);
+    gotoxy(matrix_start_col - 6, matrix_start_row - 3);
+    colorCout("██████████████████████████████████████████", 10);
 
 
 }
