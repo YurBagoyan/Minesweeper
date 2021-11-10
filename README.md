@@ -10,6 +10,21 @@ In Minesweeper, mines (that resemble naval mines in the classic theme) are scatt
 A player should press <Enter> or <Space> a cell to uncover it. If a player uncovers a mined cell, the game ends, as there is only 1 life per game. Otherwise, the uncovered cells displays either a number, indicating the number of mines diagonally and/or adjacent to it, or a blank tile (or "0"), and all adjacent non-mined cells will automatically be uncovered. <F> button on a cell will flag it, causing a flag to appear on it. Flagged cells are still considered covered, and a player can prees <F> on them to uncover them.
 
 To win the game, players must uncover all non-mine cells, at which point, the timer is stopped. Flagging all the mined cells is not required.
+  
+  
+# Game Control
+
+[ W ] - Up
+  
+[ S ] - Down
+  
+[ A ] - Left
+  
+[ D ] - Right
+  
+[ Enter ] - Open
+  
+[ F ] - Flag
 
 
 # References
