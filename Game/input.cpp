@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
+#include <sys/ioctl.h>
 
 int tty_mode = 0;
 struct termios orig_tty;
@@ -79,4 +80,12 @@ void colorCout(std::string text, int textColor)
         case  10: std::cout <<"\x1b[92;1m" << text << "\x1b[0m\n"; break; // bright green       10              
         default: std::cout << "\x1b[97;1m" << text << "\x1b[0m\n"; 
     }
+}
+
+void userWinSize(int* winRow, int* winCol)
+{
+    struct winsize w;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+    *winRow = w.ws_row;
+    *winCol = w.ws_col;
 }

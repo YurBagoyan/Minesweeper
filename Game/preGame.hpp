@@ -21,7 +21,7 @@ void showFront(char** Front, int const size)
 //Choose the random cage and add there mine
 void randomMines(int** Back, int const size, int Bomb_Count)
 {   
-    int min = 1, max = size - 2;
+    int min = 1, max = size - 1;
     while (Bomb_Count != 0) {
         int i = min + rand() % (max - min);
         int j = min + rand() % (max - min);
@@ -53,14 +53,13 @@ void addNumbers(int** Back, int const size)
             }
         }
     }
-
 }
 
 void boundsOfMatrix(int** Back, char** Front, int const size)
 {
     for(int i = 0; i < size; ++i) {
         Back[0][i] = -2;
-        // Front[0][i] = '*';
+        //Front[0][i] = '*';
     
         Back[i][0] = -2;
         //Front[i][0] = '*';
@@ -69,7 +68,7 @@ void boundsOfMatrix(int** Back, char** Front, int const size)
         //Front[i][size - 1] = '*';
 
         Back[size - 1][i] = -2;
-        //Front[size - 1][i] = '*';
+       //Front[size - 1][i] = '*';
     }
 
 }
@@ -107,9 +106,7 @@ void mainGame(bool* exitFromGame)
     
     int Bomb_Count = 25;
     randomMines(Back, size, Bomb_Count);
-    
     addNumbers(Back, size);
-    
     boundsOfMatrix(Back, Front, size);
 
     //GodeModeOn(Back, size);
