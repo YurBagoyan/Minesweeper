@@ -73,7 +73,7 @@ void printSymbol(char** Front, int const i, int const j)
             gotoxy(matrix_start_col + j*2, matrix_start_row + i);
             std::cout << "  ";
             gotoxy(matrix_start_col + j*2, matrix_start_row + i);
-            colorCout("1 ", 2); 
+            colorCout("1 ", 4); 
             break;
 
         case '2':  
@@ -94,7 +94,7 @@ void printSymbol(char** Front, int const i, int const j)
             gotoxy(matrix_start_col + j*2, matrix_start_row + i);
             std::cout << "  ";
             gotoxy(matrix_start_col + j*2, matrix_start_row + i);
-            colorCout("4 ", 4);
+            colorCout("4 ", 2);
             break;
 
         case '5':  
@@ -158,7 +158,7 @@ void win(int** Back, char** Front, int const size, bool* restart, bool* exitFrom
     }
     
     //Show inscription WINNER
-    showWin(matrix_start_col, matrix_start_row, size);
+    Show_Win(21, 75);
 
     //Restart or Exit to main menu
     for(char key; ; ) {
@@ -174,7 +174,6 @@ void win(int** Back, char** Front, int const size, bool* restart, bool* exitFrom
             break;
         }
     }
-
 }
 
 //Open the number
@@ -238,8 +237,8 @@ void Boom(int **Back, char** Front, int const size, bool* exitFromGame, bool* re
     }
 
     //show inscription Game Over
-    showGameOver(matrix_start_col, matrix_start_row, size); 
-    //showWin(matrix_start_col, matrix_start_row, size); 
+    Show_GameOver(21, 75); 
+    //Show_Win(21, 75); 
 
     for(char key; ; ) {
         cbreak();
