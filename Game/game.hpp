@@ -256,7 +256,7 @@ void Boom(int **Back, char** Front, int const size, bool* exitFromGame, bool* re
 //Main game
 void game(int** Back, char** Front, int const size, int const bombCount, bool* exitFromGame, int const rowCenter, int const colCenter)
 {
-    int const matrixStartRow = rowCenter - size/2 - 1; 
+    int const matrixStartRow = rowCenter - size/2; 
     int const matrixStartCol = colCenter - size + 1; 
 
     int i = 1, j = 1, Fcount = 0;

@@ -41,13 +41,13 @@ void Menu_choose(int const rowCenter, int const colCenter)
     //Need when the user returned the menu
     bool returnToMenu = false;
     int current = 0;
+    cbreak();
     for(char key = -1; key != 27; ) {
 
         if (returnToMenu) {
             break;
         }
 
-        cbreak();
         key = keypress();
 
         switch(key) {

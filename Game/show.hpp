@@ -5,32 +5,32 @@
 
 #include "input.hpp"
 
-void Show_GameName(int const printCol, int const printRow)    //Print Game Name
+void Show_GameName(int const printCol, int printRow)    //Print Game Name
 { 
     system("clear");
     
     gotoxy(printCol, printRow);
     std::cout << "\x1b[31;1m" << "\t _____ ______   ___  ________   _______   ________  ___       __   _______   _______   ________  _______   ________     " << "\x1b[0m\n";
     
-    gotoxy(printCol, printRow + 1);
+    gotoxy(printCol, ++printRow);
     std::cout << "\x1b[31;1m" << "\t|\\   _ \\  _   \\|\\  \\|\\   ___  \\|\\  ___ \\ |\\   ____\\|\\  \\     |\\  \\|\\  ___ \\ |\\  ___ \\ |\\   __  \\|\\  ___ \\ |\\   __  \\    " << "\x1b[0m\n";
     
-    gotoxy(printCol, printRow + 2);
+    gotoxy(printCol, ++printRow);
     std::cout << "\x1b[31;1m" << "\t\\ \\  \\\\\\__\\ \\  \\ \\  \\ \\  \\\\ \\  \\ \\   __/ \\ \\  \\___|\\ \\  \\    \\ \\  \\ \\   __/ \\ \\   __/ \\ \\  \\|\\  \\ \\   __/ \\ \\  \\|\\  \\   " << "\x1b[0m\n";
      
-    gotoxy(printCol, printRow + 3);
+    gotoxy(printCol, ++printRow);
     std::cout << "\x1b[31;1m" << "\t \\ \\  \\\\|__| \\  \\ \\  \\ \\  \\\\ \\  \\ \\  \\_|  \\ \\_____  \\ \\  \\  __\\ \\  \\ \\  \\_|  \\ \\  \\_|  \\ \\   ____\\ \\  \\_|  \\ \\   _  _\\  " << "\x1b[0m\n";
     
-    gotoxy(printCol, printRow + 4);
+    gotoxy(printCol, ++printRow);
     std::cout << "\x1b[31;1m" << "\t  \\ \\  \\    \\ \\  \\ \\  \\ \\  \\\\ \\  \\ \\  \\_|\\ \\|____|\\  \\ \\  \\|\\__\\_\\  \\ \\  \\_|\\ \\ \\  \\_|\\ \\ \\  \\___|\\ \\  \\_|\\ \\ \\  \\\\  \\| " << "\x1b[0m\n";
     
-    gotoxy(printCol, printRow + 5);
+    gotoxy(printCol, ++printRow);
     std::cout << "\x1b[31;1m" << "\t   \\ \\__\\    \\ \\__\\ \\__\\ \\__\\\\ \\__\\ \\_______\\____\\_\\  \\ \\____________\\ \\_______\\ \\_______\\ \\__\\    \\ \\_______\\ \\__\\\\ _\\ " << "\x1b[0m\n";
      
-    gotoxy(printCol, printRow + 6);
+    gotoxy(printCol, ++printRow);
     std::cout << "\x1b[31;1m" << "\t    \\|__|     \\|__|\\|__|\\|__| \\|__|\\|_______|\\_________\\|____________|\\|_______|\\|_______|\\|__|     \\|_______|\\|__|\\|__|" << "\x1b[0m\n";
     
-    gotoxy(printCol, printRow + 7);
+    gotoxy(printCol, ++printRow);
     std::cout << "\x1b[31;1m" << "\t                                            \\|_________|                                                            " << "\x1b[0m\n";
 
 }
@@ -107,9 +107,9 @@ void Show_About(int const rowCenter, int const colCenter)
     gotoxy(colCenter - 16, rowCenter*2 - 3);
     colorCout("Press Esc to retun to MAIN MENU", 7);
     
+    cbreak();
     for(int key = -1; ; )
     {
-        cbreak();
         key = keypress(); 
 
         if(key == 27)
