@@ -127,17 +127,25 @@ void printSymbol(char** Front, int const i, int const j, int const matrixStartRo
 }
 
 //Checking for a win
-bool isWin(char** Front, int const size)
+bool isWin(char** Front, int const size, int const bombCount)
 {
-    for(int i = 1; i < size-1; ++i) {
-        for(int j = 1; j < size -1 ; ++j) {
+    int tempFlagCount = 0, tempCloseCaseCount = 0;
+    for(int i = 1; i < size - 1; ++i) {
+        for(int j = 1; j < size - 1 ; ++j) {
             if(Front[i][j] == '#')
             {
-                return false;
+                ++tempCloseCaseCount;
+            }
+            else if (Front[i][j] == 'F'){
+                ++tempFlagCount;
             }
         }
     }
-    return true;
+    
+    if(tempCloseCaseCount + tempFlagCount == bombCount) {
+        return true;
+    }
+    return false;
 }
 
 //Print after winning
@@ -156,11 +164,11 @@ void win(int** Back, char** Front, int const size, bool* restart, bool* exitFrom
     }
     
     //Show inscription WINNER
-    Show_Win(colCenter, rowCenter);
+    Show_Win(rowCenter, colCenter);
 
     //Restart or Exit to main menu
+    cbreak();
     for(char key; ; ) {
-        cbreak();
         key = keypress();
 
         if(key == 'r' || key == 'R') {
@@ -238,8 +246,8 @@ void Boom(int **Back, char** Front, int const size, bool* exitFromGame, bool* re
     Show_GameOver(rowCenter, colCenter); 
     //Show_Win(rowCenter, colCenter);
 
+    cbreak();
     for(char key; ; ) {
-        cbreak();
         key = keypress();
 
         if(key == 'r' || key == 'R') {
@@ -261,13 +269,14 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool* e
 
     int i = 1, j = 1, Fcount = 0;
     bool restart = false;
+
+    cbreak();
     for(char key = -1; ; ) {
         //Checking the game status
-        if(isWin(Front, size)) {
+        if(isWin(Front, size, bombCount)) {
             win(Back, Front, size, &restart, &(*exitFromGame), matrixStartRow, matrixStartCol, rowCenter, colCenter);
         }
         
-        cbreak();
         key = keypress();
         
         // Restart or Exit to main menu
