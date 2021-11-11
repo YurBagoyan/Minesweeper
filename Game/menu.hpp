@@ -7,13 +7,11 @@
 #include "input.hpp"
 #include "show.hpp"
 #include "preGame.hpp"
-
-const int MENU_ROW_COUNT = 5, menu_start_row = 22, menu_start_colum = 70;
  
-void Selected_Menu(int const choose, int const rowCenter, int const colCenter)
+void selectedMenu(int const current, int const rowCenter, int const colCenter)
 {
-    switch(choose) {
-        case 0: preGame(/*rowCenter, colCenter*/); break;       //Start
+    switch(current) {
+        case 0: preGame(rowCenter, colCenter); break;       //Start
         //case 1:                                           //Records
         //case 2:                                           //Options
         case 3:  Show_About(rowCenter, colCenter); break;   //About
@@ -31,9 +29,9 @@ void Menu_choose(int const rowCenter, int const colCenter)
     int const menuStartRow = rowCenter - 2;
     int const menuStartCol = colCenter - 3; 
 
+    //Print Menu
     gotoxy(menuStartCol, menuStartRow);
     colorCout(Menu[0], 3);
-    //Print menu
     for(int i = 1; i < menuRowCount; ++i) {
         gotoxy(menuStartCol, menuStartRow + i);
         std::cout << Menu[i];                                
@@ -42,8 +40,9 @@ void Menu_choose(int const rowCenter, int const colCenter)
    
     //Need when the user returned the menu
     bool returnToMenu = false;
-    int choose = 0;
+    int current = 0;
     for(char key = -1; key != 27; ) {
+
         if (returnToMenu) {
             break;
         }
@@ -53,41 +52,41 @@ void Menu_choose(int const rowCenter, int const colCenter)
 
         switch(key) {
             case 'w': case 'W':
-                if(choose == 0) {
+                if(current == 0) {
                     gotoxy(menuStartCol, menuStartRow);
-                    std::cout << Menu[choose];
+                    std::cout << Menu[current];
                     
-                    choose = menuRowCount - 1;
-                    gotoxy(menuStartCol, menuStartRow + choose);
-                    colorCout(Menu[choose], 3);
+                    current = menuRowCount - 1;
+                    gotoxy(menuStartCol, menuStartRow + current);
+                    colorCout(Menu[current], 3);
                 } else {    
-                    gotoxy(menuStartCol, menuStartRow + choose);
-                    std::cout << Menu[choose];
+                    gotoxy(menuStartCol, menuStartRow + current);
+                    std::cout << Menu[current];
     
-                    gotoxy(menuStartCol, menuStartRow + (--choose));
-                    colorCout(Menu[choose], 3);
+                    gotoxy(menuStartCol, menuStartRow + (--current));
+                    colorCout(Menu[current], 3);
                 }
                 break;
                     
             case 's': case 'S':               
-                if(choose == menuRowCount - 1) {        
-                    gotoxy(menuStartCol, menuStartRow + choose);
-                    std::cout << Menu[choose];
+                if(current == menuRowCount - 1) {        
+                    gotoxy(menuStartCol, menuStartRow + current);
+                    std::cout << Menu[current];
                                 
-                    choose = 0;
+                    current = 0;
                     gotoxy(menuStartCol, menuStartRow);
-                    colorCout(Menu[choose], 3);
+                    colorCout(Menu[current], 3);
                 } else { 
-                    gotoxy(menuStartCol, menuStartRow + choose);
-                    std::cout << Menu[choose];
+                    gotoxy(menuStartCol, menuStartRow + current);
+                    std::cout << Menu[current];
                     
-                    gotoxy(menuStartCol, menuStartRow + (++choose));
-                    colorCout(Menu[choose], 3);   
+                    gotoxy(menuStartCol, menuStartRow + (++current));
+                    colorCout(Menu[current], 3);   
                 }
                 break;
             
             case 10:
-                Selected_Menu(choose, rowCenter, colCenter);
+                selectedMenu(current, rowCenter, colCenter);
                 returnToMenu = true;
                 break;
         }   

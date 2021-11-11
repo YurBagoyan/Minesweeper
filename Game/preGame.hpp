@@ -8,21 +8,25 @@
 #include "input.hpp"
 #include "game.hpp"
 
-void showFront(char** Front, int const size)
+void showFront(char** Front, int const size, int const rowCenter, int const colCenter)
 {
+    gotoxy(colCenter - size + 2, rowCenter - size/2);
     for (int i = 1; i < size - 1; ++i) {
         for (int j = 1; j < size - 1; ++j) {
             std::cout << " " << Front[i][j];
         }
-        gotoxy(70, 15 + i);
+        gotoxy(colCenter - size + 2, rowCenter - size/2 + i);
     }
+
+    gotoxy(colCenter - size + 3, rowCenter - size/2);
+    colorCout("#", 3);
 }
 
 //Choose the random cage and add there mine
-void randomMines(int** Back, int const size, int Bomb_Count)
+void randomMines(int** Back, int const size, int bombCount)
 {   
     int min = 1, max = size - 1;
-    while (Bomb_Count != 0) {
+    while (bombCount != 0) {
         int i = min + rand() % (max - min);
         int j = min + rand() % (max - min);
 
@@ -31,22 +35,24 @@ void randomMines(int** Back, int const size, int Bomb_Count)
         }
 
         Back[i][j] = -1;
-        Bomb_Count--;
+        bombCount--;
     }
 
 }
 
 void addNumbers(int** Back, int const size)
 {
+    srand(time(NULL));
+
     for (int i = 1; i < size - 1; ++i) {
         for (int j = 1; j < size - 1; ++j) {
             //Find the mine
             if (Back[i][j] == -1) {
-                // +1 in empty cages around mine 
+                // +1 in cages around mine 
                 for (int row_i = i - 1; row_i <= i + 1; ++row_i) {
                     for (int col_j = j - 1; col_j <= j + 1; ++col_j) {
                         if (Back[row_i][col_j] != -1) {
-                        Back[row_i][col_j]++;
+                            ++Back[row_i][col_j];
                         }   
                     }
                 }
@@ -75,22 +81,21 @@ void boundsOfMatrix(int** Back, char** Front, int const size)
 
 void GodeModeOn(int** Back, int const size)
 {
-    for(int i = 0; i < size; ++i) {
-        for(int j = 0; j < size; ++j) {
-            std::cout << Back[i][j] << "\t";
-        }
-        std::cout << std::endl;
+    for(int i = 1; i < size - 1; ++i) {
+        for(int j = 1; j < size - 1; ++j) {
+            gotoxy(j*3, i + 1);
+        std::cout << std::setw(3) << Back[i][j];    
+        }       
     }
 }
 
-void mainGame(bool* exitFromGame)
+void mainGame(bool* exitFromGame, int const rowCenter, int const colCenter)
 {
     system("clear");
-    srand(time(NULL));
 
-    int size = 15;
+    int const size = 15;
     int** Back = new int* [size];        //Back is a matrix with numbers
-    char** Front = new char* [size];     //Front is a matrix that we will see throughout the game
+    char** Front = new char* [size];     //Front is a matrix that will see the user
 
     for (int i = 0; i < size; ++i) {
         Back[i] = new int[size];
@@ -104,22 +109,19 @@ void mainGame(bool* exitFromGame)
         }
     }
     
-    int Bomb_Count = 25;
-    randomMines(Back, size, Bomb_Count);
+    int const bombCount = 25;
+    randomMines(Back, size, bombCount);
     addNumbers(Back, size);
     boundsOfMatrix(Back, Front, size);
 
     //GodeModeOn(Back, size);
 
-    //go to the center and prinf matrix
-    gotoxy(70, 15);
-    showFront(Front, size);
-    gotoxy(71, 15);
-    colorCout("#", 3);
+    //Print the Front matrix in center of screen
+    showFront(Front, size, rowCenter, colCenter);
                 
     //The main game
     //This function is in game.hpp
-    game(Back, Front, size, Bomb_Count, &(*exitFromGame));
+    game(Back, Front, size, bombCount, &(*exitFromGame), rowCenter, colCenter);
         
     //Deleting dinamic matrixes
     for(int i = 0; i < size; ++i) {
@@ -130,11 +132,11 @@ void mainGame(bool* exitFromGame)
     delete[] Front;
 }
 
-void preGame()
+void preGame(int const rowCenter, int const colCenter)
 {
     bool exitFromGame = false;
     while(!exitFromGame) {
-        mainGame(&exitFromGame);
+        mainGame(&exitFromGame, rowCenter, colCenter);
     }
 }
 
