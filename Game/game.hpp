@@ -17,7 +17,7 @@ void greenSymbol(char** Front, int const i, int const j)
     switch(Front[i][j]) {
         case 'F': colorCout("F", 3); break; 
         case '#': colorCout("#", 3); break;
-        case '_': colorCout("_", 3); break;
+        case ' ': colorCout("_", 3); break;
         case '1': colorCout("1", 3); break;
         case '2': colorCout("2", 3); break;
         case '3': colorCout("3", 3); break;
@@ -54,11 +54,11 @@ void printSymbol(char** Front, int const i, int const j, int const matrixStartRo
             colorCout("F ", 7);
             break;
 
-        case '_': 
+        case ' ': 
             gotoxy(matrixStartCol + j*2, matrixStartRow + i);
             std::cout << "  ";
             gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            std::cout << "_ ";
+            std::cout << "  ";
             break;
 
         case '#': 
@@ -204,7 +204,7 @@ void Open(int **Back, char** Front, int const i, int const j, int* Fcount, int c
  */
 void Empty(int** Back, char** Front, int const i, int const j, int* Fcount, int const matrixStartRow, int const matrixStartCol)
 {
-    Front[i][j] = '_';
+    Front[i][j] = ' ';
     gotoxy(matrixStartCol + j*2, matrixStartRow + i);
     printSymbol(Front, i, j, matrixStartRow, matrixStartCol);
 
