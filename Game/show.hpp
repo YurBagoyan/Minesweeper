@@ -119,6 +119,25 @@ void Show_About(int const rowCenter, int const colCenter)
     }   
 }
 
+void Show_Boards(int const size, int const rowCenter, int const colCenter)
+{
+    for(int i = 0; i < size; ++i) {
+        gotoxy(colCenter - size + 1, rowCenter - size/2 + i);
+        colorCout("█", 11);
+        
+        gotoxy(colCenter + size - 1, rowCenter - size/2 + i);
+        colorCout("█", 11);
+    }
+            
+    for(int i = 1; i < size*2; ++i) {
+        gotoxy(colCenter - size + i, rowCenter - size/2); 
+        colorCout("▄", 11);
+        
+        gotoxy(colCenter - size + i, rowCenter + size/2);
+        colorCout("▀", 11);                                            
+    }
+}
+
 void Show_GameOver(int const rowCenter, int const colCenter)
 {
     gotoxy(colCenter - 9, rowCenter*2 - 5);

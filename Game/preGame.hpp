@@ -7,6 +7,7 @@
 
 #include "input.hpp"
 #include "game.hpp"
+#include "show.hpp"
 
 void showFront(char** Front, int const size, int const rowCenter, int const colCenter)
 {
@@ -18,6 +19,8 @@ void showFront(char** Front, int const size, int const rowCenter, int const colC
         gotoxy(colCenter - size, rowCenter + 1 - size/2 + i);
     }
 
+    Show_Boards(size, rowCenter, colCenter);
+
     gotoxy((colCenter - size) + 3, rowCenter + 1 - size/2);
     colorCout("#", 3);
 }
@@ -25,7 +28,7 @@ void showFront(char** Front, int const size, int const rowCenter, int const colC
 //Choose the random cage and add there mine
 void randomMines(int** Back, int const size, int bombCount)
 {   
-    int min = 1, max = size - 1;
+    int const min = 1, max = size - 1;
     while (bombCount != 0) {
         int i = min + rand() % (max - min);
         int j = min + rand() % (max - min);
@@ -86,6 +89,11 @@ void GodeModeOn(int** Back, int const size)
             std::cout << std::setw(3) << Back[i][j];    
         }       
     }
+
+    gotoxy(3, size + 2);
+    std::cout << " 0 → empty";
+    gotoxy(3, size + 3);
+    std::cout << "-1 → mine";
 }
 
 void mainGame(bool* exitFromGame, int const rowCenter, int const colCenter)
@@ -113,7 +121,7 @@ void mainGame(bool* exitFromGame, int const rowCenter, int const colCenter)
     addNumbers(Back, size);
     boundsOfMatrix(Back, Front, size);
 
-    GodeModeOn(Back, size);
+    //GodeModeOn(Back, size);
 
     //Print the Front matrix in center of screen
     showFront(Front, size, rowCenter, colCenter);

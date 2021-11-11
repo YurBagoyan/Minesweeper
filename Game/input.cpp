@@ -77,7 +77,8 @@ void colorCout(std::string text, int textColor)
         case  7: std::cout << "\x1b[33;1m" << text << "\x1b[0m\n"; break; // yellow             7
         case  8: std::cout << "\x1b[94;1m" << text << "\x1b[0m\n"; break; // bright blue        8
         case  9: std::cout << "\x1b[97;1m" << text << "\x1b[0m\n"; break; // white              9 
-        case  10: std::cout <<"\x1b[92;1m" << text << "\x1b[0m\n"; break; // bright green       10              
+        case  10: std::cout <<"\x1b[92;1m" << text << "\x1b[0m\n"; break; // bright green       10 
+        case  11: std::cout <<"\x1b[30;1m" << text << "\x1b[0m\n"; break; // black              11 
         default: std::cout << "\x1b[97;1m" << text << "\x1b[0m\n"; 
     }
 }
