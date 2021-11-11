@@ -10,15 +10,15 @@
 
 void showFront(char** Front, int const size, int const rowCenter, int const colCenter)
 {
-    gotoxy(colCenter - size + 2, rowCenter - size/2);
-    for (int i = 1; i < size - 1; ++i) {
-        for (int j = 1; j < size - 1; ++j) {
+    gotoxy(colCenter - size, rowCenter - size/2);
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
             std::cout << " " << Front[i][j];
         }
-        gotoxy(colCenter - size + 2, rowCenter - size/2 + i);
+        gotoxy(colCenter - size, rowCenter + 1 - size/2 + i);
     }
 
-    gotoxy(colCenter - size + 3, rowCenter - size/2);
+    gotoxy((colCenter - size) + 3, rowCenter + 1 - size/2);
     colorCout("#", 3);
 }
 
@@ -65,26 +65,25 @@ void boundsOfMatrix(int** Back, char** Front, int const size)
 {
     for(int i = 0; i < size; ++i) {
         Back[0][i] = -2;
-        //Front[0][i] = '*';
+        Front[0][i] = '*';
     
         Back[i][0] = -2;
-        //Front[i][0] = '*';
+        Front[i][0] = '*';
     
         Back[i][size - 1] = -2;
-        //Front[i][size - 1] = '*';
+        Front[i][size - 1] = '*';
 
         Back[size - 1][i] = -2;
-       //Front[size - 1][i] = '*';
+        Front[size - 1][i] = '*';
     }
-
 }
 
 void GodeModeOn(int** Back, int const size)
 {
     for(int i = 1; i < size - 1; ++i) {
         for(int j = 1; j < size - 1; ++j) {
-            gotoxy(j*3, i + 1);
-        std::cout << std::setw(3) << Back[i][j];    
+            gotoxy((j*3) - 2, i + 1);
+            std::cout << std::setw(3) << Back[i][j];    
         }       
     }
 }
@@ -93,7 +92,7 @@ void mainGame(bool* exitFromGame, int const rowCenter, int const colCenter)
 {
     system("clear");
 
-    int const size = 15;
+    int const size = 17;
     int** Back = new int* [size];        //Back is a matrix with numbers
     char** Front = new char* [size];     //Front is a matrix that will see the user
 
@@ -114,7 +113,7 @@ void mainGame(bool* exitFromGame, int const rowCenter, int const colCenter)
     addNumbers(Back, size);
     boundsOfMatrix(Back, Front, size);
 
-    //GodeModeOn(Back, size);
+    GodeModeOn(Back, size);
 
     //Print the Front matrix in center of screen
     showFront(Front, size, rowCenter, colCenter);
