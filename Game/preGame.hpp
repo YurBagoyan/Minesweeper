@@ -45,8 +45,6 @@ void randomMines(int** Back, int const size, int bombCount)
 
 void addNumbers(int** Back, int const size)
 {
-    srand(time(NULL));
-
     for (int i = 1; i < size - 1; ++i) {
         for (int j = 1; j < size - 1; ++j) {
             //Find the mine
@@ -68,16 +66,12 @@ void boundsOfMatrix(int** Back, char** Front, int const size)
 {
     for(int i = 0; i < size; ++i) {
         Back[0][i] = -2;
-        Front[0][i] = '*';
     
         Back[i][0] = -2;
-        Front[i][0] = '*';
     
         Back[i][size - 1] = -2;
-        Front[i][size - 1] = '*';
 
         Back[size - 1][i] = -2;
-        Front[size - 1][i] = '*';
     }
 }
 
@@ -86,21 +80,30 @@ void GodeModeOn(int** Back, int const size)
     for(int i = 1; i < size - 1; ++i) {
         for(int j = 1; j < size - 1; ++j) {
             gotoxy((j*3) - 2, i + 1);
-            std::cout << std::setw(3) << Back[i][j];    
-        }       
+
+            if(Back[i][j] == -1) {
+                std::cout << "\x1b[31;1m" << std::setw(3) << "X" << "\x1b[0m\n";
+            }
+            else if(Back[i][j] == 0) {
+                std::cout << std::setw(3) << "_";
+            } else {
+                std::cout << std::setw(3) << Back[i][j];
+            }    
+        }
     }
 
-    gotoxy(3, size + 2);
+    /*gotoxy(3, size + 2);
     std::cout << " 0 → empty";
     gotoxy(3, size + 3);
-    std::cout << "-1 → mine";
+    std::cout << "-1 → mine";*/
 }
 
-void mainGame(bool* exitFromGame, int const rowCenter, int const colCenter)
+void mainPreGame(bool* exitFromGame, int const rowCenter, int const colCenter)
 {
+    srand(time(NULL));
     system("clear");
 
-    int const size = 17;
+    int const size = 12;
     int** Back = new int* [size];        //Back is a matrix with numbers
     char** Front = new char* [size];     //Front is a matrix that will see the user
 
@@ -116,12 +119,12 @@ void mainGame(bool* exitFromGame, int const rowCenter, int const colCenter)
         }
     }
     
-    int const bombCount = 25;
+    int const bombCount = 22;
     randomMines(Back, size, bombCount);
     addNumbers(Back, size);
     boundsOfMatrix(Back, Front, size);
 
-    //GodeModeOn(Back, size);
+    GodeModeOn(Back, size);
 
     //Print the Front matrix in center of screen
     showFront(Front, size, rowCenter, colCenter);
@@ -143,7 +146,7 @@ void preGame(int const rowCenter, int const colCenter)
 {
     bool exitFromGame = false;
     while(!exitFromGame) {
-        mainGame(&exitFromGame, rowCenter, colCenter);
+        mainPreGame(&exitFromGame, rowCenter, colCenter);
     }
 }
 
