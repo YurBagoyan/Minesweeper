@@ -15,16 +15,17 @@ void selectedMenu(int const current, int const rowCenter, int const colCenter)
         //case 1:                                           //Records
         //case 2:                                           //Options
         case 3:  Show_About(rowCenter, colCenter); break;   //About
-        case 4:  exit(0); break;                            //Exit
+        case 4:  system("clear"); exit(0); break;           //Exit
     }
 }
 
 void Menu_choose(int const rowCenter, int const colCenter)
 {
-    Show_GameName(colCenter - 67, rowCenter - 12);
+    int const gameName = 67;
+    Show_GameName(colCenter - gameName, rowCenter - 12);
 
     int const menuRowCount = 5;
-    std::string Menu[menuRowCount] = { "Start", "Records", "Optinos", "About", "Exit" };
+    std::string Menu[menuRowCount] = { "Start", "Records", "Options", "About", "Exit" };
 
     int const menuStartRow = rowCenter - 2;
     int const menuStartCol = colCenter - 3; 
@@ -42,13 +43,13 @@ void Menu_choose(int const rowCenter, int const colCenter)
     bool returnToMenu = false;
     int current = 0;
     cbreak();
-    for(char key = -1; key != 27; ) {
+    while(true) {
 
         if (returnToMenu) {
             break;
         }
 
-        key = keypress();
+        int key = keypress();
 
         switch(key) {
             case 'w': case 'W':

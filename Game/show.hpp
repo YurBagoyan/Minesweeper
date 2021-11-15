@@ -108,9 +108,9 @@ void Show_About(int const rowCenter, int const colCenter)
     colorCout("Press Esc to retun to MAIN MENU", 7);
     
     cbreak();
-    for(int key = -1; ; )
+    while(true)
     {
-        key = keypress(); 
+        int key = keypress(); 
 
         if(key == 27)
         {
@@ -133,7 +133,7 @@ void Show_Boards(int const size, int const rowCenter, int const colCenter)
         gotoxy(colCenter - size + i, rowCenter - size/2); 
         colorCout("▄", 11);
         
-        gotoxy(colCenter - size + i, rowCenter + size/2);
+        gotoxy(colCenter - size + i, rowCenter + (size-1)/2);
         colorCout("▀", 11);                                            
     }
 }
@@ -152,7 +152,7 @@ void Show_GameOver(int const rowCenter, int const colCenter)
     gotoxy(colCenter + 8, rowCenter*2 - 4);
     colorCout("MAIN MENU", 5);
     
-    int const textColSize = 21;
+    int const textColSize = 20;
     int gameOverStart = 2;
     gotoxy(colCenter - textColSize, gameOverStart);
     colorCout("██████████████████████████████████████████", 5);
@@ -190,7 +190,7 @@ void Show_Win(int const rowCenter, int const colCenter)
     gotoxy(colCenter + 8, rowCenter*2 - 4);
     colorCout("MAIN MENU", 3);
     
-    int const textColSize = 21;
+    int const textColSize = 20;
     int winStart = 2; 
     gotoxy(colCenter - textColSize, winStart);
     colorCout("██████████████████████████████████████████", 10);

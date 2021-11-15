@@ -271,13 +271,13 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool* e
     bool restart = false;
 
     cbreak();
-    for(char key = -1; ; ) {
+    while(true) {
         //Checking the game status
         if(isWin(Front, size, bombCount)) {
             win(Back, Front, size, &restart, &(*exitFromGame), matrixStartRow, matrixStartCol, rowCenter, colCenter);
         }
         
-        key = keypress();
+        int key = keypress();
         
         // Restart or Exit to main menu
         if(key == 'r' || key == 'R' || restart) {
@@ -372,6 +372,8 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool* e
                         break;
                     case 0: //Empty cage
                         Empty(Back, Front, i, j, &Fcount, matrixStartRow, matrixStartCol);
+                        gotoxy(matrixStartCol + j*2, matrixStartRow + i);
+                        greenSymbol(Front, i, j);
                         break;
                     default: //There is a number under cage
                         if(Back[i][j] != 10) {
