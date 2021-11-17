@@ -192,29 +192,29 @@ void win(int** Back, char** Front, int const size, bool* restart, bool* exitFrom
             gotoxy(matrixStartCol, matrixStartRow + i);
         }
    
-    //Restart or Exit to main menu
-    cbreak();
-    while(true) {
-                 
-        int newWinRow, newWinCol;
-        userWinSize(&newWinRow, &newWinCol);
-        if(newWinRow != (*winRow) || newWinCol != (*winCol)) {
-            system("clear");
-            *winRow = newWinRow;
-            *winCol = newWinCol;
-            break;
+        //Restart or Exit to main menu
+        cbreak();
+        while(true) {
+                     
+            int newWinRow, newWinCol;
+            userWinSize(&newWinRow, &newWinCol);
+            if(newWinRow != (*winRow) || newWinCol != (*winCol)) {
+                system("clear");
+                *winRow = newWinRow;
+                *winCol = newWinCol;
+                break;
+            }
+    
+            int key = keypress();
+            if(key == 'r' || key == 'R') {
+                *restart = true;
+                break; 
+            }
+            if(key == 27) {
+                *exitFromGame = true;
+                break;
+            }
         }
-
-        int key = keypress();
-        if(key == 'r' || key == 'R') {
-            *restart = true;
-            break; 
-        }
-        if(key == 27) {
-            *exitFromGame = true;
-            break;
-        }
-    }
     }
 }
 
@@ -286,38 +286,37 @@ void Boom(int **Back, char** Front, int const size, bool* exitFromGame, bool* re
 
         showNewFront(Front, size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
 
-    for(int i = 1; i < size - 1; ++i) {
-        for(int j = 1; j < size - 1; ++j) {
-            if(Back[i][j] == -1) {
-                Front[i][j] = 'X';
-                printSymbol(Front, i, j, matrixStartRow, matrixStartCol);
+        for(int i = 1; i < size - 1; ++i) {
+            for(int j = 1; j < size - 1; ++j) {
+                if(Back[i][j] == -1) {
+                    Front[i][j] = 'X';
+                    printSymbol(Front, i, j, matrixStartRow, matrixStartCol);
+                }
             }
         }
-    }
-
      
-    cbreak();
-    while(true) {
-        int newWinRow, newWinCol;
-        userWinSize(&newWinRow, &newWinCol);
-        if(newWinRow != (*winRow) || newWinCol != (*winCol)) {
-            system("clear");
-            *winRow = newWinRow;
-            *winCol = newWinCol;
-            break;
+        cbreak();
+        while(true) {
+            int newWinRow, newWinCol;
+            userWinSize(&newWinRow, &newWinCol);
+            if(newWinRow != (*winRow) || newWinCol != (*winCol)) {
+                system("clear");
+                *winRow = newWinRow;
+                *winCol = newWinCol;
+                break;
+            }
+    
+    
+            int key = keypress();
+            if(key == 'r' || key == 'R') {
+                *restart = true;
+                break; 
+            }
+            if(key == 27) {
+                *exitFromGame = true;
+                break;
+            }
         }
-
-
-        int key = keypress();
-        if(key == 'r' || key == 'R') {
-            *restart = true;
-            break; 
-        }
-        if(key == 27) {
-            *exitFromGame = true;
-            break;
-        }
-    }
     }
 }
 
@@ -335,140 +334,139 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool* e
         int const rowCenter = *winRow / 2 + 1;
         int const colCenter = *winCol / 2 + 1;
 
-    int const matrixStartRow = rowCenter - size / 2; 
-    int const matrixStartCol = colCenter - size + 1; 
+        int const matrixStartRow = rowCenter - size / 2; 
+        int const matrixStartCol = colCenter - size + 1; 
+        
+        Show_Boards(size, rowCenter, colCenter, 11);
+        showNewFront(Front, size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
+        Show_ExitRestart(rowCenter, colCenter, 4);
     
-    Show_Boards(size, rowCenter, colCenter, 11);
-    showNewFront(Front, size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
-    Show_ExitRestart(rowCenter, colCenter, 7);
-
-    gotoxy((colCenter - size) + j*2 + 1, rowCenter + i - size/2);
-    greenSymbol(Front, i, j);
-
-    cbreak();
-    while(true) {
-        //Checking the game status
-        if(isWin(Front, size, bombCount)) {
-            win(Back, Front, size, &restart, &(*exitFromGame), matrixStartRow, matrixStartCol, &(*winRow), &(*winCol));
-        }
-        
-        int newWinRow, newWinCol;
-        userWinSize(&newWinRow, &newWinCol);
-        if(newWinRow != (*winRow) || newWinCol != (*winCol)) {
-            system("clear");
-            *winRow = newWinRow;
-            *winCol = newWinCol;
-            break;
-        }
-
-        int key = keypress();
-     
-        // Restart or Exit to main menu
-        if(key == 'r' || key == 'R' || restart) {
-            restart = true;
-            break;
-        }
-        if(key == 27 || *exitFromGame) {
-            *exitFromGame = true;
-            break;
-        }
-        
-        switch (key) {
-            case 'w': case 'W':
-                //Print specific color of the charcter
-                gotoxy(matrixStartCol + j*2, matrixStartRow + i);    
-                printSymbol(Front, i, j, matrixStartRow, matrixStartCol);
-                
-                //Print the next symbol in green color
-                if(i == 1) {
-                    i = size - 2;
-                    gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-                    greenSymbol(Front, i, j);
-                } else {
-                    gotoxy(matrixStartCol + j*2, matrixStartRow + (--i));
-                    greenSymbol(Front, i, j);
-                    
-                }
-                break;
-
-            case 's': case 'S': 
-                gotoxy(matrixStartCol + j*2, matrixStartRow + i);    
-                printSymbol(Front, i, j, matrixStartRow, matrixStartCol);
-
-                if(i == size - 2) {
-                    i = 1;
-                    gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-                    greenSymbol(Front, i, j);
-                } else {
-                    gotoxy(matrixStartCol + j*2, matrixStartRow + (++i));
-                    greenSymbol(Front, i, j);
-                    
-                }
-                break;
-
-            case 'a': case 'A': 
-                gotoxy(matrixStartCol + j*2, matrixStartRow + i);    
-                printSymbol(Front, i, j, matrixStartRow, matrixStartCol);
-
-                if(j == 1) {
-                    j = size - 2;
-                    gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-                    greenSymbol(Front, i, j);
-                } else {
-                    gotoxy(matrixStartCol + (--j)*2, matrixStartRow + i);
-                    greenSymbol(Front, i, j);
-                }    
-                break;
-
-            case 'd': case 'D':  
-                gotoxy(matrixStartCol + j*2, matrixStartRow + i);    
-                printSymbol(Front, i, j, matrixStartRow, matrixStartCol);
-
-                if(j == size - 2) {
-                    j = 1;
-                    gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-                    greenSymbol(Front, i, j);
-                } else {
-                    gotoxy(matrixStartCol + (++j)*2, matrixStartRow + i);
-                    greenSymbol(Front, i, j);
-                }    
-                break;
-
-            case 'f': case 'F':    //Flags 
-                if(Front[i][j] == '#') {
-                    if(Fcount < bombCount) {    
-                        ++Fcount;
-                        Front[i][j] = 'F';
-                        printSymbol(Front, i, j, matrixStartRow, matrixStartCol);
-                    }      
-                } else if (Front[i][j] == 'F') {
-                    Front[i][j] = '#';
-                    gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-                    greenSymbol(Front, i, j);
-                    --Fcount;
-                }
+        gotoxy((colCenter - size) + j*2 + 1, rowCenter + i - size/2);
+        greenSymbol(Front, i, j);
+    
+        cbreak();
+        while(true) {
+            //Checking the game status
+            if(isWin(Front, size, bombCount)) {
+                win(Back, Front, size, &restart, &(*exitFromGame), matrixStartRow, matrixStartCol, &(*winRow), &(*winCol));
+            }
             
-            break;
-
-            case 10:  //10 = Enter
-                switch(Back[i][j]) {
-                    case -1: //There is mine under cage
-                        Boom(Back, Front, size, &(*exitFromGame), &restart, matrixStartRow, matrixStartCol, &(*winRow), &(*winCol));
-                        break;
-                    case 0: //Empty cage
-                        Empty(Back, Front, i, j, &Fcount, matrixStartRow, matrixStartCol);
+            int newWinRow, newWinCol;
+            userWinSize(&newWinRow, &newWinCol);
+            if(newWinRow != (*winRow) || newWinCol != (*winCol)) {
+                system("clear");
+                *winRow = newWinRow;
+                *winCol = newWinCol;
+                break;
+            }
+    
+            int key = keypress();
+         
+            // Restart or Exit to main menu
+            if(key == 'r' || key == 'R' || restart) {
+                restart = true;
+                break;
+            }
+            if(key == 27 || *exitFromGame) {
+                *exitFromGame = true;
+                break;
+            }
+            
+            switch (key) {
+                case 'w': case 'W':
+                    //Print specific color of the charcter
+                    gotoxy(matrixStartCol + j*2, matrixStartRow + i);    
+                    printSymbol(Front, i, j, matrixStartRow, matrixStartCol);
+                    
+                    //Print the next symbol in green color
+                    if(i == 1) {
+                        i = size - 2;
                         gotoxy(matrixStartCol + j*2, matrixStartRow + i);
                         greenSymbol(Front, i, j);
-                        break;
-                    default: //There is a number under cage
-                        if(Back[i][j] != 10) {
-                            Open(Back, Front, i, j, &Fcount, matrixStartRow, matrixStartCol);
-                        }
-                        break;            
-                }
-                break;
-        }    
-    }
+                    } else {
+                        gotoxy(matrixStartCol + j*2, matrixStartRow + (--i));
+                        greenSymbol(Front, i, j);
+                        
+                    }
+                    break;
+    
+                case 's': case 'S': 
+                    gotoxy(matrixStartCol + j*2, matrixStartRow + i);    
+                    printSymbol(Front, i, j, matrixStartRow, matrixStartCol);
+    
+                    if(i == size - 2) {
+                        i = 1;
+                        gotoxy(matrixStartCol + j*2, matrixStartRow + i);
+                        greenSymbol(Front, i, j);
+                    } else {
+                        gotoxy(matrixStartCol + j*2, matrixStartRow + (++i));
+                        greenSymbol(Front, i, j);
+                        
+                    }
+                    break;
+    
+                case 'a': case 'A': 
+                    gotoxy(matrixStartCol + j*2, matrixStartRow + i);    
+                    printSymbol(Front, i, j, matrixStartRow, matrixStartCol);
+    
+                    if(j == 1) {
+                        j = size - 2;
+                        gotoxy(matrixStartCol + j*2, matrixStartRow + i);
+                        greenSymbol(Front, i, j);
+                    } else {
+                        gotoxy(matrixStartCol + (--j)*2, matrixStartRow + i);
+                        greenSymbol(Front, i, j);
+                    }    
+                    break;
+    
+                case 'd': case 'D':  
+                    gotoxy(matrixStartCol + j*2, matrixStartRow + i);    
+                    printSymbol(Front, i, j, matrixStartRow, matrixStartCol);
+    
+                    if(j == size - 2) {
+                        j = 1;
+                        gotoxy(matrixStartCol + j*2, matrixStartRow + i);
+                        greenSymbol(Front, i, j);
+                    } else {
+                        gotoxy(matrixStartCol + (++j)*2, matrixStartRow + i);
+                        greenSymbol(Front, i, j);
+                    }    
+                    break;
+    
+                case 'f': case 'F':    //Flags 
+                    if(Front[i][j] == '#') {
+                        if(Fcount < bombCount) {    
+                            ++Fcount;
+                            Front[i][j] = 'F';
+                            printSymbol(Front, i, j, matrixStartRow, matrixStartCol);
+                        }      
+                    } else if (Front[i][j] == 'F') {
+                        Front[i][j] = '#';
+                        gotoxy(matrixStartCol + j*2, matrixStartRow + i);
+                        greenSymbol(Front, i, j);
+                        --Fcount;
+                    }
+                    break;
+
+                case 10:  //10 = Enter
+                    switch(Back[i][j]) {
+                        case -1: //There is mine under cage
+                            Boom(Back, Front, size, &(*exitFromGame), &restart, matrixStartRow, matrixStartCol, &(*winRow), &(*winCol));
+                            break;
+                        case 0: //Empty cage
+                            Empty(Back, Front, i, j, &Fcount, matrixStartRow, matrixStartCol);
+                            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
+                            greenSymbol(Front, i, j);
+                            break;
+                        default: //There is a number under cage
+                            if(Back[i][j] != 10) {
+                                Open(Back, Front, i, j, &Fcount, matrixStartRow, matrixStartCol);
+                            }
+                            break;            
+                    }
+                    break;
+            }    
+        }
     }
 }
 

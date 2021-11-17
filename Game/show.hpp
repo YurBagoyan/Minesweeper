@@ -71,97 +71,96 @@ void Show_About(int* winRow, int* winCol)
 
         exitFromAbout = false;
 
-    system("clear");
+        system("clear");
     
-    int aboutStart = 3;
-    gotoxy(colCenter - 8, aboutStart);
-    colorCout("About Minesweeper", 4);
+        int aboutStart = 3;
+        gotoxy(colCenter - 8, aboutStart);
+        colorCout("About Minesweeper", 4);
     
-    int const textColSize = 38;
-    aboutStart += 2;
-    gotoxy(colCenter - textColSize, aboutStart); 
-    std::cout << " Minesweeper is a single-player puzzle video game. The objective of the game\n"; 
-    gotoxy(colCenter - textColSize, ++aboutStart);
-    std::cout << "is to clear a rectangular board containing hidden ""mines"" or bombs without\n";    
-    gotoxy(colCenter - textColSize, ++aboutStart);
-    std::cout << "detonating any of them, with help from clues about the number of neighboring\n";   
-    gotoxy(colCenter - textColSize, ++aboutStart);
-    std::cout << "mines in each field. The game originates from the 1960s, and it has been\n";  
-    gotoxy(colCenter - textColSize, ++aboutStart);
-    std::cout << "written for many computing platforms in use today. It has many variations and\n";
-    gotoxy(colCenter - textColSize, ++aboutStart);
-    std::cout << "offshoots.";
-
-    aboutStart += 3;
-    gotoxy(colCenter - 4, aboutStart);
-    colorCout("Gameplay", 4);
+        int const textColSize = 38;
+        aboutStart += 2;
+        gotoxy(colCenter - textColSize, aboutStart); 
+        std::cout << " Minesweeper is a single-player puzzle video game. The objective of the game\n"; 
+        gotoxy(colCenter - textColSize, ++aboutStart);
+        std::cout << "is to clear a rectangular board containing hidden ""mines"" or bombs without\n";    
+        gotoxy(colCenter - textColSize, ++aboutStart);
+        std::cout << "detonating any of them, with help from clues about the number of neighboring\n";   
+        gotoxy(colCenter - textColSize, ++aboutStart);
+        std::cout << "mines in each field. The game originates from the 1960s, and it has been\n";  
+        gotoxy(colCenter - textColSize, ++aboutStart);
+        std::cout << "written for many computing platforms in use today. It has many variations and\n";
+        gotoxy(colCenter - textColSize, ++aboutStart);
+        std::cout << "offshoots.";
     
-    aboutStart += 2;
-    gotoxy(colCenter - textColSize, aboutStart);
-    std::cout << " In Minesweeper, mines (that resemble naval mines in the classic theme) are\n"; 
-    gotoxy(colCenter - textColSize, ++aboutStart);
-    std::cout << "scattered throughout a board, which is divided into cells. Cells have three\n";
-    gotoxy(colCenter - textColSize, ++aboutStart);
-    std::cout << "states: uncovered, covered and flagged. A covered cell is blank and clickable,\n";
-    gotoxy(colCenter - textColSize, ++aboutStart);
-    std::cout << "while an uncovered cell is exposed. Flagged cells are those marked by the\n";
-    gotoxy(colCenter - textColSize, ++aboutStart);
-    std::cout << "player to indicate a potential mine location. \n";
-    
-    aboutStart += 2;
-    gotoxy(colCenter - textColSize, aboutStart);
-    std::cout << " A player should press or a cell to uncover it. If a player uncovers a mined\n";
-    gotoxy(colCenter - textColSize, ++aboutStart);
-    std::cout << "cell, the game ends, as there is only 1 life per game. Otherwise, the\n";
-    gotoxy(colCenter - textColSize, ++aboutStart);
-    std::cout << "uncovered cells displays either a number, indicating the number of mines\n";
-    gotoxy(colCenter - textColSize, ++aboutStart);
-    std::cout << "diagonally and/or adjacent to it, or a blank tile (or ""0""), and all adjacent\n";
-    gotoxy(colCenter - textColSize, ++aboutStart);
-    std::cout << "non-mined cells will automatically be uncovered. Button on a cell will\n";
-    gotoxy(colCenter - textColSize, ++aboutStart);
-    std::cout << "flag it, causing a flag to appear on it. Flagged cells are still considered\n";
-    gotoxy(colCenter - textColSize, ++aboutStart);
-    std::cout << "covered, and a player can prees on them to uncover them. \n";
-
-    aboutStart += 2;
-    gotoxy(colCenter - textColSize, aboutStart);
-    std::cout << " To win the game, players must uncover all non-mine cells, at which point,\n"; 
-    gotoxy(colCenter - textColSize, ++aboutStart);
-    std::cout << "the timer is stopped. Flagging all the mined cells is not required.";
-
-    int showControlStart = aboutStart + 3;
-    Show_Control(rowCenter, colCenter, showControlStart);
-
-    gotoxy(colCenter - 16, showControlStart + 5);
-    colorCout("Press Esc to return to MAIN MENU", 7);
-    
-    cbreak();
-    while(true)
-    {        
-        int newWinRow, newWinCol;
-        userWinSize(&newWinRow, &newWinCol);
-
-        if(newWinRow != (*winRow) || newWinCol != (*winCol)) {
-            if(newWinRow < 38 || newWinCol < 78) {
-                *winRow = 38;
-                *winCol = 78;
-                std::cout << "\e[8;38;78t";
-            } else {
-                *winRow = newWinRow;
-                *winCol = newWinCol;
-            }
-            break;
-        }
+        aboutStart += 3;
+        gotoxy(colCenter - 4, aboutStart);
+        colorCout("Gameplay", 4);
         
-        int key = keypress();
-        if(key == 27)
-        {
-            exitFromAbout = true;
-            break;
-        }
-    } 
+        aboutStart += 2;
+        gotoxy(colCenter - textColSize, aboutStart);
+        std::cout << " In Minesweeper, mines (that resemble naval mines in the classic theme) are\n"; 
+        gotoxy(colCenter - textColSize, ++aboutStart);
+        std::cout << "scattered throughout a board, which is divided into cells. Cells have three\n";
+        gotoxy(colCenter - textColSize, ++aboutStart);
+        std::cout << "states: uncovered, covered and flagged. A covered cell is blank and clickable,\n";
+        gotoxy(colCenter - textColSize, ++aboutStart);
+        std::cout << "while an uncovered cell is exposed. Flagged cells are those marked by the\n";
+        gotoxy(colCenter - textColSize, ++aboutStart);
+        std::cout << "player to indicate a potential mine location. \n";
+        
+        aboutStart += 2;
+        gotoxy(colCenter - textColSize, aboutStart);
+        std::cout << " A player should press or a cell to uncover it. If a player uncovers a mined\n";
+        gotoxy(colCenter - textColSize, ++aboutStart);
+        std::cout << "cell, the game ends, as there is only 1 life per game. Otherwise, the\n";
+        gotoxy(colCenter - textColSize, ++aboutStart);
+        std::cout << "uncovered cells displays either a number, indicating the number of mines\n";
+        gotoxy(colCenter - textColSize, ++aboutStart);
+        std::cout << "diagonally and/or adjacent to it, or a blank tile (or ""0""), and all adjacent\n";
+        gotoxy(colCenter - textColSize, ++aboutStart);
+        std::cout << "non-mined cells will automatically be uncovered. Button on a cell will\n";
+        gotoxy(colCenter - textColSize, ++aboutStart);
+        std::cout << "flag it, causing a flag to appear on it. Flagged cells are still considered\n";
+        gotoxy(colCenter - textColSize, ++aboutStart);
+        std::cout << "covered, and a player can prees on them to uncover them. \n";
     
+        aboutStart += 2;
+        gotoxy(colCenter - textColSize, aboutStart);
+        std::cout << " To win the game, players must uncover all non-mine cells, at which point,\n"; 
+        gotoxy(colCenter - textColSize, ++aboutStart);
+        std::cout << "the timer is stopped. Flagging all the mined cells is not required.";
+    
+        int showControlStart = aboutStart + 3;
+        Show_Control(rowCenter, colCenter, showControlStart);
+        
+        gotoxy(colCenter - 16, showControlStart + 5);
+        colorCout("Press Esc to return to MAIN MENU", 7);
+        
+        cbreak();
+        while(true)
+        {        
+            int newWinRow, newWinCol;
+            userWinSize(&newWinRow, &newWinCol);
+    
+            if(newWinRow != (*winRow) || newWinCol != (*winCol)) {
+                if(newWinRow < 38 || newWinCol < 78) {
+                    *winRow = 38;
+                    *winCol = 78;
+                    std::cout << "\e[8;38;78t";
+                } else {
+                    *winRow = newWinRow;
+                    *winCol = newWinCol;
+                }
+                break;
+            }
+            
+            int key = keypress();
+            if(key == 27)
+            {
+                exitFromAbout = true;
+                break;
+            }
+        }     
     }
 }
 

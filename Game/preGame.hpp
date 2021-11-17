@@ -98,12 +98,12 @@ void mainPreGame(bool* exitFromGame, int* winRow, int* winCol)
         }
     }
     
-    int const bombCount = 22;
+    int const bombCount = 15;
     randomMines(Back, size, bombCount);
     addNumbers(Back, size);
     boundsOfMatrix(Back, Front, size);
 
-    //GodeModeOn(Back, size);
+    GodeModeOn(Back, size);
             
     //The main game
     //This function is in game.hpp
