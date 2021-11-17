@@ -35,8 +35,42 @@ void Show_GameName(int const printCol, int printRow)    //Print Game Name
 
 }
 
-void Show_About(int const rowCenter, int const colCenter)
+void Show_ExitRestart(int const rowCenter, int const colCenter, int const color)
 {
+    int showExitStart = rowCenter*2 - 4;
+    gotoxy(colCenter - 9, showExitStart);
+    colorCout("Press R to ", 7);
+    
+    gotoxy(colCenter + 2, showExitStart);
+    colorCout("RESTART", color); 
+
+    gotoxy(colCenter - 16, ++showExitStart);
+    colorCout("Press Esc to return to ", 7); 
+
+    gotoxy(colCenter + 7, showExitStart);
+    colorCout("MAIN MENU", color);
+}
+
+void Show_Control(int const rowCenter, int const colCenter, int showControlStart) 
+{
+    gotoxy(colCenter - 6, showControlStart);
+    colorCout("Game Contol", 4);
+
+    showControlStart += 2;
+    gotoxy(colCenter - 39, showControlStart);
+    std::cout << "[W] - Up   [S] - Down   [A] - Left   [D] - Right   [Enter] - Open   [F] - Flag";
+}
+
+void Show_About(int* winRow, int* winCol)
+{
+    bool exitFromAbout = false;
+    while(!exitFromAbout) {
+    
+        int const rowCenter = *winRow / 2 + 1;
+        int const colCenter = *winCol / 2 + 1;
+
+        exitFromAbout = false;
+
     system("clear");
     
     int aboutStart = 3;
@@ -96,63 +130,66 @@ void Show_About(int const rowCenter, int const colCenter)
     gotoxy(colCenter - textColSize, ++aboutStart);
     std::cout << "the timer is stopped. Flagging all the mined cells is not required.";
 
-    aboutStart += 3;
-    gotoxy(colCenter - 6, aboutStart);
-    colorCout("Game Contol", 4);
+    int showControlStart = aboutStart + 3;
+    Show_Control(rowCenter, colCenter, showControlStart);
 
-    aboutStart += 2;
-    gotoxy(colCenter - 39, aboutStart);
-    std::cout << "[W] - Up   [S] - Down   [A] - Left   [D] - Right   [Enter] - Open   [F] - Flag";
-
-    gotoxy(colCenter - 16, rowCenter*2 - 3);
-    colorCout("Press Esc to retun to MAIN MENU", 7);
+    gotoxy(colCenter - 16, showControlStart + 5);
+    colorCout("Press Esc to return to MAIN MENU", 7);
     
     cbreak();
     while(true)
-    {
-        int key = keypress(); 
+    {        
+        int newWinRow, newWinCol;
+        userWinSize(&newWinRow, &newWinCol);
 
-        if(key == 27)
-        {
+        if(newWinRow != (*winRow) || newWinCol != (*winCol)) {
+            if(newWinRow < 38 || newWinCol < 78) {
+                *winRow = 38;
+                *winCol = 78;
+                std::cout << "\e[8;38;78t";
+            } else {
+                *winRow = newWinRow;
+                *winCol = newWinCol;
+            }
             break;
         }
-    }   
+        
+        int key = keypress();
+        if(key == 27)
+        {
+            exitFromAbout = true;
+            break;
+        }
+    } 
+    
+    }
 }
 
-void Show_Boards(int const size, int const rowCenter, int const colCenter)
+void Show_Boards(int const size, int const rowCenter, int const colCenter, int const color)
 {
     for(int i = 0; i < size; ++i) {
         gotoxy(colCenter - size + 1, rowCenter - size/2 + i);
-        colorCout("█", 11);
+        colorCout("█", color);
         
         gotoxy(colCenter + size - 1, rowCenter - size/2 + i);
-        colorCout("█", 11);
+        colorCout("█", color);
     }
             
     for(int i = 1; i < size*2; ++i) {
         gotoxy(colCenter - size + i, rowCenter - size/2); 
-        colorCout("▄", 11);
+        colorCout("▄", color);
         
         gotoxy(colCenter - size + i, rowCenter + (size-1)/2);
-        colorCout("▀", 11);                                            
+        colorCout("▀", color);                                            
     }
 }
 
-void Show_GameOver(int const rowCenter, int const colCenter)
-{
-    gotoxy(colCenter - 9, rowCenter*2 - 5);
-    colorCout("Press R to ", 7);
-    
-    gotoxy(colCenter + 2, rowCenter*2 - 5);
-    colorCout("RESTART", 5); 
+void Show_GameOver(int const size ,int const rowCenter, int const colCenter)
+{   
+    Show_ExitRestart(rowCenter, colCenter, 5);
+    Show_Boards(size, rowCenter, colCenter, 5);
 
-    gotoxy(colCenter - 16, rowCenter*2 - 4);
-    colorCout("Press Esc to return to ", 7); 
-
-    gotoxy(colCenter + 8, rowCenter*2 - 4);
-    colorCout("MAIN MENU", 5);
-    
-    int const textColSize = 20;
+    int const textColSize = 21;
     int gameOverStart = 2;
     gotoxy(colCenter - textColSize, gameOverStart);
     colorCout("██████████████████████████████████████████", 5);
@@ -176,21 +213,12 @@ void Show_GameOver(int const rowCenter, int const colCenter)
     colorCout("██████████████████████████████████████████", 5);
 }
 
-void Show_Win(int const rowCenter, int const colCenter)
-{   
-    gotoxy(colCenter - 9, rowCenter*2 - 5);
-    colorCout("Press R to ", 7);
+void Show_Win(int const size, int const rowCenter, int const colCenter)
+{    
+    Show_ExitRestart(rowCenter, colCenter, 3);
+    Show_Boards(size, rowCenter, colCenter, 3);
 
-    gotoxy(colCenter + 2, rowCenter*2 - 5);
-    colorCout("RESTART", 3); 
-    
-    gotoxy(colCenter - 16, rowCenter*2 - 4);
-    colorCout("Press Esc to return to ", 7); 
-    
-    gotoxy(colCenter + 8, rowCenter*2 - 4);
-    colorCout("MAIN MENU", 3);
-    
-    int const textColSize = 20;
+    int const textColSize = 21;
     int winStart = 2; 
     gotoxy(colCenter - textColSize, winStart);
     colorCout("██████████████████████████████████████████", 10);

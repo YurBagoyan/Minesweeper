@@ -14,13 +14,13 @@ int main()
 
     //Gamename animation
     int const gameName = 67;
-    for(int i = 0; i <= rowCenter - 12 ; ++i) {
+    for(int i = 0; i <= rowCenter - 11 ; ++i) {
         Show_GameName(colCenter - gameName, i);
         usleep(125000);
     }
 
     while(true) {
-        Menu_choose(rowCenter, colCenter);
+        Menu_choose(&winRow, &winCol);
     }
 }
 

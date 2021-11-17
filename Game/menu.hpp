@@ -8,21 +8,24 @@
 #include "show.hpp"
 #include "preGame.hpp"
  
-void selectedMenu(int const current, int const rowCenter, int const colCenter)
+void selectedMenu(int const current, int* winRow, int* winCol)
 {
     switch(current) {
-        case 0: preGame(rowCenter, colCenter); break;       //Start
-        //case 1:                                           //Records
-        //case 2:                                           //Options
-        case 3:  Show_About(rowCenter, colCenter); break;   //About
-        case 4:  system("clear"); exit(0); break;           //Exit
+        case 0: preGame(&(*winRow), &(*winCol)); break;     //Start
+        //case 1:                                
+        //case 2:                                
+        case 3: Show_About(&(*winRow), &(*winCol)); break;  //About
+        case 4: system("clear"); exit(0); break;            //Exit
     }
 }
 
-void Menu_choose(int const rowCenter, int const colCenter)
+void Menu_choose(int* winRow, int* winCol)
 {
+    int const rowCenter = *winRow / 2 + 1;
+    int const colCenter = *winCol / 2 + 1;
+
     int const gameName = 67;
-    Show_GameName(colCenter - gameName, rowCenter - 12);
+    Show_GameName(colCenter - gameName, rowCenter - 11);
 
     int const menuRowCount = 5;
     std::string Menu[menuRowCount] = { "Start", "Records", "Options", "About", "Exit" };
@@ -42,15 +45,36 @@ void Menu_choose(int const rowCenter, int const colCenter)
     //Need when the user returned the menu
     bool returnToMenu = false;
     int current = 0;
+
     cbreak();
     while(true) {
+        if(*winRow < 23 || *winCol < 132) {
+                *winRow = 23;
+                *winCol = 132;
+                std::cout << "\e[8;23;132t";
+        }
+
+        int newWinRow, newWinCol;
+        userWinSize(&newWinRow, &newWinCol);
+
+        if(newWinRow != (*winRow) || newWinCol != (*winCol)) {
+            if(newWinRow < 23 || newWinCol < 132) {
+                *winRow = 23;
+                *winCol = 132;
+                std::cout << "\e[8;23;132t";
+            } else {
+                *winRow = newWinRow; 
+                *winCol = newWinCol;
+            }
+            system("clear");
+            break;
+        }
 
         if (returnToMenu) {
             break;
         }
 
         int key = keypress();
-
         switch(key) {
             case 'w': case 'W':
                 if(current == 0) {
@@ -87,7 +111,7 @@ void Menu_choose(int const rowCenter, int const colCenter)
                 break;
             
             case 10:
-                selectedMenu(current, rowCenter, colCenter);
+                selectedMenu(current, &(*winRow), &(*winCol));
                 returnToMenu = true;
                 break;
         }   

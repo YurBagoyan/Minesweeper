@@ -126,6 +126,21 @@ void printSymbol(char** Front, int const i, int const j, int const matrixStartRo
     }
 }
 
+
+void showNewFront(char** Front, int const size, int const rowCenter, int const colCenter, int const matrixStartRow, int const matrixStartCol)
+{
+    gotoxy(colCenter - size, rowCenter - size/2);
+    for (int i = 1; i < size - 1; ++i) {
+        for (int j = 1; j < size - 1; ++j) {
+            //std::cout << " " << Front[i][j];
+            printSymbol(Front, i, j, matrixStartRow, matrixStartCol);
+        }
+        gotoxy(colCenter - size, rowCenter + 1 - size/2 + i);
+    }
+    int showControlStart = rowCenter*2 - 9;
+    Show_Control(rowCenter, colCenter, showControlStart);
+}
+
 //Checking for a win
 bool isWin(char** Front, int const size, int const bombCount)
 {
@@ -149,28 +164,48 @@ bool isWin(char** Front, int const size, int const bombCount)
 }
 
 //Print after winning
-void win(int** Back, char** Front, int const size, bool* restart, bool* exitFromGame, int const matrixStartRow, int const matrixStartCol, int const rowCenter, int const colCenter)
+void win(int** Back, char** Front, int const size, bool* restart, bool* exitFromGame, int const matrixStartRow, int const matrixStartCol, int* winRow, int* winCol)
 {
-    //Print all mines positions
-    gotoxy(matrixStartCol, matrixStartRow);
-    for(int i = 1; i < size-1; ++i) {
-        for(int j = 1; j < size-1; ++j) {
-            if(Back[i][j] == -1) {
-                Front[i][j] = 'X';
-                greenSymbol(Front, i, j);
-            }    
+    while(true) {
+        if(*exitFromGame || *restart) {
+            break;
         }
-        gotoxy(matrixStartCol, matrixStartRow + i);
-    }
-    
-    //Show inscription WINNER
-    Show_Win(rowCenter, colCenter);
 
+        int const rowCenter = *winRow / 2 + 1;
+        int const colCenter = *winCol / 2 + 1; 
+        int const matrixStartRow = rowCenter - size / 2; 
+        int const matrixStartCol = colCenter - size + 1; 
+        
+        //Show inscription WINNER
+        Show_Win(size, rowCenter, colCenter);
+
+        showNewFront(Front, size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
+        //Print all mines positions
+        gotoxy(matrixStartCol, matrixStartRow);
+        for(int i = 1; i < size-1; ++i) {
+            for(int j = 1; j < size-1; ++j) {
+                if(Back[i][j] == -1) {
+                    Front[i][j] = 'X';
+                    greenSymbol(Front, i, j);
+                }    
+            }
+            gotoxy(matrixStartCol, matrixStartRow + i);
+        }
+   
     //Restart or Exit to main menu
     cbreak();
-    for(char key; ; ) {
-        key = keypress();
+    while(true) {
+                 
+        int newWinRow, newWinCol;
+        userWinSize(&newWinRow, &newWinCol);
+        if(newWinRow != (*winRow) || newWinCol != (*winCol)) {
+            system("clear");
+            *winRow = newWinRow;
+            *winCol = newWinCol;
+            break;
+        }
 
+        int key = keypress();
         if(key == 'r' || key == 'R') {
             *restart = true;
             break; 
@@ -179,6 +214,7 @@ void win(int** Back, char** Front, int const size, bool* restart, bool* exitFrom
             *exitFromGame = true;
             break;
         }
+    }
     }
 }
 
@@ -231,8 +267,25 @@ void Empty(int** Back, char** Front, int const i, int const j, int* Fcount, int 
 }
 
 //Game over, print all mines positions
-void Boom(int **Back, char** Front, int const size, bool* exitFromGame, bool* restart, int const matrixStartRow, int const matrixStartCol, int const rowCenter, int const colCenter)
+void Boom(int **Back, char** Front, int const size, bool* exitFromGame, bool* restart, int const matrixStartRow, int const matrixStartCol, int* winRow, int* winCol)
 {   
+    while(true) {
+
+         if(*exitFromGame || *restart) {
+            break;
+        }
+
+        int const rowCenter = *winRow / 2 + 1;
+        int const colCenter = *winCol / 2 + 1; 
+        int const matrixStartRow = rowCenter - size / 2; 
+        int const matrixStartCol = colCenter - size + 1; 
+    
+        //Show inscription Game Over
+        Show_GameOver(size, rowCenter, colCenter); 
+        //Show_Win(size, rowCenter, colCenter);
+
+        showNewFront(Front, size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
+
     for(int i = 1; i < size - 1; ++i) {
         for(int j = 1; j < size - 1; ++j) {
             if(Back[i][j] == -1) {
@@ -242,14 +295,20 @@ void Boom(int **Back, char** Front, int const size, bool* exitFromGame, bool* re
         }
     }
 
-    //show inscription Game Over
-    Show_GameOver(rowCenter, colCenter); 
-    //Show_Win(rowCenter, colCenter);
-
+     
     cbreak();
-    for(char key; ; ) {
-        key = keypress();
+    while(true) {
+        int newWinRow, newWinCol;
+        userWinSize(&newWinRow, &newWinCol);
+        if(newWinRow != (*winRow) || newWinCol != (*winCol)) {
+            system("clear");
+            *winRow = newWinRow;
+            *winCol = newWinCol;
+            break;
+        }
 
+
+        int key = keypress();
         if(key == 'r' || key == 'R') {
             *restart = true;
             break; 
@@ -259,28 +318,54 @@ void Boom(int **Back, char** Front, int const size, bool* exitFromGame, bool* re
             break;
         }
     }
+    }
 }
 
 //Main game
-void game(int** Back, char** Front, int const size, int const bombCount, bool* exitFromGame, int const rowCenter, int const colCenter)
+void game(int** Back, char** Front, int const size, int const bombCount, bool* exitFromGame, int* winRow, int* winCol)
 {
-    int const matrixStartRow = rowCenter - size/2; 
-    int const matrixStartCol = colCenter - size + 1; 
-
-    int i = 1, j = 1, Fcount = 0;
     bool restart = false;
+    int i = 1, j = 1, Fcount = 0;
+
+    while(true) {
+        if(*exitFromGame || restart) {
+            break;
+        }
+
+        int const rowCenter = *winRow / 2 + 1;
+        int const colCenter = *winCol / 2 + 1;
+
+    int const matrixStartRow = rowCenter - size / 2; 
+    int const matrixStartCol = colCenter - size + 1; 
+    
+    Show_Boards(size, rowCenter, colCenter, 11);
+    showNewFront(Front, size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
+    Show_ExitRestart(rowCenter, colCenter, 7);
+
+    gotoxy((colCenter - size) + j*2 + 1, rowCenter + i - size/2);
+    greenSymbol(Front, i, j);
 
     cbreak();
     while(true) {
         //Checking the game status
         if(isWin(Front, size, bombCount)) {
-            win(Back, Front, size, &restart, &(*exitFromGame), matrixStartRow, matrixStartCol, rowCenter, colCenter);
+            win(Back, Front, size, &restart, &(*exitFromGame), matrixStartRow, matrixStartCol, &(*winRow), &(*winCol));
         }
         
+        int newWinRow, newWinCol;
+        userWinSize(&newWinRow, &newWinCol);
+        if(newWinRow != (*winRow) || newWinCol != (*winCol)) {
+            system("clear");
+            *winRow = newWinRow;
+            *winCol = newWinCol;
+            break;
+        }
+
         int key = keypress();
-        
+     
         // Restart or Exit to main menu
         if(key == 'r' || key == 'R' || restart) {
+            restart = true;
             break;
         }
         if(key == 27 || *exitFromGame) {
@@ -368,7 +453,7 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool* e
             case 10:  //10 = Enter
                 switch(Back[i][j]) {
                     case -1: //There is mine under cage
-                        Boom(Back, Front, size, &(*exitFromGame), &restart, matrixStartRow, matrixStartCol, rowCenter, colCenter);
+                        Boom(Back, Front, size, &(*exitFromGame), &restart, matrixStartRow, matrixStartCol, &(*winRow), &(*winCol));
                         break;
                     case 0: //Empty cage
                         Empty(Back, Front, i, j, &Fcount, matrixStartRow, matrixStartCol);
@@ -383,6 +468,7 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool* e
                 }
                 break;
         }    
+    }
     }
 }
 

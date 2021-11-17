@@ -9,22 +9,6 @@
 #include "game.hpp"
 #include "show.hpp"
 
-void showFront(char** Front, int const size, int const rowCenter, int const colCenter)
-{
-    gotoxy(colCenter - size, rowCenter - size/2);
-    for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < size; ++j) {
-            std::cout << " " << Front[i][j];
-        }
-        gotoxy(colCenter - size, rowCenter + 1 - size/2 + i);
-    }
-
-    Show_Boards(size, rowCenter, colCenter);
-
-    gotoxy((colCenter - size) + 3, rowCenter + 1 - size/2);
-    colorCout("#", 3);
-}
-
 //Choose the random cage and add there mine
 void randomMines(int** Back, int const size, int bombCount)
 {   
@@ -85,20 +69,15 @@ void GodeModeOn(int** Back, int const size)
                 std::cout << "\x1b[31;1m" << std::setw(3) << "X" << "\x1b[0m\n";
             }
             else if(Back[i][j] == 0) {
-                std::cout << std::setw(3) << "_";
+                std::cout << std::setw(3) << "-";
             } else {
                 std::cout << std::setw(3) << Back[i][j];
             }    
         }
     }
-
-    /*gotoxy(3, size + 2);
-    std::cout << " 0 → empty";
-    gotoxy(3, size + 3);
-    std::cout << "-1 → mine";*/
 }
 
-void mainPreGame(bool* exitFromGame, int const rowCenter, int const colCenter)
+void mainPreGame(bool* exitFromGame, int* winRow, int* winCol)
 {
     srand(time(NULL));
     system("clear");
@@ -124,14 +103,11 @@ void mainPreGame(bool* exitFromGame, int const rowCenter, int const colCenter)
     addNumbers(Back, size);
     boundsOfMatrix(Back, Front, size);
 
-    GodeModeOn(Back, size);
-
-    //Print the Front matrix in center of screen
-    showFront(Front, size, rowCenter, colCenter);
-                
+    //GodeModeOn(Back, size);
+            
     //The main game
     //This function is in game.hpp
-    game(Back, Front, size, bombCount, &(*exitFromGame), rowCenter, colCenter);
+    game(Back, Front, size, bombCount, &(*exitFromGame), &(*winRow), &(*winCol));
         
     //Deleting dinamic matrixes
     for(int i = 0; i < size; ++i) {
@@ -142,11 +118,11 @@ void mainPreGame(bool* exitFromGame, int const rowCenter, int const colCenter)
     delete[] Front;
 }
 
-void preGame(int const rowCenter, int const colCenter)
+void preGame(int* winRow, int* winCol)
 {
     bool exitFromGame = false;
     while(!exitFromGame) {
-        mainPreGame(&exitFromGame, rowCenter, colCenter);
+        mainPreGame(&exitFromGame, &(*winRow), &(*winCol));
     }
 }
 
