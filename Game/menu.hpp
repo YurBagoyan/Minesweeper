@@ -2,7 +2,6 @@
 #define MENU
 
 #include <iostream>
-#include <stdlib.h>
 
 #include "input.hpp"
 #include "show.hpp"
@@ -19,6 +18,17 @@ void selectedMenu(int const current, int* winRow, int* winCol)
     }
 }
 
+void printMenu(std::string* Menu, int const menuSize, int const menuStartRow, int const menuStartCol)
+{
+    gotoxy(menuStartCol, menuStartRow);
+    colorCout(Menu[0], 3);
+    for(int i = 1; i < menuSize; ++i) {
+        gotoxy(menuStartCol, menuStartRow + i);
+        std::cout << Menu[i];                                
+    }
+    std::cout << std::endl;
+}
+
 void Menu_choose(int* winRow, int* winCol)
 {
     int const rowCenter = *winRow / 2 + 1;
@@ -27,87 +37,45 @@ void Menu_choose(int* winRow, int* winCol)
     int const gameName = 67;
     Show_GameName(colCenter - gameName, rowCenter - 11);
 
-    int const menuRowCount = 5;
-    std::string Menu[menuRowCount] = { "Start", "Records", "Options", "About", "Exit" };
+    int const menuSize = 5;
+    std::string Menu[menuSize] = { "Start", "Records", "Options", "About", "Exit" };
 
     int const menuStartRow = rowCenter - 2;
     int const menuStartCol = colCenter - 3; 
-
-    //Print Menu
-    gotoxy(menuStartCol, menuStartRow);
-    colorCout(Menu[0], 3);
-    for(int i = 1; i < menuRowCount; ++i) {
-        gotoxy(menuStartCol, menuStartRow + i);
-        std::cout << Menu[i];                                
-    }
-    std::cout << std::endl;
+    printMenu(Menu, menuSize, menuStartRow, menuStartCol);
    
-    //Need when the user returned the menu
+    //Need when the user will return to the menu
     bool returnToMenu = false;
     int current = 0;
 
     cbreak();
     while(true) {
-        if(*winRow < 23 || *winCol < 132) {
-                *winRow = 23;
-                *winCol = 132;
-                std::cout << "\e[8;23;132t";
-        }
-
-        int newWinRow, newWinCol;
-        userWinSize(&newWinRow, &newWinCol);
-
-        if(newWinRow != (*winRow) || newWinCol != (*winCol)) {
-            if(newWinRow < 23 || newWinCol < 132) {
-                *winRow = 23;
-                *winCol = 132;
-                std::cout << "\e[8;23;132t";
-            } else {
-                *winRow = newWinRow; 
-                *winCol = newWinCol;
-            }
-            system("clear");
-            break;
-        }
-
-        if (returnToMenu) {
+        //Checking user windows size and change if it has changed
+        int const minWinRowSize = 23, minWinColSize = 132;
+        if (winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize) || returnToMenu) {
             break;
         }
 
         int key = keypress();
         switch(key) {
             case 'w': case 'W':
-                if(current == 0) {
-                    gotoxy(menuStartCol, menuStartRow);
-                    std::cout << Menu[current];
-                    
-                    current = menuRowCount - 1;
-                    gotoxy(menuStartCol, menuStartRow + current);
-                    colorCout(Menu[current], 3);
-                } else {    
-                    gotoxy(menuStartCol, menuStartRow + current);
-                    std::cout << Menu[current];
-    
-                    gotoxy(menuStartCol, menuStartRow + (--current));
-                    colorCout(Menu[current], 3);
-                }
+                gotoxy(menuStartCol, menuStartRow + current);
+                std::cout << Menu[current];
+
+                current == 0 ? current = menuSize - 1 : --current;
+
+                gotoxy(menuStartCol, menuStartRow + current);
+                colorCout(Menu[current], 3);
                 break;
                     
-            case 's': case 'S':               
-                if(current == menuRowCount - 1) {        
-                    gotoxy(menuStartCol, menuStartRow + current);
-                    std::cout << Menu[current];
-                                
-                    current = 0;
-                    gotoxy(menuStartCol, menuStartRow);
-                    colorCout(Menu[current], 3);
-                } else { 
-                    gotoxy(menuStartCol, menuStartRow + current);
-                    std::cout << Menu[current];
-                    
-                    gotoxy(menuStartCol, menuStartRow + (++current));
-                    colorCout(Menu[current], 3);   
-                }
+            case 's': case 'S':    
+                gotoxy(menuStartCol, menuStartRow + current);
+                std::cout << Menu[current];
+                
+                current == menuSize - 1 ? current = 0 : ++current;
+
+                gotoxy(menuStartCol, menuStartRow + current);
+                colorCout(Menu[current], 3);
                 break;
             
             case 10:
@@ -119,3 +87,4 @@ void Menu_choose(int* winRow, int* winCol)
 }           
     
 #endif
+

@@ -2,7 +2,6 @@
 #define PREGAME
 
 #include <iostream>
-#include <iomanip>
 #include <ctime>
 
 #include "input.hpp"
@@ -24,7 +23,17 @@ void randomMines(int** Back, int const size, int bombCount)
         Back[i][j] = -1;
         bombCount--;
     }
+}
 
+void aroundMine(int** Back, int const size, int const i, int const j) 
+{
+    for (int row_i = i - 1; row_i <= i + 1; ++row_i) {
+        for (int col_j = j - 1; col_j <= j + 1; ++col_j) {
+            if (Back[row_i][col_j] != -1) {
+                ++Back[row_i][col_j];
+            }   
+        }
+    }
 }
 
 void addNumbers(int** Back, int const size)
@@ -34,13 +43,7 @@ void addNumbers(int** Back, int const size)
             //Find the mine
             if (Back[i][j] == -1) {
                 // +1 in cages around mine 
-                for (int row_i = i - 1; row_i <= i + 1; ++row_i) {
-                    for (int col_j = j - 1; col_j <= j + 1; ++col_j) {
-                        if (Back[row_i][col_j] != -1) {
-                            ++Back[row_i][col_j];
-                        }   
-                    }
-                }
+                aroundMine(Back, size, i, j); 
             }
         }
     }
@@ -56,24 +59,6 @@ void boundsOfMatrix(int** Back, char** Front, int const size)
         Back[i][size - 1] = -2;
 
         Back[size - 1][i] = -2;
-    }
-}
-
-void GodeModeOn(int** Back, int const size)
-{
-    for(int i = 1; i < size - 1; ++i) {
-        for(int j = 1; j < size - 1; ++j) {
-            gotoxy((j*3) - 2, i + 1);
-
-            if(Back[i][j] == -1) {
-                std::cout << "\x1b[31;1m" << std::setw(3) << "X" << "\x1b[0m\n";
-            }
-            else if(Back[i][j] == 0) {
-                std::cout << std::setw(3) << "-";
-            } else {
-                std::cout << std::setw(3) << Back[i][j];
-            }    
-        }
     }
 }
 
@@ -102,8 +87,6 @@ void mainPreGame(bool* exitFromGame, int* winRow, int* winCol)
     randomMines(Back, size, bombCount);
     addNumbers(Back, size);
     boundsOfMatrix(Back, Front, size);
-
-    GodeModeOn(Back, size);
             
     //The main game
     //This function is in game.hpp
@@ -128,3 +111,4 @@ void preGame(int* winRow, int* winCol)
 
 
 #endif
+
