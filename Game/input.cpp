@@ -1,12 +1,6 @@
 #include <iostream>
-#include <cstdlib>
-#include <ctime>
 #include <unistd.h>
 #include <termios.h>
-#include <sys/select.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string>
 #include <sys/ioctl.h>
 
 int tty_mode = 0;
@@ -65,7 +59,7 @@ void gotoxy(int x, int y)
 }
 
 //For colors in the game
-void colorCout(std::string text, int textColor)
+void colorCout(std::string text, int const textColor)
 {
     switch(textColor) { 
         case  1: std::cout << "\x1b[90;1m" << text << "\x1b[0m\n"; break; // gray               1
@@ -90,3 +84,28 @@ void userWinSize(int* winRow, int* winCol)
     *winRow = w.ws_row;
     *winCol = w.ws_col;
 }
+
+bool winSizeChanged(int* winRow, int* winCol, int const minWinRowSize, int const minWinColSize) {
+    int newWinRow, newWinCol;
+    userWinSize(&newWinRow, &newWinCol);
+
+    if(newWinRow < minWinRowSize) {
+        *winRow = minWinRowSize; 
+        std::cout << "\e[8;" << *winRow << ";" << *winCol << "t";
+    } 
+    else if (newWinCol < minWinColSize) {
+        *winCol = minWinColSize;
+        std::cout << "\e[8;" << *winRow << ";" << *winCol << "t";
+    }
+    else if (newWinRow != (*winRow) || newWinCol != (*winCol)) {
+            *winRow = newWinRow; 
+            *winCol = newWinCol;
+    }
+    else {
+        return false;
+    }
+
+    system("clear");
+    return true;    
+}
+

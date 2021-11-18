@@ -2,6 +2,7 @@
 #define SHOW
 
 #include <iostream>
+#include <iomanip>
 
 #include "input.hpp"
 
@@ -37,17 +38,17 @@ void Show_GameName(int const printCol, int printRow)    //Print Game Name
 
 void Show_ExitRestart(int const rowCenter, int const colCenter, int const color)
 {
-    int showExitStart = rowCenter*2 - 4;
+    int const showExitStart = rowCenter*2 - 4;
     gotoxy(colCenter - 9, showExitStart);
     colorCout("Press R to ", 7);
     
     gotoxy(colCenter + 2, showExitStart);
     colorCout("RESTART", color); 
 
-    gotoxy(colCenter - 16, ++showExitStart);
+    gotoxy(colCenter - 16, showExitStart + 1);
     colorCout("Press Esc to return to ", 7); 
 
-    gotoxy(colCenter + 7, showExitStart);
+    gotoxy(colCenter + 7, showExitStart + 1);
     colorCout("MAIN MENU", color);
 }
 
@@ -65,98 +66,80 @@ void Show_About(int* winRow, int* winCol)
 {
     bool exitFromAbout = false;
     while(!exitFromAbout) {
-    
-        int const rowCenter = *winRow / 2 + 1;
-        int const colCenter = *winCol / 2 + 1;
-
-        exitFromAbout = false;
-
         system("clear");
-    
-        int aboutStart = 3;
+      
+        int const rowCenter = *winRow / 2 + 1;
+        int const colCenter = *winCol / 2 + 1;       
+        
+        int const aboutStart = 3;
         gotoxy(colCenter - 8, aboutStart);
         colorCout("About Minesweeper", 4);
     
         int const textColSize = 38;
-        aboutStart += 2;
-        gotoxy(colCenter - textColSize, aboutStart); 
+        gotoxy(colCenter - textColSize, aboutStart + 2); 
         std::cout << " Minesweeper is a single-player puzzle video game. The objective of the game\n"; 
-        gotoxy(colCenter - textColSize, ++aboutStart);
+        gotoxy(colCenter - textColSize, aboutStart + 3);
         std::cout << "is to clear a rectangular board containing hidden ""mines"" or bombs without\n";    
-        gotoxy(colCenter - textColSize, ++aboutStart);
+        gotoxy(colCenter - textColSize, aboutStart + 4);
         std::cout << "detonating any of them, with help from clues about the number of neighboring\n";   
-        gotoxy(colCenter - textColSize, ++aboutStart);
+        gotoxy(colCenter - textColSize, aboutStart + 5);
         std::cout << "mines in each field. The game originates from the 1960s, and it has been\n";  
-        gotoxy(colCenter - textColSize, ++aboutStart);
+        gotoxy(colCenter - textColSize, aboutStart + 6);
         std::cout << "written for many computing platforms in use today. It has many variations and\n";
-        gotoxy(colCenter - textColSize, ++aboutStart);
+        gotoxy(colCenter - textColSize, aboutStart + 7);
         std::cout << "offshoots.";
     
-        aboutStart += 3;
-        gotoxy(colCenter - 4, aboutStart);
+        int const gamePlayStart = 13;
+        gotoxy(colCenter - 4, gamePlayStart);
         colorCout("Gameplay", 4);
         
-        aboutStart += 2;
-        gotoxy(colCenter - textColSize, aboutStart);
+        gotoxy(colCenter - textColSize, gamePlayStart + 2);
         std::cout << " In Minesweeper, mines (that resemble naval mines in the classic theme) are\n"; 
-        gotoxy(colCenter - textColSize, ++aboutStart);
+        gotoxy(colCenter - textColSize, gamePlayStart + 3);
         std::cout << "scattered throughout a board, which is divided into cells. Cells have three\n";
-        gotoxy(colCenter - textColSize, ++aboutStart);
+        gotoxy(colCenter - textColSize, gamePlayStart + 4);
         std::cout << "states: uncovered, covered and flagged. A covered cell is blank and clickable,\n";
-        gotoxy(colCenter - textColSize, ++aboutStart);
+        gotoxy(colCenter - textColSize, gamePlayStart + 5);
         std::cout << "while an uncovered cell is exposed. Flagged cells are those marked by the\n";
-        gotoxy(colCenter - textColSize, ++aboutStart);
+        gotoxy(colCenter - textColSize, gamePlayStart + 6);
         std::cout << "player to indicate a potential mine location. \n";
         
-        aboutStart += 2;
-        gotoxy(colCenter - textColSize, aboutStart);
+        gotoxy(colCenter - textColSize, gamePlayStart + 8);
         std::cout << " A player should press or a cell to uncover it. If a player uncovers a mined\n";
-        gotoxy(colCenter - textColSize, ++aboutStart);
+        gotoxy(colCenter - textColSize, gamePlayStart + 9);
         std::cout << "cell, the game ends, as there is only 1 life per game. Otherwise, the\n";
-        gotoxy(colCenter - textColSize, ++aboutStart);
+        gotoxy(colCenter - textColSize, gamePlayStart + 10);
         std::cout << "uncovered cells displays either a number, indicating the number of mines\n";
-        gotoxy(colCenter - textColSize, ++aboutStart);
+        gotoxy(colCenter - textColSize, gamePlayStart + 11);
         std::cout << "diagonally and/or adjacent to it, or a blank tile (or ""0""), and all adjacent\n";
-        gotoxy(colCenter - textColSize, ++aboutStart);
+        gotoxy(colCenter - textColSize, gamePlayStart + 12);
         std::cout << "non-mined cells will automatically be uncovered. Button on a cell will\n";
-        gotoxy(colCenter - textColSize, ++aboutStart);
+        gotoxy(colCenter - textColSize, gamePlayStart + 13);
         std::cout << "flag it, causing a flag to appear on it. Flagged cells are still considered\n";
-        gotoxy(colCenter - textColSize, ++aboutStart);
+        gotoxy(colCenter - textColSize, gamePlayStart + 14);
         std::cout << "covered, and a player can prees on them to uncover them. \n";
     
-        aboutStart += 2;
-        gotoxy(colCenter - textColSize, aboutStart);
+        gotoxy(colCenter - textColSize, gamePlayStart + 16);
         std::cout << " To win the game, players must uncover all non-mine cells, at which point,\n"; 
-        gotoxy(colCenter - textColSize, ++aboutStart);
+        gotoxy(colCenter - textColSize, gamePlayStart + 17);
         std::cout << "the timer is stopped. Flagging all the mined cells is not required.";
     
-        int showControlStart = aboutStart + 3;
+        int const showControlStart = 33;
         Show_Control(rowCenter, colCenter, showControlStart);
         
         gotoxy(colCenter - 16, showControlStart + 5);
         colorCout("Press Esc to return to MAIN MENU", 7);
         
+        exitFromAbout = false;
         cbreak();
-        while(true)
-        {        
-            int newWinRow, newWinCol;
-            userWinSize(&newWinRow, &newWinCol);
-    
-            if(newWinRow != (*winRow) || newWinCol != (*winCol)) {
-                if(newWinRow < 38 || newWinCol < 78) {
-                    *winRow = 38;
-                    *winCol = 78;
-                    std::cout << "\e[8;38;78t";
-                } else {
-                    *winRow = newWinRow;
-                    *winCol = newWinCol;
-                }
+        while(true) {       
+            int const minWinRowSize = 38, minWinColSize = 78;
+            if(winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize)) {
                 break;
             }
-            
+                       
             int key = keypress();
-            if(key == 27)
-            {
+            if(key == 27) {
                 exitFromAbout = true;
                 break;
             }
@@ -185,60 +168,82 @@ void Show_Boards(int const size, int const rowCenter, int const colCenter, int c
 
 void Show_GameOver(int const size ,int const rowCenter, int const colCenter)
 {   
-    Show_ExitRestart(rowCenter, colCenter, 5);
-    Show_Boards(size, rowCenter, colCenter, 5);
+    int gameOverColor = 5; //5 = red
 
-    int const textColSize = 21;
-    int gameOverStart = 2;
+    //Print red boards and letters because user is lose
+    Show_ExitRestart(rowCenter, colCenter, gameOverColor);
+    Show_Boards(size, rowCenter, colCenter, gameOverColor);
+
+    int const textColSize = 21, gameOverStart = 2;
     gotoxy(colCenter - textColSize, gameOverStart);
-    colorCout("██████████████████████████████████████████", 5);
+    colorCout("██████████████████████████████████████████", gameOverColor);
 
-    gotoxy(colCenter - textColSize, ++gameOverStart);
-    colorCout("█────█────█─███─█───████────█─█─█───█────█", 5);
+    gotoxy(colCenter - textColSize, gameOverStart + 1);
+    colorCout("█────█────█─███─█───████────█─█─█───█────█", gameOverColor);
 
-    gotoxy(colCenter - textColSize, ++gameOverStart);
-    colorCout("█─████─██─█──█──█─██████─██─█─█─█─███─██─█", 5);
+    gotoxy(colCenter - textColSize, gameOverStart + 2);
+    colorCout("█─████─██─█──█──█─██████─██─█─█─█─███─██─█", gameOverColor);
 
-    gotoxy(colCenter - textColSize, ++gameOverStart);
-    colorCout("█─█──█────█─█─█─█───████─██─█─█─█───█────█", 5);
+    gotoxy(colCenter - textColSize, gameOverStart + 3);
+    colorCout("█─█──█────█─█─█─█───████─██─█─█─█───█────█", gameOverColor);
 
-    gotoxy(colCenter - textColSize, ++gameOverStart);
-    colorCout("█─██─█─██─█─███─█─██████─██─█───█─███─█─██", 5);
+    gotoxy(colCenter - textColSize, gameOverStart + 4);
+    colorCout("█─██─█─██─█─███─█─██████─██─█───█─███─█─██", gameOverColor);
 
-    gotoxy(colCenter - textColSize, ++gameOverStart);
-    colorCout("█────█─██─█─███─█───████────██─██───█─█─██", 5);
+    gotoxy(colCenter - textColSize, gameOverStart + 5);
+    colorCout("█────█─██─█─███─█───████────██─██───█─█─██", gameOverColor);
 
-    gotoxy(colCenter - textColSize, ++gameOverStart);
-    colorCout("██████████████████████████████████████████", 5);
+    gotoxy(colCenter - textColSize, gameOverStart + 6);
+    colorCout("██████████████████████████████████████████", gameOverColor);
 }
 
 void Show_Win(int const size, int const rowCenter, int const colCenter)
-{    
-    Show_ExitRestart(rowCenter, colCenter, 3);
-    Show_Boards(size, rowCenter, colCenter, 3);
+{   
+    int winColor = 10; //10 = bright green 
 
-    int const textColSize = 21;
-    int winStart = 2; 
+    //Print green boards and letters because user is win
+    Show_ExitRestart(rowCenter, colCenter, winColor);
+    Show_Boards(size, rowCenter, colCenter, winColor);
+
+    int const textColSize = 21, winStart = 2;
     gotoxy(colCenter - textColSize, winStart);
-    colorCout("██████████████████████████████████████████", 10);
+    colorCout("██████████████████████████████████████████", winColor);
 
-    gotoxy(colCenter - textColSize, ++winStart);
-    colorCout("█─███─█───█─██─█─██─█───█────███████─█─█─█", 10);
+    gotoxy(colCenter - textColSize, winStart + 1);
+    colorCout("█─███─█───█─██─█─██─█───█────███████─█─█─█", winColor);
 
-    gotoxy(colCenter - textColSize, ++winStart);
-    colorCout("█─███─██─██──█─█──█─█─███─██─███████─█─█─█", 10);
+    gotoxy(colCenter - textColSize, winStart + 2);
+    colorCout("█─███─██─██──█─█──█─█─███─██─███████─█─█─█", winColor);
 
-    gotoxy(colCenter - textColSize, ++winStart);
-    colorCout("█─█─█─██─██─█──█─█──█───█────███████─█─█─█", 10);
+    gotoxy(colCenter - textColSize, winStart + 3);
+    colorCout("█─█─█─██─██─█──█─█──█───█────███████─█─█─█", winColor);
 
-    gotoxy(colCenter - textColSize, ++winStart);
-    colorCout("█─────██─██─██─█─██─█─███─█─██████████████", 10);
+    gotoxy(colCenter - textColSize, winStart + 4);
+    colorCout("█─────██─██─██─█─██─█─███─█─██████████████", winColor);
 
-    gotoxy(colCenter - textColSize,++winStart);
-    colorCout("██─█─██───█─██─█─██─█───█─█─████████─█─█─█", 10);
+    gotoxy(colCenter - textColSize, winStart + 5);
+    colorCout("██─█─██───█─██─█─██─█───█─█─████████─█─█─█", winColor);
 
-    gotoxy(colCenter - textColSize, ++winStart);
-    colorCout("██████████████████████████████████████████", 10);
+    gotoxy(colCenter - textColSize, winStart + 6);
+    colorCout("██████████████████████████████████████████", winColor);
 }
+
+//Cheat mode for easy play
+//When Gode mode is on, the user's nickname will not be added in records
+void GodeMode(int** Back, int const size)
+{
+    for(int i = 1; i < size - 1; ++i) {
+        for(int j = 1; j < size - 1; ++j) {
+            gotoxy((j*3) - 2, i + 1);
+
+            switch(Back[i][j]) {
+                case  -1: std::cout << "\x1b[31;1m" << std::setw(3) << "X" << "\x1b[0m\n"; break;
+                case   0: std::cout << std::setw(3) << "-"; break;
+                default : std::cout << std::setw(3) << Back[i][j]; break;  
+            }
+        }   
+    }   
+}
+
 
 #endif

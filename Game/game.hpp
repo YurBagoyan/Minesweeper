@@ -6,136 +6,68 @@
 #include "input.hpp"
 #include "show.hpp"
 
-//To print a character in green color, for cursor move
-/* Inputs: Front: [char], i, j: integer
- * Pre: i < size, j < size
+/* Brief: To print a character in green color, for cursor move
+ * Inputs: Front: [char], i, j: integer
+ * Pre: i < size, j < size; Front = { '#', 'X', 'F', ' ', '1' '2', '3', '4', '5', '6', '7', '8' }
  * Output: Front : [char]
  * Post: Front[i][j] with green color
  */
-void greenSymbol(char** Front, int const i, int const j)
+void printGreenChar(char** Front, int const i, int const j, int const matrixStartRow, int const matrixStartCol)
 {
+    //The coordinate of F[i][j] in window
+    gotoxy(matrixStartCol + j*2, matrixStartRow + i);
+
+    int cursorColor = 3; //3 = green
     switch(Front[i][j]) {
-        case 'F': colorCout("F", 3); break; 
-        case '#': colorCout("#", 3); break;
-        case ' ': colorCout("_", 3); break;
-        case '1': colorCout("1", 3); break;
-        case '2': colorCout("2", 3); break;
-        case '3': colorCout("3", 3); break;
-        case '4': colorCout("4", 3); break;
-        case '5': colorCout("5", 3); break;
-        case '6': colorCout("6", 3); break;
-        case '7': colorCout("7", 3); break;
-        case '8': colorCout("8", 3); break;
+        case 'X': colorCout("X", cursorColor); break; 
+        case 'F': colorCout("F", cursorColor); break; 
+        case '#': colorCout("#", cursorColor); break;
+        case ' ': colorCout("‒", cursorColor); break;
+        case '1': colorCout("1", cursorColor); break;
+        case '2': colorCout("2", cursorColor); break;
+        case '3': colorCout("3", cursorColor); break;
+        case '4': colorCout("4", cursorColor); break;
+        case '5': colorCout("5", cursorColor); break;
+        case '6': colorCout("6", cursorColor); break;
+        case '7': colorCout("7", cursorColor); break;
+        case '8': colorCout("8", cursorColor); break;
     }
 }
 
-//To print a character in its specific color
-/* Inputs: Front: [char]; i, j: integer
- * Pre: i < size; j < size
+/* Brief: To print a character in its specific color
+ * Inputs: Front: [char]; i, j: integer
+ * Pre: i < size; j < size; Front = { '#', 'X', 'F', ' ', '1' '2', '3', '4', '5', '6', '7', '8' }
  * Output: Front : [char]
  * Post: Front[i][j] with its specific color
  */
-void printSymbol(char** Front, int const i, int const j, int const matrixStartRow, int const matrixStartCol)  
+void printChar(char** Front, int const i, int const j, int const matrixStartRow, int const matrixStartCol)  
 {
+    //The coordinate of F[i][j] in window
+    gotoxy(matrixStartCol + j*2, matrixStartRow + i);
+     
+    //Print new character in its specific color
     switch(Front[i][j]) {
-        case 'X':
-            //Delete previous character
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);   
-            std::cout << "  ";
-            //Print new character in its specific color
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            colorCout("X ", 5);
-            break;
-
-        case 'F':
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            std::cout << "  ";
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            colorCout("F ", 7);
-            break;
-
-        case ' ': 
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            std::cout << "  ";
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            std::cout << "  ";
-            break;
-
-        case '#': 
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            std::cout <<"  ";
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            std::cout << "# ";
-            break;
-
-        case '1':
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            std::cout << "  ";
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            colorCout("1 ", 4); 
-            break;
-
-        case '2':  
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            std::cout << "  ";
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            colorCout("2 ", 10); 
-            break;
-
-        case '3': 
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            std::cout << "  ";
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            colorCout("3 ", 5); 
-            break;
-
-        case '4': 
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            std::cout << "  ";
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            colorCout("4 ", 2);
-            break;
-
-        case '5':  
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            std::cout << "  ";
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            colorCout("5 ", 6); 
-            break;
-
-        case '6': 
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            std::cout << "  ";
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            colorCout("6 ", 1); 
-            break;
-
-        case '7':  
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            std::cout << "  ";
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            colorCout("7 ", 7); 
-            break;
-
-        case '8': 
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            std::cout << "  ";
-            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-            colorCout("8 ", 9); 
-            break;        
+        case 'X': colorCout("X", 5); break;
+        case 'F': colorCout("F", 7); break;
+        case ' ': std::cout << " ";  break;
+        case '#': std::cout << "#";  break;
+        case '1': colorCout("1", 4); break;
+        case '2': colorCout("2", 10);break;
+        case '3': colorCout("3", 5); break;
+        case '4': colorCout("4", 2); break;
+        case '5': colorCout("5", 6); break;
+        case '6': colorCout("6", 1); break;
+        case '7': colorCout("7", 7); break;
+        case '8': colorCout("8", 9); break;        
     }
 }
 
-
 void showNewFront(char** Front, int const size, int const rowCenter, int const colCenter, int const matrixStartRow, int const matrixStartCol)
 {
-    gotoxy(colCenter - size, rowCenter - size/2);
     for (int i = 1; i < size - 1; ++i) {
         for (int j = 1; j < size - 1; ++j) {
-            //std::cout << " " << Front[i][j];
-            printSymbol(Front, i, j, matrixStartRow, matrixStartCol);
+            printChar(Front, i, j, matrixStartRow, matrixStartCol);
         }
-        gotoxy(colCenter - size, rowCenter + 1 - size/2 + i);
     }
     int showControlStart = rowCenter*2 - 9;
     Show_Control(rowCenter, colCenter, showControlStart);
@@ -147,11 +79,10 @@ bool isWin(char** Front, int const size, int const bombCount)
     int tempFlagCount = 0, tempCloseCaseCount = 0;
     for(int i = 1; i < size - 1; ++i) {
         for(int j = 1; j < size - 1 ; ++j) {
-            if(Front[i][j] == '#')
-            {
+            if(Front[i][j] == '#') {
                 ++tempCloseCaseCount;
             }
-            else if (Front[i][j] == 'F'){
+            else if (Front[i][j] == 'F') {
                 ++tempFlagCount;
             }
         }
@@ -164,7 +95,7 @@ bool isWin(char** Front, int const size, int const bombCount)
 }
 
 //Print after winning
-void win(int** Back, char** Front, int const size, bool* restart, bool* exitFromGame, int const matrixStartRow, int const matrixStartCol, int* winRow, int* winCol)
+void win(int** Back, char** Front, int const size, bool* restart, bool* exitFromGame, int* winRow, int* winCol)
 {
     while(true) {
         if(*exitFromGame || *restart) {
@@ -178,33 +109,28 @@ void win(int** Back, char** Front, int const size, bool* restart, bool* exitFrom
         
         //Show inscription WINNER
         Show_Win(size, rowCenter, colCenter);
-
+        
+        //Show matrix in new position if window size is changed
         showNewFront(Front, size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
-        //Print all mines positions
-        gotoxy(matrixStartCol, matrixStartRow);
+
+        //Print all mines positions in green
         for(int i = 1; i < size-1; ++i) {
             for(int j = 1; j < size-1; ++j) {
                 if(Back[i][j] == -1) {
                     Front[i][j] = 'X';
-                    greenSymbol(Front, i, j);
+                    printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
                 }    
             }
-            gotoxy(matrixStartCol, matrixStartRow + i);
         }
    
         //Restart or Exit to main menu
         cbreak();
         while(true) {
-                     
-            int newWinRow, newWinCol;
-            userWinSize(&newWinRow, &newWinCol);
-            if(newWinRow != (*winRow) || newWinCol != (*winCol)) {
-                system("clear");
-                *winRow = newWinRow;
-                *winCol = newWinCol;
+            int const minWinRowSize = 28, minWinColSize = 82;      
+            if(winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize)) {
                 break;
             }
-    
+
             int key = keypress();
             if(key == 'r' || key == 'R') {
                 *restart = true;
@@ -220,20 +146,18 @@ void win(int** Back, char** Front, int const size, bool* restart, bool* exitFrom
 
 //Open the number
 void Open(int **Back, char** Front, int const i, int const j, int* Fcount, int const matrixStartRow, int const matrixStartCol)
-{   
-    if(Back[i][j] > 0) {
-        if(Front[i][j] == 'F') {
-            --(*Fcount);
-        }
-
-        //In ASCII table symbol of the number = number + 48
-        Front[i][j] = Back[i][j] + 48;
-        printSymbol(Front, i, j, matrixStartRow, matrixStartCol);        
+{
+    if(Front[i][j] == 'F') {
+        --(*Fcount);
     }
+
+    //In ASCII table symbol of the number = number + 48
+    Front[i][j] = Back[i][j] + 48;
+    printChar(Front, i, j, matrixStartRow, matrixStartCol);        
 }
 
-//If there are no mines or numbers under #
-/* Inputs: Back: [integer], Front : [char], i, j, Fcount: integer
+/* Brief: If there are no mines or numbers under #
+ * Inputs: Back: [integer], Front : [char], i, j, Fcount: integer
  * Pre: i < size, j < size, Fcount < Bomb_Count, Back[i][j] = 0
  * Output: Back : [integer], Front : [char], Fcount : integer 
  * Post: Front[i][j] = '_', Back[i][j] = 10, 
@@ -241,10 +165,8 @@ void Open(int **Back, char** Front, int const i, int const j, int* Fcount, int c
 void Empty(int** Back, char** Front, int const i, int const j, int* Fcount, int const matrixStartRow, int const matrixStartCol)
 {
     Front[i][j] = ' ';
-    gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-    printSymbol(Front, i, j, matrixStartRow, matrixStartCol);
-
     Back[i][j] = 10;
+    printChar(Front, i, j, matrixStartRow, matrixStartCol);
     
     //Opening all around if under # is empty
     for(int row_i = i - 1; row_i <= i + 1; ++row_i) {
@@ -267,10 +189,9 @@ void Empty(int** Back, char** Front, int const i, int const j, int* Fcount, int 
 }
 
 //Game over, print all mines positions
-void Boom(int **Back, char** Front, int const size, bool* exitFromGame, bool* restart, int const matrixStartRow, int const matrixStartCol, int* winRow, int* winCol)
+void Boom(int **Back, char** Front, int const size, bool* exitFromGame, bool* restart, int* winRow, int* winCol)
 {   
     while(true) {
-
          if(*exitFromGame || *restart) {
             break;
         }
@@ -279,34 +200,32 @@ void Boom(int **Back, char** Front, int const size, bool* exitFromGame, bool* re
         int const colCenter = *winCol / 2 + 1; 
         int const matrixStartRow = rowCenter - size / 2; 
         int const matrixStartCol = colCenter - size + 1; 
-    
+        
+        //Show_Win(size, rowCenter, colCenter);
+       
         //Show inscription Game Over
         Show_GameOver(size, rowCenter, colCenter); 
-        //Show_Win(size, rowCenter, colCenter);
 
+        //Show matrix in new position if window size is changed
         showNewFront(Front, size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
 
+        //Show all mines in red because user lose
         for(int i = 1; i < size - 1; ++i) {
             for(int j = 1; j < size - 1; ++j) {
                 if(Back[i][j] == -1) {
                     Front[i][j] = 'X';
-                    printSymbol(Front, i, j, matrixStartRow, matrixStartCol);
+                    printChar(Front, i, j, matrixStartRow, matrixStartCol);
                 }
             }
         }
      
         cbreak();
         while(true) {
-            int newWinRow, newWinCol;
-            userWinSize(&newWinRow, &newWinCol);
-            if(newWinRow != (*winRow) || newWinCol != (*winCol)) {
-                system("clear");
-                *winRow = newWinRow;
-                *winCol = newWinCol;
+            int const minWinRowSize = 28, minWinColSize = 82;      
+            if(winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize)) {
                 break;
             }
-    
-    
+
             int key = keypress();
             if(key == 'r' || key == 'R') {
                 *restart = true;
@@ -325,7 +244,6 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool* e
 {
     bool restart = false;
     int i = 1, j = 1, Fcount = 0;
-
     while(true) {
         if(*exitFromGame || restart) {
             break;
@@ -333,36 +251,27 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool* e
 
         int const rowCenter = *winRow / 2 + 1;
         int const colCenter = *winCol / 2 + 1;
-
         int const matrixStartRow = rowCenter - size / 2; 
         int const matrixStartCol = colCenter - size + 1; 
         
         Show_Boards(size, rowCenter, colCenter, 11);
         showNewFront(Front, size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
         Show_ExitRestart(rowCenter, colCenter, 4);
-    
-        gotoxy((colCenter - size) + j*2 + 1, rowCenter + i - size/2);
-        greenSymbol(Front, i, j);
+        printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
     
         cbreak();
         while(true) {
-            //Checking the game status
-            if(isWin(Front, size, bombCount)) {
-                win(Back, Front, size, &restart, &(*exitFromGame), matrixStartRow, matrixStartCol, &(*winRow), &(*winCol));
-            }
-            
-            int newWinRow, newWinCol;
-            userWinSize(&newWinRow, &newWinCol);
-            if(newWinRow != (*winRow) || newWinCol != (*winCol)) {
-                system("clear");
-                *winRow = newWinRow;
-                *winCol = newWinCol;
+            int const minWinRowSize = 28, minWinColSize = 82;      
+            if(winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize)) {
                 break;
             }
-    
+
+            //Checking the game status
+            if(isWin(Front, size, bombCount)) {
+                win(Back, Front, size, &restart, &(*exitFromGame), &(*winRow), &(*winCol));
+            }
+
             int key = keypress();
-         
-            // Restart or Exit to main menu
             if(key == 'r' || key == 'R' || restart) {
                 restart = true;
                 break;
@@ -374,89 +283,51 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool* e
             
             switch (key) {
                 case 'w': case 'W':
-                    //Print specific color of the charcter
-                    gotoxy(matrixStartCol + j*2, matrixStartRow + i);    
-                    printSymbol(Front, i, j, matrixStartRow, matrixStartCol);
-                    
-                    //Print the next symbol in green color
-                    if(i == 1) {
-                        i = size - 2;
-                        gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-                        greenSymbol(Front, i, j);
-                    } else {
-                        gotoxy(matrixStartCol + j*2, matrixStartRow + (--i));
-                        greenSymbol(Front, i, j);
-                        
-                    }
+                    //Print specific color of the charcter 
+                    printChar(Front, i, j, matrixStartRow, matrixStartCol);
+                    i == 1 ? i = size - 2 : --i;
+                    printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
                     break;
     
-                case 's': case 'S': 
-                    gotoxy(matrixStartCol + j*2, matrixStartRow + i);    
-                    printSymbol(Front, i, j, matrixStartRow, matrixStartCol);
-    
-                    if(i == size - 2) {
-                        i = 1;
-                        gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-                        greenSymbol(Front, i, j);
-                    } else {
-                        gotoxy(matrixStartCol + j*2, matrixStartRow + (++i));
-                        greenSymbol(Front, i, j);
-                        
-                    }
+                case 's': case 'S':   
+                    printChar(Front, i, j, matrixStartRow, matrixStartCol);
+                    i == size - 2 ? i = 1 : ++i;
+                    printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
                     break;
     
                 case 'a': case 'A': 
-                    gotoxy(matrixStartCol + j*2, matrixStartRow + i);    
-                    printSymbol(Front, i, j, matrixStartRow, matrixStartCol);
-    
-                    if(j == 1) {
-                        j = size - 2;
-                        gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-                        greenSymbol(Front, i, j);
-                    } else {
-                        gotoxy(matrixStartCol + (--j)*2, matrixStartRow + i);
-                        greenSymbol(Front, i, j);
-                    }    
+                    printChar(Front, i, j, matrixStartRow, matrixStartCol);
+                    j == 1 ? j = size - 2 : --j;
+                    printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
                     break;
     
                 case 'd': case 'D':  
-                    gotoxy(matrixStartCol + j*2, matrixStartRow + i);    
-                    printSymbol(Front, i, j, matrixStartRow, matrixStartCol);
-    
-                    if(j == size - 2) {
-                        j = 1;
-                        gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-                        greenSymbol(Front, i, j);
-                    } else {
-                        gotoxy(matrixStartCol + (++j)*2, matrixStartRow + i);
-                        greenSymbol(Front, i, j);
-                    }    
+                    printChar(Front, i, j, matrixStartRow, matrixStartCol);
+                    j == size - 2 ? j = 1 : ++j;
+                    printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
                     break;
     
-                case 'f': case 'F':    //Flags 
-                    if(Front[i][j] == '#') {
-                        if(Fcount < bombCount) {    
-                            ++Fcount;
-                            Front[i][j] = 'F';
-                            printSymbol(Front, i, j, matrixStartRow, matrixStartCol);
-                        }      
-                    } else if (Front[i][j] == 'F') {
-                        Front[i][j] = '#';
-                        gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-                        greenSymbol(Front, i, j);
+                case 'f': case 'F': //Flags 
+                    if(Front[i][j] == '#' && Fcount < bombCount) {    
+                        ++Fcount;
+                        Front[i][j] = 'F';
+                        printChar(Front, i, j, matrixStartRow, matrixStartCol);     
+                    } 
+                    else if (Front[i][j] == 'F') {
                         --Fcount;
+                        Front[i][j] = '#';
+                        printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
                     }
                     break;
 
                 case 10:  //10 = Enter
                     switch(Back[i][j]) {
                         case -1: //There is mine under cage
-                            Boom(Back, Front, size, &(*exitFromGame), &restart, matrixStartRow, matrixStartCol, &(*winRow), &(*winCol));
+                            Boom(Back, Front, size, &(*exitFromGame), &restart, &(*winRow), &(*winCol));
                             break;
                         case 0: //Empty cage
                             Empty(Back, Front, i, j, &Fcount, matrixStartRow, matrixStartCol);
-                            gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-                            greenSymbol(Front, i, j);
+                            printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
                             break;
                         default: //There is a number under cage
                             if(Back[i][j] != 10) {
@@ -472,3 +343,4 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool* e
 
 
 #endif
+
