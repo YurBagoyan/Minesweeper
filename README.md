@@ -12,7 +12,7 @@ A player should press <Enter> or <Space> a cell to uncover it. If a player uncov
 To win the game, players must uncover all non-mine cells, at which point, the timer is stopped. Flagging all the mined cells is not required.
   
   
-# Game Control
+# How To Play
 
 [ W ] - Up
   
