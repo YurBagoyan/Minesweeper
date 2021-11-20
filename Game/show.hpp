@@ -230,7 +230,7 @@ void Show_Win(int const size, int const rowCenter, int const colCenter, int cons
 
 //Cheat mode for easy play
 //When Gode mode is on, the user's nickname will not be added in records
-void GodeMode(int** Back, int const size)
+void Show_GodMode(int** Back, int const size)
 {
     for(int i = 1; i < size - 1; ++i) {
         for(int j = 1; j < size - 1; ++j) {
