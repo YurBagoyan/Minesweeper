@@ -6,12 +6,13 @@
 #include "input.hpp"
 #include "show.hpp"
 #include "preGame.hpp"
+#include "options.hpp"
  
-void selectedMenu(int const current, int* winRow, int* winCol)
+void selectedMenu(int const current, int* choosedLevel, bool* GodModeOn, int* soundsVolume, int* musicVolume, int* winRow, int* winCol)
 {
     switch(current) {
-        case 0: preGame(&(*winRow), &(*winCol)); break;     //Start
-        //case 1:                                
+        case 0: preGame(*choosedLevel, *GodModeOn, &(*winRow), &(*winCol)); break;     //Start
+        case 1: options(&(*choosedLevel), &(*GodModeOn), &(*soundsVolume), &(*musicVolume), &(*winRow), &(*winCol)); break; //Options                            
         //case 2:                                
         case 3: Show_About(&(*winRow), &(*winCol)); break;  //About
         case 4: system("clear"); exit(0); break;            //Exit
@@ -29,7 +30,7 @@ void printMenu(std::string* Menu, int const menuSize, int const menuStartRow, in
     std::cout << std::endl;
 }
 
-void Menu_choose(int* winRow, int* winCol)
+void Menu_choose(int* choosedLevel, bool* GodModeOn, int* soudnsVolume, int* musicVolume, int* winRow, int* winCol)
 {
     int const rowCenter = *winRow / 2 + 1;
     int const colCenter = *winCol / 2 + 1;
@@ -38,7 +39,7 @@ void Menu_choose(int* winRow, int* winCol)
     Show_GameName(colCenter - gameName, rowCenter - 11);
 
     int const menuSize = 5;
-    std::string Menu[menuSize] = { "Start", "Records", "Options", "About", "Exit" };
+    std::string Menu[menuSize] = { "Start", "Options", "Records", "About", "Exit" };
 
     int const menuStartRow = rowCenter - 2;
     int const menuStartCol = colCenter - 3; 
@@ -55,7 +56,7 @@ void Menu_choose(int* winRow, int* winCol)
         if (winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize) || returnToMenu) {
             break;
         }
-
+        
         int key = keypress();
         switch(key) {
             case 'w': case 'W':
@@ -79,7 +80,7 @@ void Menu_choose(int* winRow, int* winCol)
                 break;
             
             case 10:
-                selectedMenu(current, &(*winRow), &(*winCol));
+                selectedMenu(current, &(*choosedLevel), &(*GodModeOn), &(*soudnsVolume), &(*musicVolume), &(*winRow), &(*winCol));
                 returnToMenu = true;
                 break;
         }   

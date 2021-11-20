@@ -245,5 +245,5 @@ void Show_GodMode(int** Back, int const size)
     }   
 }
 
-
 #endif
+
