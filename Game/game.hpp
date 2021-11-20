@@ -20,7 +20,7 @@ void printGreenChar(char** Front, int const i, int const j, int const matrixStar
     int cursorColor = 3; //3 = green
     switch(Front[i][j]) {
         case 'X': colorCout("X", cursorColor); break; 
-        case 'F': colorCout("F", cursorColor); break; 
+        case 'F': colorCout("►", cursorColor); break; 
         case '#': colorCout("#", cursorColor); break;
         case ' ': colorCout("‒", cursorColor); break;
         case '1': colorCout("1", cursorColor); break;
@@ -48,7 +48,7 @@ void printChar(char** Front, int const i, int const j, int const matrixStartRow,
     //Print new character in its specific color
     switch(Front[i][j]) {
         case 'X': colorCout("X", 5); break;
-        case 'F': colorCout("F", 7); break;
+        case 'F': colorCout("►", 7); break;
         case ' ': std::cout << " ";  break;
         case '#': std::cout << "#";  break;
         case '1': colorCout("1", 4); break;
@@ -69,8 +69,6 @@ void showNewFront(char** Front, int const size, int const rowCenter, int const c
             printChar(Front, i, j, matrixStartRow, matrixStartCol);
         }
     }
-    int showControlStart = rowCenter*2 - 9;
-    Show_Control(rowCenter, colCenter, showControlStart);
 }
 
 //Checking for a win
@@ -104,11 +102,11 @@ void win(int** Back, char** Front, int const size, bool* restart, bool* exitFrom
 
         int const rowCenter = *winRow / 2 + 1;
         int const colCenter = *winCol / 2 + 1; 
-        int const matrixStartRow = rowCenter - size / 2; 
+        int const matrixStartRow = rowCenter - 4 - size / 2; 
         int const matrixStartCol = colCenter - size + 1; 
         
         //Show inscription WINNER
-        Show_Win(size, rowCenter, colCenter);
+        Show_Win(size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
         
         //Show matrix in new position if window size is changed
         showNewFront(Front, size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
@@ -198,13 +196,13 @@ void Boom(int **Back, char** Front, int const size, bool* exitFromGame, bool* re
 
         int const rowCenter = *winRow / 2 + 1;
         int const colCenter = *winCol / 2 + 1; 
-        int const matrixStartRow = rowCenter - size / 2; 
+        int const matrixStartRow = rowCenter - 4 - size / 2; 
         int const matrixStartCol = colCenter - size + 1; 
         
         //Show_Win(size, rowCenter, colCenter);
        
         //Show inscription Game Over
-        Show_GameOver(size, rowCenter, colCenter); 
+        Show_GameOver(size, rowCenter, colCenter, matrixStartRow, matrixStartCol); 
 
         //Show matrix in new position if window size is changed
         showNewFront(Front, size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
@@ -251,10 +249,10 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool* e
 
         int const rowCenter = *winRow / 2 + 1;
         int const colCenter = *winCol / 2 + 1;
-        int const matrixStartRow = rowCenter - size / 2; 
+        int const matrixStartRow = rowCenter - 4 - size / 2; 
         int const matrixStartCol = colCenter - size + 1; 
         
-        Show_Boards(size, rowCenter, colCenter, 11);
+        Show_Boards(size, matrixStartRow, matrixStartCol, 11);
         showNewFront(Front, size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
         Show_ExitRestart(rowCenter, colCenter, 4);
         printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
