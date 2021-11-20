@@ -62,12 +62,24 @@ void boundsOfMatrix(int** Back, char** Front, int const size)
     }
 }
 
-void mainPreGame(bool* exitFromGame, int* winRow, int* winCol)
+void level(int const choosedLevel, int* size, int* bombCount)
+{
+    switch(choosedLevel) {
+        case 1: *size = 10; *bombCount = 10; break;   //Beginner
+        case 2: *size = 12; *bombCount = 20; break;   //Veteran
+        case 3: *size = 14; *bombCount = 35; break;   //Expert
+        case 4: *size = 17; *bombCount = 50; break;   //Pro
+        case 5: *size = 20; *bombCount = 99; break;   //Master
+    }
+}
+
+void mainPreGame(int const choosedLevel, bool const GodModeOn, bool* exitFromGame, int* winRow, int* winCol)
 {
     srand(time(NULL));
     system("clear");
 
-    int const size = 12;
+    int size, bombCount;
+    level(choosedLevel, &size, &bombCount);
     int** Back = new int* [size];        //Back is a matrix with numbers
     char** Front = new char* [size];     //Front is a matrix that will see the user
 
@@ -82,15 +94,14 @@ void mainPreGame(bool* exitFromGame, int* winRow, int* winCol)
             Front[i][j] = '#';
         }
     }
-    
-    int const bombCount = 15;
+
     randomMines(Back, size, bombCount);
     addNumbers(Back, size);
     boundsOfMatrix(Back, Front, size);
             
     //The main game
     //This function is in game.hpp
-    game(Back, Front, size, bombCount, &(*exitFromGame), &(*winRow), &(*winCol));
+    game(Back, Front, size, bombCount, GodModeOn, &(*exitFromGame), &(*winRow), &(*winCol));
         
     //Deleting dinamic matrixes
     for(int i = 0; i < size; ++i) {
@@ -101,11 +112,11 @@ void mainPreGame(bool* exitFromGame, int* winRow, int* winCol)
     delete[] Front;
 }
 
-void preGame(int* winRow, int* winCol)
+void preGame(int const choosedLevel, bool const GodModeOn, int* winRow, int* winCol)
 {
     bool exitFromGame = false;
     while(!exitFromGame) {
-        mainPreGame(&exitFromGame, &(*winRow), &(*winCol));
+        mainPreGame(choosedLevel, GodModeOn, &exitFromGame, &(*winRow), &(*winCol));
     }
 }
 

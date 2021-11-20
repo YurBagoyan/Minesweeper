@@ -102,7 +102,7 @@ void win(int** Back, char** Front, int const size, bool* restart, bool* exitFrom
 
         int const rowCenter = *winRow / 2 + 1;
         int const colCenter = *winCol / 2 + 1; 
-        int const matrixStartRow = rowCenter - 4 - size / 2; 
+        int const matrixStartRow = rowCenter - 2 - size / 2; 
         int const matrixStartCol = colCenter - size + 1; 
         
         //Show inscription WINNER
@@ -196,7 +196,7 @@ void Boom(int **Back, char** Front, int const size, bool* exitFromGame, bool* re
 
         int const rowCenter = *winRow / 2 + 1;
         int const colCenter = *winCol / 2 + 1; 
-        int const matrixStartRow = rowCenter - 4 - size / 2; 
+        int const matrixStartRow = rowCenter - 2 - size / 2; 
         int const matrixStartCol = colCenter - size + 1; 
         
         //Show_Win(size, rowCenter, colCenter);
@@ -238,7 +238,8 @@ void Boom(int **Back, char** Front, int const size, bool* exitFromGame, bool* re
 }
 
 //Main game
-void game(int** Back, char** Front, int const size, int const bombCount, bool* exitFromGame, int* winRow, int* winCol)
+void game(int** Back, char** Front, int const size, int const bombCount, bool const GodModeOn, bool* exitFromGame, int* winRow, int* winCol)
+    
 {
     bool restart = false;
     int i = 1, j = 1, Fcount = 0;
@@ -247,7 +248,6 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool* e
             break;
         }
 
-        bool GodModeOn = true;
         if(GodModeOn) {
             Show_GodMode(Back, size);
         }
@@ -255,7 +255,7 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool* e
 
         int const rowCenter = *winRow / 2 + 1;
         int const colCenter = *winCol / 2 + 1;
-        int const matrixStartRow = rowCenter - 4 - size / 2; 
+        int const matrixStartRow = rowCenter - 2 - size / 2; 
         int const matrixStartCol = colCenter - size + 1; 
         
         Show_Boards(size, matrixStartRow, matrixStartCol, 11);
