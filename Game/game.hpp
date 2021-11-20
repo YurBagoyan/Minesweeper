@@ -247,6 +247,12 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool* e
             break;
         }
 
+        bool GodModeOn = true;
+        if(GodModeOn) {
+            Show_GodMode(Back, size);
+        }
+
+
         int const rowCenter = *winRow / 2 + 1;
         int const colCenter = *winCol / 2 + 1;
         int const matrixStartRow = rowCenter - 4 - size / 2; 
@@ -256,7 +262,8 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool* e
         showNewFront(Front, size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
         Show_ExitRestart(rowCenter, colCenter, 4);
         printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
-    
+
+           
         cbreak();
         while(true) {
             int const minWinRowSize = 28, minWinColSize = 82;      
