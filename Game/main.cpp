@@ -20,9 +20,10 @@ int main()
     }
 
     int choosedLevel = 1, soundsVolume = 10, musicVolume = 10, current = 0;
+    int customSize = 5, customBombCount = 1;
     bool GodModeOn = false;
     while(true) {
-        Menu_choose(&current, &choosedLevel, &GodModeOn, &soundsVolume, &musicVolume, &winRow, &winCol);
+        Menu_choose(&current, &customSize, &customBombCount, &choosedLevel, &GodModeOn, &soundsVolume, &musicVolume, &winRow, &winCol);
     }
 }
 
