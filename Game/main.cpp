@@ -19,10 +19,10 @@ int main()
         usleep(125000);
     }
 
-    int choosedLevel = 1, soundsVolume = 10, musicVolume = 10;
+    int choosedLevel = 1, soundsVolume = 10, musicVolume = 10, current = 0;
     bool GodModeOn = false;
     while(true) {
-        Menu_choose(&choosedLevel, &GodModeOn, &soundsVolume, &musicVolume, &winRow, &winCol);
+        Menu_choose(&current, &choosedLevel, &GodModeOn, &soundsVolume, &musicVolume, &winRow, &winCol);
     }
 }
 
