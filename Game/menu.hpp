@@ -11,26 +11,31 @@
 void selectedMenu(int const current, int* choosedLevel, bool* GodModeOn, int* soundsVolume, int* musicVolume, int* winRow, int* winCol)
 {
     switch(current) {
-        case 0: preGame(*choosedLevel, *GodModeOn, &(*winRow), &(*winCol)); break;     //Start
-        case 1: options(&(*choosedLevel), &(*GodModeOn), &(*soundsVolume), &(*musicVolume), &(*winRow), &(*winCol)); break; //Options                            
-        //case 2:                                
-        case 3: Show_About(&(*winRow), &(*winCol)); break;  //About
-        case 4: system("clear"); exit(0); break;            //Exit
+        //Start
+        case 0: preGame(*choosedLevel, *GodModeOn, &(*winRow), &(*winCol)); break;
+        //Options
+        case 1: options(&(*choosedLevel), &(*GodModeOn), &(*soundsVolume), &(*musicVolume), &(*winRow), &(*winCol)); break;
+        //case 2:
+        //About
+        case 3: Show_About(&(*winRow), &(*winCol)); break;
+        //Exit
+        case 4: system("clear"); exit(0); break;
     }
 }
 
-void printMenu(std::string* Menu, int const menuSize, int const menuStartRow, int const menuStartCol)
+void printMenu(std::string* Menu, int const menuSize, int const current, int const menuStartRow, int const menuStartCol)
 {
     gotoxy(menuStartCol, menuStartRow);
-    colorCout(Menu[0], 3);
-    for(int i = 1; i < menuSize; ++i) {
+    for(int i = 0; i < menuSize; ++i) {
         gotoxy(menuStartCol, menuStartRow + i);
         std::cout << Menu[i];                                
     }
+    gotoxy(menuStartCol, menuStartRow + current);
+    colorCout(Menu[current], 3);
     std::cout << std::endl;
 }
 
-void Menu_choose(int* choosedLevel, bool* GodModeOn, int* soudnsVolume, int* musicVolume, int* winRow, int* winCol)
+void Menu_choose(int* current, int* choosedLevel, bool* GodModeOn, int* soudnsVolume, int* musicVolume, int* winRow, int* winCol)
 {
     int const rowCenter = *winRow / 2 + 1;
     int const colCenter = *winCol / 2 + 1;
@@ -43,11 +48,10 @@ void Menu_choose(int* choosedLevel, bool* GodModeOn, int* soudnsVolume, int* mus
 
     int const menuStartRow = rowCenter - 2;
     int const menuStartCol = colCenter - 3; 
-    printMenu(Menu, menuSize, menuStartRow, menuStartCol);
+    printMenu(Menu, menuSize, *current, menuStartRow, menuStartCol);
    
     //Need when the user will return to the menu
     bool returnToMenu = false;
-    int current = 0;
 
     cbreak();
     while(true) {
@@ -60,27 +64,27 @@ void Menu_choose(int* choosedLevel, bool* GodModeOn, int* soudnsVolume, int* mus
         int key = keypress();
         switch(key) {
             case 'w': case 'W':
-                gotoxy(menuStartCol, menuStartRow + current);
-                std::cout << Menu[current];
+                gotoxy(menuStartCol, menuStartRow + *current);
+                std::cout << Menu[*current];
 
-                current == 0 ? current = menuSize - 1 : --current;
+                *current == 0 ? *current = menuSize - 1 : --(*current);
 
-                gotoxy(menuStartCol, menuStartRow + current);
-                colorCout(Menu[current], 3);
+                gotoxy(menuStartCol, menuStartRow + *current);
+                colorCout(Menu[*current], 3);
                 break;
                     
             case 's': case 'S':    
-                gotoxy(menuStartCol, menuStartRow + current);
-                std::cout << Menu[current];
+                gotoxy(menuStartCol, menuStartRow + *current);
+                std::cout << Menu[*current];
                 
-                current == menuSize - 1 ? current = 0 : ++current;
+                *current == menuSize - 1 ? *current = 0 : ++(*current);
 
-                gotoxy(menuStartCol, menuStartRow + current);
-                colorCout(Menu[current], 3);
+                gotoxy(menuStartCol, menuStartRow + *current);
+                colorCout(Menu[*current], 3);
                 break;
             
             case 10:
-                selectedMenu(current, &(*choosedLevel), &(*GodModeOn), &(*soudnsVolume), &(*musicVolume), &(*winRow), &(*winCol));
+                selectedMenu(*current, &(*choosedLevel), &(*GodModeOn), &(*soudnsVolume), &(*musicVolume), &(*winRow), &(*winCol));
                 returnToMenu = true;
                 break;
         }   
