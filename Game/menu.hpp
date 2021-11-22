@@ -8,14 +8,15 @@
 #include "preGame.hpp"
 #include "options.hpp"
  
-void selectedMenu(int const current, int* choosedLevel, bool* GodModeOn, int* soundsVolume, int* musicVolume, int* winRow, int* winCol)
+void selectedMenu(int const current, int* customSize, int* customBombCount, int* choosedLevel, bool* GodModeOn, int* soundsVolume, int* musicVolume, int* winRow, int* winCol)
 {
     switch(current) {
         //Start
-        case 0: preGame(*choosedLevel, *GodModeOn, &(*winRow), &(*winCol)); break;
+        case 0: preGame(*customSize, *customBombCount, *choosedLevel, *GodModeOn, &(*winRow), &(*winCol)); break;
         //Options
-        case 1: options(&(*choosedLevel), &(*GodModeOn), &(*soundsVolume), &(*musicVolume), &(*winRow), &(*winCol)); break;
-        //case 2:
+        case 1: options(&(*customSize), &(*customBombCount), &(*choosedLevel), &(*GodModeOn), &(*soundsVolume), &(*musicVolume), &(*winRow), &(*winCol)); break;
+        //Records
+        case 2: break;
         //About
         case 3: Show_About(&(*winRow), &(*winCol)); break;
         //Exit
@@ -35,7 +36,7 @@ void printMenu(std::string* Menu, int const menuSize, int const current, int con
     std::cout << std::endl;
 }
 
-void Menu_choose(int* current, int* choosedLevel, bool* GodModeOn, int* soudnsVolume, int* musicVolume, int* winRow, int* winCol)
+void Menu_choose(int* current, int* customSize, int* customBombCount, int* choosedLevel, bool* GodModeOn, int* soudnsVolume, int* musicVolume, int* winRow, int* winCol)
 {
     int const rowCenter = *winRow / 2 + 1;
     int const colCenter = *winCol / 2 + 1;
@@ -84,7 +85,7 @@ void Menu_choose(int* current, int* choosedLevel, bool* GodModeOn, int* soudnsVo
                 break;
             
             case 10:
-                selectedMenu(*current, &(*choosedLevel), &(*GodModeOn), &(*soudnsVolume), &(*musicVolume), &(*winRow), &(*winCol));
+                selectedMenu(*current, &(*customSize), &(*customBombCount), &(*choosedLevel), &(*GodModeOn), &(*soudnsVolume), &(*musicVolume), &(*winRow), &(*winCol));
                 returnToMenu = true;
                 break;
         }   
