@@ -20,7 +20,7 @@ void selectedMenu(int const current, int* customSize, int* customBombCount, int*
         //About
         case 3: Show_About(&(*winRow), &(*winCol)); break;
         //Exit
-        case 4: system("clear"); exit(0); break;
+        case 4: normal(); system("clear"); exit(0); break;
     }
 }
 
