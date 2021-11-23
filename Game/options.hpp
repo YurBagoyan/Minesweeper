@@ -181,7 +181,7 @@ void options(int* customSize, int* customBombCount, int* choosedLevel, bool* God
 
         std::string custom[2] = { "Custom size: ", "Custom bomb count: " };
 
-        std::string levelInfo[5] = {  " Size = 8x8,   Mines = 10", // Beginnger
+        std::string levelInfo[5] = {  "   Size = 8x8, Mines = 10", // Beginnger
                                       " Size = 10x10, Mines = 20", // Veteran
                                       " Size = 12x12, Mines = 35", // Expert
                                       " Size = 15x15, Mines = 50", // Pro
@@ -273,7 +273,7 @@ void options(int* customSize, int* customBombCount, int* choosedLevel, bool* God
                 case 'a': case 'A':
                     gotoxy(optionsStartCol + 8, optionsStartRow + current);
 
-                    if(current == 6 && soundsVolume > 0) {
+                    if(current == 6 && *soundsVolume > 0) {
                         std::cout << volume[--(*soundsVolume)] << std::endl;
                     }
                     else if(current == 7 && *musicVolume > 0) {
