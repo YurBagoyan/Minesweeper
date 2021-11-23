@@ -50,7 +50,7 @@ void printOptions(std::string* options, std::string* volume, std::string* custom
     colorCout(custom[1], 7);
 
     //Print custom size
-    int const customNumberStartCol = customStartCol + 19;
+    int const customNumberStartCol = customStartCol + 20;
     gotoxy(customNumberStartCol, customStartRow);
     std::cout << customSize << std::endl;
     //Print custom bomb count
@@ -73,7 +73,7 @@ void customMode(std::string* custom, int* customSize, int* customBombCount, bool
     colorCout(custom[1], 7);
 
     //Print custom size
-    int const customNumberStartCol = customStartCol + 19;
+    int const customNumberStartCol = customStartCol + 20;
     gotoxy(customNumberStartCol, customStartRow);
     std::cout << *customSize << std::endl;
     //Print custom bomb count
@@ -124,6 +124,9 @@ void customMode(std::string* custom, int* customSize, int* customBombCount, bool
                 gotoxy(customNumberStartCol, customStartRow + current);
 
                 if(current == 0 && *customSize > 5) {
+                    std::cout << "  "; 
+                    gotoxy(customNumberStartCol, customStartRow + current);
+
                     std::cout << --(*customSize) << std::endl; 
                     if((*customSize)*(*customSize) < *customBombCount) {
                         *customBombCount = (*customSize)*(*customSize);
@@ -133,7 +136,9 @@ void customMode(std::string* custom, int* customSize, int* customBombCount, bool
                         std::cout << *customBombCount << std::endl;
                     }
                 }
-                else if (current == 1 && *customBombCount > 1) {  
+                else if (current == 1 && *customBombCount > 1) {   
+                    std::cout << "  "; 
+                    gotoxy(customNumberStartCol, customStartRow + current);
                     std::cout << --(*customBombCount) << std::endl;
                 }
                 break;
@@ -153,7 +158,6 @@ void customMode(std::string* custom, int* customSize, int* customBombCount, bool
                 }
                 break;
         }
-
     }
 }
 
