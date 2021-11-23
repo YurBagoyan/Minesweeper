@@ -92,6 +92,9 @@ void Show_About(int* winRow, int* winCol)
         gotoxy(colCenter - textColSize, aboutStart + 5);
         std::cout << "been written for many computing platforms in use today. It has many variations and offshoots.\n";  
         
+        gotoxy(colCenter - textColSize + 10, aboutStart + 6);
+        colorCout("‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗", 4);
+
         int const gamePlayStart = 11;
         gotoxy(colCenter - 4, gamePlayStart);
         colorCout("Gameplay", 4);
@@ -122,10 +125,12 @@ void Show_About(int* winRow, int* winCol)
         gotoxy(colCenter - textColSize, gamePlayStart + 14);
         std::cout << "the timer is stopped. Flagging all the mined cells is not required.";
         
+        gotoxy(colCenter - textColSize + 10, gamePlayStart + 15);
+        colorCout("‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗", 4);
+        
         int const showControlRowStart = gamePlayStart + 17;
         int const showControlColStart = colCenter - 21;
         Show_Control(showControlRowStart, showControlColStart);
-
         
         gotoxy(colCenter - 16, rowCenter*2 - 2);
         colorCout("Press Esc to return to MAIN MENU", 7);
