@@ -6,7 +6,7 @@
 
 #include "input.hpp"
 
-void Show_GameName(int const printCol, int const printRow)    //Print Game Name
+void Show_GameName(int const printCol, int const printRow)    
 { 
     system("clear");
     
@@ -36,6 +36,7 @@ void Show_GameName(int const printCol, int const printRow)    //Print Game Name
 
 }
 
+//Press Ecs or Restart
 void Show_ExitRestart(int const rowCenter, int const colCenter, int const color)
 {
     int const showExitStart = rowCenter*2 - 4;
@@ -52,6 +53,7 @@ void Show_ExitRestart(int const rowCenter, int const colCenter, int const color)
     colorCout("MAIN MENU", color);
 }
 
+//How to play
 void Show_Control( int const showControlRowStart, int const showControlColStart) 
 {   
     gotoxy(showControlColStart + 15, showControlRowStart);
@@ -152,6 +154,7 @@ void Show_About(int* winRow, int* winCol)
     }
 }
 
+//Boards of playing field
 void Show_Boards(int const size, int const matrixStartRow, int const matrixStartCol, int const color)
 {
     for(int i = 0; i < size-1; ++i) {
@@ -173,7 +176,7 @@ void Show_Boards(int const size, int const matrixStartRow, int const matrixStart
 
 void Show_GameOver(int const size ,int const rowCenter, int const colCenter, int const matrixStartRow, int const matrixStartCol)
 {   
-    int gameOverColor = 5; //5 = red
+    int const gameOverColor = 5; //5 = red
 
     //Print red boards and letters because user is lose
     Show_ExitRestart(rowCenter, colCenter, gameOverColor);
@@ -181,30 +184,18 @@ void Show_GameOver(int const size ,int const rowCenter, int const colCenter, int
 
     int const textColSize = 21, gameOverStart = 2;
     gotoxy(colCenter - textColSize, gameOverStart);
-    colorCout("██████████████████████████████████████████", gameOverColor);
-
-    gotoxy(colCenter - textColSize, gameOverStart + 1);
-    colorCout("█────█────█─███─█───████────█─█─█───█────█", gameOverColor);
-
-    gotoxy(colCenter - textColSize, gameOverStart + 2);
-    colorCout("█─████─██─█──█──█─██████─██─█─█─█─███─██─█", gameOverColor);
-
-    gotoxy(colCenter - textColSize, gameOverStart + 3);
-    colorCout("█─█──█────█─█─█─█───████─██─█─█─█───█────█", gameOverColor);
-
-    gotoxy(colCenter - textColSize, gameOverStart + 4);
-    colorCout("█─██─█─██─█─███─█─██████─██─█───█─███─█─██", gameOverColor);
-
-    gotoxy(colCenter - textColSize, gameOverStart + 5);
-    colorCout("█────█─██─█─███─█───████────██─██───█─█─██", gameOverColor);
-
-    gotoxy(colCenter - textColSize, gameOverStart + 6);
+    colorCout("██████████████████████████████████████████", gameOverColor); gotoxy(colCenter - textColSize, gameOverStart + 1);
+    colorCout("█────█────█─███─█───████────█─█─█───█────█", gameOverColor); gotoxy(colCenter - textColSize, gameOverStart + 2);
+    colorCout("█─████─██─█──█──█─██████─██─█─█─█─███─██─█", gameOverColor); gotoxy(colCenter - textColSize, gameOverStart + 3);
+    colorCout("█─█──█────█─█─█─█───████─██─█─█─█───█────█", gameOverColor); gotoxy(colCenter - textColSize, gameOverStart + 4);
+    colorCout("█─██─█─██─█─███─█─██████─██─█───█─███─█─██", gameOverColor); gotoxy(colCenter - textColSize, gameOverStart + 5);
+    colorCout("█────█─██─█─███─█───████────██─██───█─█─██", gameOverColor); gotoxy(colCenter - textColSize, gameOverStart + 6);
     colorCout("██████████████████████████████████████████", gameOverColor);
 }
 
 void Show_Win(int const size, int const rowCenter, int const colCenter, int const matrixStartRow, int const matrixStartCol)
 {   
-    int winColor = 10; //10 = bright green 
+    int const winColor = 10; //10 = bright green 
 
     //Print green boards and letters because user is win
     Show_ExitRestart(rowCenter, colCenter, winColor);
@@ -212,25 +203,13 @@ void Show_Win(int const size, int const rowCenter, int const colCenter, int cons
 
     int const textColSize = 21, winStart = 2;
     gotoxy(colCenter - textColSize, winStart);
-    colorCout("██████████████████████████████████████████", winColor);
-
-    gotoxy(colCenter - textColSize, winStart + 1);
-    colorCout("█─███─█───█─██─█─██─█───█────███████─█─█─█", winColor);
-
-    gotoxy(colCenter - textColSize, winStart + 2);
-    colorCout("█─███─██─██──█─█──█─█─███─██─███████─█─█─█", winColor);
-
-    gotoxy(colCenter - textColSize, winStart + 3);
-    colorCout("█─█─█─██─██─█──█─█──█───█────███████─█─█─█", winColor);
-
-    gotoxy(colCenter - textColSize, winStart + 4);
-    colorCout("█─────██─██─██─█─██─█─███─█─██████████████", winColor);
-
-    gotoxy(colCenter - textColSize, winStart + 5);
-    colorCout("██─█─██───█─██─█─██─█───█─█─████████─█─█─█", winColor);
-
-    gotoxy(colCenter - textColSize, winStart + 6);
-    colorCout("██████████████████████████████████████████", winColor);
+    colorCout("██████████████████████████████████████████", winColor); gotoxy(colCenter - textColSize, winStart + 1);
+    colorCout("█─███─█───█─██─█─██─█───█────███████─█─█─█", winColor); gotoxy(colCenter - textColSize, winStart + 2);
+    colorCout("█─███─██─██──█─█──█─█─███─██─███████─█─█─█", winColor); gotoxy(colCenter - textColSize, winStart + 3);
+    colorCout("█─█─█─██─██─█──█─█──█───█────███████─█─█─█", winColor); gotoxy(colCenter - textColSize, winStart + 4);
+    colorCout("█─────██─██─██─█─██─█─███─█─██████████████", winColor); gotoxy(colCenter - textColSize, winStart + 5);  
+    colorCout("██─█─██───█─██─█─██─█───█─█─████████─█─█─█", winColor); gotoxy(colCenter - textColSize, winStart + 6);
+    colorCout("██████████████████████████████████████████", winColor); 
 }
 
 //Cheat mode for easy play
@@ -248,6 +227,99 @@ void Show_GodMode(int** Back, int const size)
             }
         }   
     }   
+}
+
+///Levels
+
+void Show_Beginner(int const rowCenter, int const colCenter)
+{
+    int const easyColor = 3, textSize = 49;
+    int const beginnerStartRow = rowCenter;
+    int const beginnerStartCol = colCenter - textSize/2;
+
+    gotoxy(beginnerStartRow, beginnerStartCol);
+    colorCout(" ______               _                                  ", easyColor); gotoxy(beginnerStartRow, beginnerStartCol + 1);
+    colorCout(" | ___ \\             (_)                                ", easyColor); gotoxy(beginnerStartRow, beginnerStartCol + 2);
+    colorCout(" | |_/ /  ___   __ _  _  _ __   _ __    ___  _ __        ", easyColor); gotoxy(beginnerStartRow, beginnerStartCol + 3);
+    colorCout(" | ___ \\ / _ \\ / _` || || '_ \\ | '_ \\  / _ \\| '__|  ", easyColor); gotoxy(beginnerStartRow, beginnerStartCol + 4);
+    colorCout(" | |_/ /|  __/| (_| || || | | || | | ||  __/| |          ", easyColor); gotoxy(beginnerStartRow, beginnerStartCol + 5);
+    colorCout(" \\____/  \\___| \\__, ||_||_| |_||_| |_| \\___||_|      ", easyColor); gotoxy(beginnerStartRow, beginnerStartCol + 6);
+    colorCout("                __/ |                                    ", easyColor); gotoxy(beginnerStartRow, beginnerStartCol + 7);
+    colorCout("               |___/                                     ", easyColor);
+}
+
+void Show_Veteran(int const rowCenter, int const colCenter)
+{
+    int const veteranColor = 3, textSize = 46;
+    int const veteranStartRow = rowCenter;
+    int const veteranStartCol = colCenter - textSize/2;
+
+    gotoxy(veteranStartCol, veteranStartRow);
+    colorCout("  _   _        _                                     ", veteranColor); gotoxy(veteranStartCol, veteranStartRow + 1);
+    colorCout(" | | | |      | |                                    ", veteranColor); gotoxy(veteranStartCol, veteranStartRow + 2);
+    colorCout(" | | | |  ___ | |_   ___  _ __   __ _  _ __          ", veteranColor); gotoxy(veteranStartCol, veteranStartRow + 3);
+    colorCout(" | | | | / _ \\| __| / _ \\| '__| / _` || '_ \\      ", veteranColor); gotoxy(veteranStartCol, veteranStartRow + 4);
+    colorCout(" \\ \\_/ /|  __/| |_ |  __/| |   | (_| || | | |      ", veteranColor); gotoxy(veteranStartCol, veteranStartRow + 5);
+    colorCout("  \\___/  \\___| \\__| \\___||_|    \\__,_||_| |_|   ", veteranColor);
+}
+
+void Show_Expert(int const rowCenter, int const colCenter)
+{
+    int const expertColor = 3, textSize = 40;
+    int const expertStartRow = rowCenter;
+    int const expertStartCol = colCenter - textSize/2;
+
+    gotoxy(expertStartCol, expertStartRow);
+    colorCout("  _____                           _          ", expertColor);  gotoxy(expertStartCol, expertStartRow + 1);
+    colorCout(" |  ___|                         | |         ", expertColor);  gotoxy(expertStartCol, expertStartRow + 2);
+    colorCout(" | |__  __  __ _ __    ___  _ __ | |_        ", expertColor);  gotoxy(expertStartCol, expertStartRow + 3);
+    colorCout(" |  __| \\ \\/ /| '_ \\  / _ \\| '__|| __|   ", expertColor);  gotoxy(expertStartCol, expertStartRow + 4);
+    colorCout(" | |___  >  < | |_) ||  __/| |   | |_        ", expertColor);  gotoxy(expertStartCol, expertStartRow + 5);
+    colorCout(" \\____/ /_/\\_\\| .__/  \\___||_|    \\__|  ", expertColor);  gotoxy(expertStartCol, expertStartRow + 6);
+    colorCout("              | |                            ", expertColor);  gotoxy(expertStartCol, expertStartRow + 7);
+    colorCout("              |_|                            ", expertColor);
+
+}
+
+void Show_Pro(int const rowCenter, int const colCenter)
+{   
+    int const proColor = 3, textSize = 20;
+    int const proStartRow = rowCenter;
+    int const proStartCol = colCenter - textSize/2;
+
+    gotoxy(proStartCol, proStartRow);
+    colorCout(" ______                  ", proColor); gotoxy(proStartCol, proStartRow + 1);
+    colorCout(" | ___ \\                ", proColor); gotoxy(proStartCol, proStartRow + 2);
+    colorCout(" | |_/ / _ __   ___      ", proColor); gotoxy(proStartCol, proStartRow + 3);
+    colorCout(" |  __/ | '__| / _ \\    ", proColor); gotoxy(proStartCol, proStartRow + 4);
+    colorCout(" | |    | |   | (_) |    ", proColor); gotoxy(proStartCol, proStartRow + 5);
+    colorCout(" \\_|    |_|    \\___/   ", proColor);
+}
+
+void Show_Master(int const rowCenter, int const colCenter)
+{
+    int const masterColor = 3, textSize = 38;
+    int const masterStartRow = rowCenter;
+    int const masterStartCol = colCenter - textSize/2;
+
+    gotoxy(masterStartCol, masterStartRow);
+    colorCout(" ___  ___             _                  ", masterColor); gotoxy(masterStartCol, masterStartRow + 1);
+    colorCout(" |  \\/  |            | |                ", masterColor); gotoxy(masterStartCol, masterStartRow + 2);
+    colorCout(" | .  . |  __ _  ___ | |_   ___  _ __    ", masterColor); gotoxy(masterStartCol, masterStartRow + 3);
+    colorCout(" | |\\/| | / _` |/ __|| __| / _ \\| '__| ", masterColor); gotoxy(masterStartCol, masterStartRow + 4);
+    colorCout(" | |  | || (_| |\\__ \\| |_ |  __/| |    ", masterColor); gotoxy(masterStartCol, masterStartRow + 5);
+    colorCout(" \\_|  |_/ \\__,_||___/ \\__| \\___||_|  ", masterColor);
+}
+
+void Show_levelName(int const level, int const rowCenter, int const colCenter)
+{
+    switch(level) {
+        case 1: Show_Beginner(rowCenter, colCenter); break;
+        case 2: Show_Veteran(rowCenter, colCenter);  break;
+        case 3: Show_Expert(rowCenter, colCenter);   break;
+        case 4: Show_Pro(rowCenter, colCenter);      break;
+        case 5: Show_Master(rowCenter, colCenter);   break;
+    }
 }
 
 #endif
