@@ -41,7 +41,7 @@ void Menu_choose(int* current, int* customSize, int* customBombCount, int* choos
     int const rowCenter = *winRow / 2 + 1;
     int const colCenter = *winCol / 2 + 1;
 
-    int const gameName = 67;
+    int const gameName = 62;
     Show_GameName(colCenter - gameName, rowCenter - 11);
 
     int const menuSize = 5;

@@ -13,7 +13,7 @@ int main()
     int const colCenter = winCol / 2 + 1;
 
     //Gamename animation
-    int const gameName = 67;
+    int const gameName = 62;
     for(int i = 0; i <= rowCenter - 12; ++i) {
         Show_GameName(colCenter - gameName, i);
         usleep(125000);
