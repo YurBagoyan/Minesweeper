@@ -223,7 +223,7 @@ void Show_GodMode(int** Back, int const size)
 
             switch(Back[i][j]) {
                 case  -1: std::cout << "\x1b[31;1m" << std::setw(3) << "X" << "\x1b[0m\n"; break;
-                case   0: std::cout << std::setw(3) << "-"; break;
+                case   0: case 10: std::cout << std::setw(3) << "-"; break;
                 default : std::cout << std::setw(3) << Back[i][j]; break;  
             }
         }   

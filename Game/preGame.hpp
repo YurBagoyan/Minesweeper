@@ -11,6 +11,7 @@
 //Choose the random cage and add there mine
 void randomMines(int** Back, int const size, int bombCount)
 {   
+    srand(time(NULL));
     int const min = 1, max = size - 1;
     while (bombCount != 0) {
         int i = min + rand() % (max - min);
@@ -75,8 +76,7 @@ void level(int const choosedLevel, int* size, int* bombCount, int const customSi
 }
 
 void mainPreGame(int const customSize, int const customBombCount, int const choosedLevel, bool const GodModeOn, bool* exitFromGame, int* winRow, int* winCol)
-{
-    srand(time(NULL));
+{ 
     system("clear");
 
     int size, bombCount;

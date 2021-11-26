@@ -271,11 +271,7 @@ void pause(bool* exitToMenu, bool* returnToGame, int* winRow, int* winCol)
 
 //Main game
 void game(int** Back, char** Front, int const size, int const bombCount, bool const GodModeOn, bool* exitToMenu, int* winRow, int* winCol)  
-{
-    if(GodModeOn) {
-        Show_GodMode(Back, size);
-    }
-
+{    
     bool restart = false;
     int i = 1, j = 1, Fcount = 0;
 
@@ -284,6 +280,10 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool co
 
         if(*exitToMenu || restart) {
             break;
+        }
+
+        if(GodModeOn) {
+            Show_GodMode(Back, size);
         }
 
         int const rowCenter = *winRow / 2 + 1;
