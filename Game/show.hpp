@@ -134,6 +134,9 @@ void Show_About(int* winRow, int* winCol)
         int const showControlRowStart = gamePlayStart + 17;
         int const showControlColStart = colCenter - 21;
         Show_Control(showControlRowStart, showControlColStart);
+
+        gotoxy(showControlColStart - 20, showControlRowStart + 10); 
+        colorCout("‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗", 4);
         
         gotoxy(colCenter - 16, rowCenter*2 - 2);
         colorCout("Press Esc to return to MAIN MENU", 7);
@@ -228,6 +231,25 @@ void Show_GodMode(int** Back, int const size)
             }
         }   
     }   
+}
+
+void Show_Timer(std::time_t beginTime, int const size, int const matrixStartRow, int const matrixStartCol)
+{   
+    std::time_t currentTime = std::time(nullptr);
+    int const time = currentTime - beginTime;
+
+    int const timerStartCol = matrixStartCol + 8 + 2*size; 
+    int const timerStartRow = matrixStartRow + 1;
+    
+    gotoxy(timerStartCol - 2, timerStartRow);
+    colorCout("T I M E\t\t\t\t\n", 7);
+
+    int const hours = time / 3600;
+    int const min = (time % 3600) / 60;
+    int const sec = (time % 3600) % 60;
+
+    gotoxy(timerStartCol - 5, timerStartRow + 1);
+    std::cout << std::setw(2) << hours << " : " << std::setw(2) << min << " : " << std::setw(2) << sec << "\t\t\t\t\n";         
 }
 
 ///Levels
