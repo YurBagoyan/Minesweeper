@@ -2,6 +2,7 @@
 #define GAME
 
 #include <iostream>
+#include <ctime>
 
 #include "input.hpp"
 #include "show.hpp"
@@ -237,9 +238,10 @@ void Boom(int **Back, char** Front, int const size, bool* exitToMenu, bool* rest
     }
 }
 
-void pause(bool* exitToMenu, bool* returnToGame, int* winRow, int* winCol)
+void pause(bool* exitToMenu, bool* returnToGame, int* pauseTime, int* winRow, int* winCol)
 {
-    while(true) {
+    std::time_t pauseStart = std::time(nullptr);
+       while(true) {
         if(*exitToMenu || *returnToGame) {
             break;
         }
@@ -251,13 +253,15 @@ void pause(bool* exitToMenu, bool* returnToGame, int* winRow, int* winCol)
        
         cbreak();
         while(true) {
-            int const minWinRowSize = 28, minWinColSize = 82; 
+            int const minWinRowSize = 30, minWinColSize = 82; 
             if(winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize)) {
                 break;
             }
 
             int key = keypress();
             if(key == 'p' || key == 'P') { 
+                std::time_t currentTime = std::time(nullptr);
+                *pauseTime = currentTime - pauseStart;
                 *returnToGame = true;
                 break;
             }
@@ -272,6 +276,8 @@ void pause(bool* exitToMenu, bool* returnToGame, int* winRow, int* winCol)
 //Main game
 void game(int** Back, char** Front, int const size, int const bombCount, bool const GodModeOn, bool* exitToMenu, int* winRow, int* winCol)  
 {    
+    //Returns the current calendar time encoded as a std::time_t object
+    std::time_t beginTime = std::time(nullptr);
     bool restart = false;
     int i = 1, j = 1, Fcount = 0;
 
@@ -294,12 +300,11 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool co
         Show_Boards(size, matrixStartRow, matrixStartCol, 11);
         showNewFront(Front, size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
         Show_ExitRestart(rowCenter, colCenter, 4);
-        printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
+        printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);    
 
-           
         cbreak();
         while(true) {
-            int const minWinRowSize = 28, minWinColSize = 82;      
+            int const minWinRowSize = 30, minWinColSize = 82;      
             if(winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize) || returnToGame) {
                 break;
             }
@@ -308,6 +313,8 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool co
             if(isWin(Front, size, bombCount)) {
                 win(Back, Front, size, &restart, &(*exitToMenu), &(*winRow), &(*winCol));
             }
+
+            Show_Timer(beginTime, size, matrixStartRow, matrixStartCol);  
 
             int key = keypress();
             if(key == 'r' || key == 'R' || restart) {
@@ -320,8 +327,7 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool co
             }
             
             switch (key) {
-                case 'w': case 'W':
-                    //Print specific color of the charcter 
+                case 'w': case 'W': 
                     printChar(Front, i, j, matrixStartRow, matrixStartCol);
                     i == 1 ? i = size - 2 : --i;
                     printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
@@ -359,7 +365,9 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool co
                     break;
 
                 case 'p': case 'P':
-                    pause(&(*exitToMenu), &returnToGame, &(*winRow), &(*winCol));
+                    int pauseTime;
+                    pause(&(*exitToMenu), &returnToGame, &pauseTime, &(*winRow), &(*winCol));
+                    beginTime += pauseTime;
                     system("clear");
                     break;
 
