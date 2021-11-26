@@ -57,7 +57,7 @@ void Menu_choose(int* current, int* customSize, int* customBombCount, int* choos
     cbreak();
     while(true) {
         //Checking user windows size and change if it has changed
-        int const minWinRowSize = 23, minWinColSize = 132;
+        int const minWinRowSize = 11, minWinColSize = 132;
         if (winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize) || returnToMenu) {
             break;
         }
