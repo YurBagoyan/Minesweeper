@@ -93,10 +93,10 @@ bool isWin(char** Front, int const size, int const bombCount)
 }
 
 //Print after winning
-void win(int** Back, char** Front, int const size, bool* restart, bool* exitFromGame, int* winRow, int* winCol)
+void win(int** Back, char** Front, int const size, bool* restart, bool* exitToMenu, int* winRow, int* winCol)
 {
     while(true) {
-        if(*exitFromGame || *restart) {
+        if(*exitToMenu || *restart) {
             break;
         }
 
@@ -135,7 +135,7 @@ void win(int** Back, char** Front, int const size, bool* restart, bool* exitFrom
                 break; 
             }
             if(key == 27) {
-                *exitFromGame = true;
+                *exitToMenu = true;
                 break;
             }
         }
@@ -187,10 +187,10 @@ void Empty(int** Back, char** Front, int const i, int const j, int* Fcount, int 
 }
 
 //Game over, print all mines positions
-void Boom(int **Back, char** Front, int const size, bool* exitFromGame, bool* restart, int* winRow, int* winCol)
+void Boom(int **Back, char** Front, int const size, bool* exitToMenu, bool* restart, int* winRow, int* winCol)
 {   
     while(true) {
-         if(*exitFromGame || *restart) {
+         if(*exitToMenu || *restart) {
             break;
         }
 
@@ -230,7 +230,39 @@ void Boom(int **Back, char** Front, int const size, bool* exitFromGame, bool* re
                 break; 
             }
             if(key == 27) {
-                *exitFromGame = true;
+                *exitToMenu = true;
+                break;
+            }
+        }
+    }
+}
+
+void pause(bool* exitToMenu, bool* returnToGame, int* winRow, int* winCol)
+{
+    while(true) {
+        if(*exitToMenu || *returnToGame) {
+            break;
+        }
+
+        system("clear");
+        int const rowCenter = *winRow / 2 + 1;
+        int const colCenter = *winCol / 2 + 1;
+        Show_Pause(rowCenter, colCenter);
+       
+        cbreak();
+        while(true) {
+            int const minWinRowSize = 28, minWinColSize = 82; 
+            if(winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize)) {
+                break;
+            }
+
+            int key = keypress();
+            if(key == 'p' || key == 'P') { 
+                *returnToGame = true;
+                break;
+            }
+            else if(key == 27) { 
+                *exitToMenu = true;
                 break;
             }
         }
@@ -238,20 +270,21 @@ void Boom(int **Back, char** Front, int const size, bool* exitFromGame, bool* re
 }
 
 //Main game
-void game(int** Back, char** Front, int const size, int const bombCount, bool const GodModeOn, bool* exitFromGame, int* winRow, int* winCol)
-    
+void game(int** Back, char** Front, int const size, int const bombCount, bool const GodModeOn, bool* exitToMenu, int* winRow, int* winCol)  
 {
+    if(GodModeOn) {
+        Show_GodMode(Back, size);
+    }
+
     bool restart = false;
     int i = 1, j = 1, Fcount = 0;
+
     while(true) {
-        if(*exitFromGame || restart) {
+        bool returnToGame = false;
+
+        if(*exitToMenu || restart) {
             break;
         }
-
-        if(GodModeOn) {
-            Show_GodMode(Back, size);
-        }
-
 
         int const rowCenter = *winRow / 2 + 1;
         int const colCenter = *winCol / 2 + 1;
@@ -267,13 +300,13 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool co
         cbreak();
         while(true) {
             int const minWinRowSize = 28, minWinColSize = 82;      
-            if(winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize)) {
+            if(winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize) || returnToGame) {
                 break;
             }
 
             //Checking the game status
             if(isWin(Front, size, bombCount)) {
-                win(Back, Front, size, &restart, &(*exitFromGame), &(*winRow), &(*winCol));
+                win(Back, Front, size, &restart, &(*exitToMenu), &(*winRow), &(*winCol));
             }
 
             int key = keypress();
@@ -281,8 +314,8 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool co
                 restart = true;
                 break;
             }
-            if(key == 27 || *exitFromGame) {
-                *exitFromGame = true;
+            if(key == 27 || *exitToMenu) {
+                *exitToMenu = true;
                 break;
             }
             
@@ -325,10 +358,15 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool co
                     }
                     break;
 
-                case 10:  //10 = Enter
+                case 'p': case 'P':
+                    pause(&(*exitToMenu), &returnToGame, &(*winRow), &(*winCol));
+                    system("clear");
+                    break;
+
+                case 10: //10 = Enter
                     switch(Back[i][j]) {
                         case -1: //There is mine under cage
-                            Boom(Back, Front, size, &(*exitFromGame), &restart, &(*winRow), &(*winCol));
+                            Boom(Back, Front, size, &(*exitToMenu), &restart, &(*winRow), &(*winCol));
                             break;
                         case 0: //Empty cage
                             Empty(Back, Front, i, j, &Fcount, matrixStartRow, matrixStartCol);

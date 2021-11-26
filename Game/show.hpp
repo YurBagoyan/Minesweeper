@@ -9,30 +9,31 @@
 void Show_GameName(int const printCol, int const printRow)    
 { 
     system("clear");
+    int const gameNameColor = 5;
     
     gotoxy(printCol, printRow);
-    std::cout << "\x1b[31;1m" << "\t _____ ______   ___  ________   _______   ________  ___       __   _______   _______   ________  _______   ________     " << "\x1b[0m\n";
+    colorCout(R"(   _____ ______   ___  ________   _______   ________  ___       __   _______   _______   ________  _______   ________      )", gameNameColor);
     
     gotoxy(printCol, printRow + 1);
-    std::cout << "\x1b[31;1m" << "\t|\\   _ \\  _   \\|\\  \\|\\   ___  \\|\\  ___ \\ |\\   ____\\|\\  \\     |\\  \\|\\  ___ \\ |\\  ___ \\ |\\   __  \\|\\  ___ \\ |\\   __  \\    " << "\x1b[0m\n";
+    colorCout(R"(  |\   _ \  _   \|\  \|\   ___  \|\  ___ \ |\   ____\|\  \     |\  \|\  ___ \ |\  ___ \ |\   __  \|\  ___ \ |\   __  \     )", gameNameColor);
     
     gotoxy(printCol, printRow + 2);
-    std::cout << "\x1b[31;1m" << "\t\\ \\  \\\\\\__\\ \\  \\ \\  \\ \\  \\\\ \\  \\ \\   __/ \\ \\  \\___|\\ \\  \\    \\ \\  \\ \\   __/ \\ \\   __/ \\ \\  \\|\\  \\ \\   __/ \\ \\  \\|\\  \\   " << "\x1b[0m\n";
-     
-    gotoxy(printCol, printRow + 3);
-    std::cout << "\x1b[31;1m" << "\t \\ \\  \\\\|__| \\  \\ \\  \\ \\  \\\\ \\  \\ \\  \\_|  \\ \\_____  \\ \\  \\  __\\ \\  \\ \\  \\_|  \\ \\  \\_|  \\ \\   ____\\ \\  \\_|  \\ \\   _  _\\  " << "\x1b[0m\n";
+    colorCout(R"(  \ \  \\\__\ \  \ \  \ \  \\ \  \ \   __/ \ \  \___|\ \  \    \ \  \ \   __/ \ \   __/ \ \  \|\  \ \   __/ \ \  \|\  \    )", gameNameColor);
     
+    gotoxy(printCol, printRow + 3);
+    colorCout(R"(   \ \  \\|__| \  \ \  \ \  \\ \  \ \  \_| _\ \_____  \ \  \  __\ \  \ \  \_| _\ \  \_| _\ \   ____\ \  \_| _\ \   _  _\   )", gameNameColor);
+  
     gotoxy(printCol, printRow + 4);
-    std::cout << "\x1b[31;1m" << "\t  \\ \\  \\    \\ \\  \\ \\  \\ \\  \\\\ \\  \\ \\  \\_|\\ \\|____|\\  \\ \\  \\|\\__\\_\\  \\ \\  \\_|\\ \\ \\  \\_|\\ \\ \\  \\___|\\ \\  \\_|\\ \\ \\  \\\\  \\| " << "\x1b[0m\n";
+    colorCout(R"(    \ \  \    \ \  \ \  \ \  \\ \  \ \  \_|\ \|____|\  \ \  \|\__\_\  \ \  \_|\ \ \  \_|\ \ \  \___|\ \  \_|\ \ \  \\  \|  )", gameNameColor);
     
     gotoxy(printCol, printRow + 5);
-    std::cout << "\x1b[31;1m" << "\t   \\ \\__\\    \\ \\__\\ \\__\\ \\__\\\\ \\__\\ \\_______\\____\\_\\  \\ \\____________\\ \\_______\\ \\_______\\ \\__\\    \\ \\_______\\ \\__\\\\ _\\ " << "\x1b[0m\n";
+    colorCout(R"(     \ \__\    \ \__\ \__\ \__\\ \__\ \_______\____\_\  \ \____________\ \_______\ \_______\ \__\    \ \_______\ \__\\ _\  )", gameNameColor);
      
     gotoxy(printCol, printRow + 6);
-    std::cout << "\x1b[31;1m" << "\t    \\|__|     \\|__|\\|__|\\|__| \\|__|\\|_______|\\_________\\|____________|\\|_______|\\|_______|\\|__|     \\|_______|\\|__|\\|__|" << "\x1b[0m\n";
-    
-    gotoxy(printCol, printRow + 7);
-    std::cout << "\x1b[31;1m" << "\t                                            \\|_________|                                                            " << "\x1b[0m\n";
+    colorCout(R"(      \|__|     \|__|\|__|\|__| \|__|\|_______|\_________\|____________|\|_______|\|_______|\|__|     \|_______|\|__|\|__| )", gameNameColor);
+   
+    gotoxy(printCol, printRow + 7); 
+    colorCout(R"(                                              \|_________|                                                                 )", gameNameColor);
 
 }
 
@@ -61,14 +62,14 @@ void Show_Control( int const showControlRowStart, int const showControlColStart)
 
     gotoxy(showControlColStart, showControlRowStart + 2);  
     
-    std::cout << "         ____                   ____         "; gotoxy(showControlColStart, showControlRowStart + 3);   
-    std::cout << "        ||W ||                 ||F ||        "; gotoxy(showControlColStart, showControlRowStart + 4);  
-    std::cout << "        ||__||                 ||__||        "; gotoxy(showControlColStart, showControlRowStart + 5);  
-    std::cout << "        |/__\\|                 |/__\\|      "; gotoxy(showControlColStart, showControlRowStart + 6);  
-    std::cout << "   ____   ____   ____         _________      "; gotoxy(showControlColStart, showControlRowStart + 7);  
-    std::cout << "  ||A || ||S || ||D ||       || Enter ||     "; gotoxy(showControlColStart, showControlRowStart + 8);  
-    std::cout << "  ||__|| ||__|| ||__||       ||_______||     "; gotoxy(showControlColStart, showControlRowStart + 9);  
-    std::cout << "  |/__\\| |/__\\| |/__\\|       |/_______\\| ";  
+    std::cout << R"(         ____                   ____      )"; gotoxy(showControlColStart, showControlRowStart + 3);   
+    std::cout << R"(        ||W ||                 ||F ||     )"; gotoxy(showControlColStart, showControlRowStart + 4);  
+    std::cout << R"(        ||__||                 ||__||     )"; gotoxy(showControlColStart, showControlRowStart + 5);  
+    std::cout << R"(        |/__\|                 |/__\|     )"; gotoxy(showControlColStart, showControlRowStart + 6);  
+    std::cout << R"(   ____   ____   ____         _________   )"; gotoxy(showControlColStart, showControlRowStart + 7);  
+    std::cout << R"(  ||A || ||S || ||D ||       || Enter ||  )"; gotoxy(showControlColStart, showControlRowStart + 8);  
+    std::cout << R"(  ||__|| ||__|| ||__||       ||_______||  )"; gotoxy(showControlColStart, showControlRowStart + 9);  
+    std::cout << R"(  |/__\| |/__\| |/__\|       |/_______\|  )";  
 }
 
 void Show_About(int* winRow, int* winCol)
@@ -233,82 +234,82 @@ void Show_GodMode(int** Back, int const size)
 
 void Show_Beginner(int const rowCenter, int const colCenter)
 {
-    int const easyColor = 3, textSize = 49;
-    int const beginnerStartRow = rowCenter;
+    int const textSize = 53, easyColor = 4;
+    int const beginnerStartRow = rowCenter - 15;
     int const beginnerStartCol = colCenter - textSize/2;
 
-    gotoxy(beginnerStartRow, beginnerStartCol);
-    colorCout(" ______               _                                  ", easyColor); gotoxy(beginnerStartRow, beginnerStartCol + 1);
-    colorCout(" | ___ \\             (_)                                ", easyColor); gotoxy(beginnerStartRow, beginnerStartCol + 2);
-    colorCout(" | |_/ /  ___   __ _  _  _ __   _ __    ___  _ __        ", easyColor); gotoxy(beginnerStartRow, beginnerStartCol + 3);
-    colorCout(" | ___ \\ / _ \\ / _` || || '_ \\ | '_ \\  / _ \\| '__|  ", easyColor); gotoxy(beginnerStartRow, beginnerStartCol + 4);
-    colorCout(" | |_/ /|  __/| (_| || || | | || | | ||  __/| |          ", easyColor); gotoxy(beginnerStartRow, beginnerStartCol + 5);
-    colorCout(" \\____/  \\___| \\__, ||_||_| |_||_| |_| \\___||_|      ", easyColor); gotoxy(beginnerStartRow, beginnerStartCol + 6);
-    colorCout("                __/ |                                    ", easyColor); gotoxy(beginnerStartRow, beginnerStartCol + 7);
-    colorCout("               |___/                                     ", easyColor);
+    gotoxy(beginnerStartCol, beginnerStartRow);
+    colorCout(R"( ______               _                            )", easyColor); gotoxy(beginnerStartCol, beginnerStartRow + 1);
+    colorCout(R"( | ___ \             (_)                           )", easyColor); gotoxy(beginnerStartCol, beginnerStartRow + 2);
+    colorCout(R"( | |_/ /  ___   __ _  _  _ __   _ __    ___  _ __  )", easyColor); gotoxy(beginnerStartCol, beginnerStartRow + 3);
+    colorCout(R"( | ___ \ / _ \ / _` || || '_ \ | '_ \  / _ \| '__| )", easyColor); gotoxy(beginnerStartCol, beginnerStartRow + 4);
+    colorCout(R"( | |_/ /|  __/| (_| || || | | || | | ||  __/| |    )", easyColor); gotoxy(beginnerStartCol, beginnerStartRow + 5);
+    colorCout(R"( \____/  \___| \__, ||_||_| |_||_| |_| \___||_|    )", easyColor); gotoxy(beginnerStartCol, beginnerStartRow + 6);
+    colorCout(R"(                __/ |                              )", easyColor); gotoxy(beginnerStartCol, beginnerStartRow + 7);
+    colorCout(R"(               |___/                               )", easyColor);
 }
 
 void Show_Veteran(int const rowCenter, int const colCenter)
 {
-    int const veteranColor = 3, textSize = 46;
-    int const veteranStartRow = rowCenter;
+    int const textSize = 47, veteranColor = 3;
+    int const veteranStartRow = rowCenter - 15;
     int const veteranStartCol = colCenter - textSize/2;
 
     gotoxy(veteranStartCol, veteranStartRow);
-    colorCout("  _   _        _                                     ", veteranColor); gotoxy(veteranStartCol, veteranStartRow + 1);
-    colorCout(" | | | |      | |                                    ", veteranColor); gotoxy(veteranStartCol, veteranStartRow + 2);
-    colorCout(" | | | |  ___ | |_   ___  _ __   __ _  _ __          ", veteranColor); gotoxy(veteranStartCol, veteranStartRow + 3);
-    colorCout(" | | | | / _ \\| __| / _ \\| '__| / _` || '_ \\      ", veteranColor); gotoxy(veteranStartCol, veteranStartRow + 4);
-    colorCout(" \\ \\_/ /|  __/| |_ |  __/| |   | (_| || | | |      ", veteranColor); gotoxy(veteranStartCol, veteranStartRow + 5);
-    colorCout("  \\___/  \\___| \\__| \\___||_|    \\__,_||_| |_|   ", veteranColor);
+    colorCout(R"(  _   _        _                              )", veteranColor); gotoxy(veteranStartCol, veteranStartRow + 1);
+    colorCout(R"( | | | |      | |                             )", veteranColor); gotoxy(veteranStartCol, veteranStartRow + 2);
+    colorCout(R"( | | | |  ___ | |_   ___  _ __   __ _  _ __   )", veteranColor); gotoxy(veteranStartCol, veteranStartRow + 3);
+    colorCout(R"( | | | | / _ \| __| / _ \| '__| / _` || '_ \  )", veteranColor); gotoxy(veteranStartCol, veteranStartRow + 4);
+    colorCout(R"( \ \_/ /|  __/| |_ |  __/| |   | (_| || | | | )", veteranColor); gotoxy(veteranStartCol, veteranStartRow + 5);
+    colorCout(R"(  \___/  \___| \__| \___||_|    \__,_||_| |_| )", veteranColor);
 }
 
 void Show_Expert(int const rowCenter, int const colCenter)
 {
-    int const expertColor = 3, textSize = 40;
-    int const expertStartRow = rowCenter;
+    int const textSize = 39, expertColor = 2;
+    int const expertStartRow = rowCenter - 15;
     int const expertStartCol = colCenter - textSize/2;
 
     gotoxy(expertStartCol, expertStartRow);
-    colorCout("  _____                           _          ", expertColor);  gotoxy(expertStartCol, expertStartRow + 1);
-    colorCout(" |  ___|                         | |         ", expertColor);  gotoxy(expertStartCol, expertStartRow + 2);
-    colorCout(" | |__  __  __ _ __    ___  _ __ | |_        ", expertColor);  gotoxy(expertStartCol, expertStartRow + 3);
-    colorCout(" |  __| \\ \\/ /| '_ \\  / _ \\| '__|| __|   ", expertColor);  gotoxy(expertStartCol, expertStartRow + 4);
-    colorCout(" | |___  >  < | |_) ||  __/| |   | |_        ", expertColor);  gotoxy(expertStartCol, expertStartRow + 5);
-    colorCout(" \\____/ /_/\\_\\| .__/  \\___||_|    \\__|  ", expertColor);  gotoxy(expertStartCol, expertStartRow + 6);
-    colorCout("              | |                            ", expertColor);  gotoxy(expertStartCol, expertStartRow + 7);
-    colorCout("              |_|                            ", expertColor);
+    colorCout(R"(  _____                           _    )", expertColor);  gotoxy(expertStartCol, expertStartRow + 1);
+    colorCout(R"( |  ___|                         | |   )", expertColor);  gotoxy(expertStartCol, expertStartRow + 2);
+    colorCout(R"( | |__  __  __ _ __    ___  _ __ | |_  )", expertColor);  gotoxy(expertStartCol, expertStartRow + 3);
+    colorCout(R"( |  __| \ \/ /| '_ \  / _ \| '__|| __| )", expertColor);  gotoxy(expertStartCol, expertStartRow + 4);
+    colorCout(R"( | |___  >  < | |_) ||  __/| |   | |_  )", expertColor);  gotoxy(expertStartCol, expertStartRow + 5);
+    colorCout(R"( \____/ /_/\_\| .__/  \___||_|    \__| )", expertColor);  gotoxy(expertStartCol, expertStartRow + 6);
+    colorCout(R"(              | |                      )", expertColor);  gotoxy(expertStartCol, expertStartRow + 7);
+    colorCout(R"(              |_|                      )", expertColor);
 
 }
 
 void Show_Pro(int const rowCenter, int const colCenter)
 {   
-    int const proColor = 3, textSize = 20;
-    int const proStartRow = rowCenter;
+    int const textSize = 22, proColor = 6;
+    int const proStartRow = rowCenter - 15;
     int const proStartCol = colCenter - textSize/2;
 
     gotoxy(proStartCol, proStartRow);
-    colorCout(" ______                  ", proColor); gotoxy(proStartCol, proStartRow + 1);
-    colorCout(" | ___ \\                ", proColor); gotoxy(proStartCol, proStartRow + 2);
-    colorCout(" | |_/ / _ __   ___      ", proColor); gotoxy(proStartCol, proStartRow + 3);
-    colorCout(" |  __/ | '__| / _ \\    ", proColor); gotoxy(proStartCol, proStartRow + 4);
-    colorCout(" | |    | |   | (_) |    ", proColor); gotoxy(proStartCol, proStartRow + 5);
-    colorCout(" \\_|    |_|    \\___/   ", proColor);
+    colorCout(R"( ______               )", proColor); gotoxy(proStartCol, proStartRow + 1);
+    colorCout(R"( | ___ \              )", proColor); gotoxy(proStartCol, proStartRow + 2);
+    colorCout(R"( | |_/ / _ __   ___   )", proColor); gotoxy(proStartCol, proStartRow + 3);
+    colorCout(R"( |  __/ | '__| / _ \  )", proColor); gotoxy(proStartCol, proStartRow + 4);
+    colorCout(R"( | |    | |   | (_) | )", proColor); gotoxy(proStartCol, proStartRow + 5);
+    colorCout(R"( \_|    |_|    \___/  )", proColor);
 }
 
 void Show_Master(int const rowCenter, int const colCenter)
 {
-    int const masterColor = 3, textSize = 38;
-    int const masterStartRow = rowCenter;
+    int const textSize = 41, masterColor = 5;
+    int const masterStartRow = rowCenter - 15;
     int const masterStartCol = colCenter - textSize/2;
 
     gotoxy(masterStartCol, masterStartRow);
-    colorCout(" ___  ___             _                  ", masterColor); gotoxy(masterStartCol, masterStartRow + 1);
-    colorCout(" |  \\/  |            | |                ", masterColor); gotoxy(masterStartCol, masterStartRow + 2);
-    colorCout(" | .  . |  __ _  ___ | |_   ___  _ __    ", masterColor); gotoxy(masterStartCol, masterStartRow + 3);
-    colorCout(" | |\\/| | / _` |/ __|| __| / _ \\| '__| ", masterColor); gotoxy(masterStartCol, masterStartRow + 4);
-    colorCout(" | |  | || (_| |\\__ \\| |_ |  __/| |    ", masterColor); gotoxy(masterStartCol, masterStartRow + 5);
-    colorCout(" \\_|  |_/ \\__,_||___/ \\__| \\___||_|  ", masterColor);
+    colorCout(R"( ___  ___             _                )", masterColor); gotoxy(masterStartCol, masterStartRow + 1);
+    colorCout(R"( |  \/  |            | |               )", masterColor); gotoxy(masterStartCol, masterStartRow + 2);
+    colorCout(R"( | .  . |  __ _  ___ | |_   ___  _ __  )", masterColor); gotoxy(masterStartCol, masterStartRow + 3);
+    colorCout(R"( | |\/| | / _` |/ __|| __| / _ \| '__| )", masterColor); gotoxy(masterStartCol, masterStartRow + 4);
+    colorCout(R"( | |  | || (_| |\__ \| |_ |  __/| |    )", masterColor); gotoxy(masterStartCol, masterStartRow + 5);
+    colorCout(R"( \_|  |_/ \__,_||___/ \__| \___||_|    )", masterColor);
 }
 
 void Show_levelName(int const level, int const rowCenter, int const colCenter)
@@ -320,6 +321,26 @@ void Show_levelName(int const level, int const rowCenter, int const colCenter)
         case 4: Show_Pro(rowCenter, colCenter);      break;
         case 5: Show_Master(rowCenter, colCenter);   break;
     }
+}
+
+void Show_Pause(int const rowCenter, int const colCenter)
+{
+    int const textSize = 33, pauseColor = 2;
+    int const pauseStartRow = rowCenter - 15;
+    int const pauseStartCol = colCenter - textSize/2;
+
+    gotoxy(pauseStartCol, pauseStartRow);
+    colorCout(R"( ______                           )", pauseColor); gotoxy(pauseStartCol, pauseStartRow + 1);
+    colorCout(R"( | ___ \                          )", pauseColor); gotoxy(pauseStartCol, pauseStartRow + 2);
+    colorCout(R"( | |_/ /  __ _  _   _  ___   ___  )", pauseColor); gotoxy(pauseStartCol, pauseStartRow + 3);
+    colorCout(R"( |  __/  / _` || | | |/ __| / _ \ )", pauseColor); gotoxy(pauseStartCol, pauseStartRow + 4);
+    colorCout(R"( | |    | (_| || |_| |\__ \|  __/ )", pauseColor); gotoxy(pauseStartCol, pauseStartRow + 5);
+    colorCout(R"( \_|     \__,_| \__,_||___/ \___| )", pauseColor);
+
+    gotoxy(colCenter - 12, rowCenter*2 - 4);
+    colorCout("Press 'P' for resume game", 7);
+    gotoxy(colCenter - 16, rowCenter*2 - 3);
+    colorCout("Press Esc to return to MAIN MENU", 7);
 }
 
 #endif
