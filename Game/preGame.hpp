@@ -102,7 +102,7 @@ void mainPreGame(int const customSize, int const customBombCount, int const choo
             
     //The main game
     //This function is in game.hpp
-    game(Back, Front, size, bombCount, GodModeOn, &(*exitFromGame), &(*winRow), &(*winCol));
+    game(Back, Front, size, choosedLevel, bombCount, GodModeOn, &(*exitFromGame), &(*winRow), &(*winCol));
         
     //Deleting dinamic matrixes
     for(int i = 0; i < size; ++i) {

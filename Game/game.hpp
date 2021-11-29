@@ -6,6 +6,7 @@
 
 #include "input.hpp"
 #include "show.hpp"
+#include "records.hpp"
 
 /* Brief: To print a character in green color, for cursor move
  * Inputs: Front: [char], i, j: integer
@@ -94,7 +95,7 @@ bool isWin(char** Front, int const size, int const bombCount)
 }
 
 //Print after winning
-void win(int** Back, char** Front, int const size, bool* restart, bool* exitToMenu, int* winRow, int* winCol)
+void win(int** Back, char** Front, int const size, int const time, int const level, bool* restart, bool* exitToMenu, bool const GodModeOn, int* winRow, int* winCol)
 {
     while(true) {
         if(*exitToMenu || *restart) {
@@ -120,6 +121,10 @@ void win(int** Back, char** Front, int const size, bool* restart, bool* exitToMe
                     printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
                 }    
             }
+        }
+        
+        if (!GodModeOn && level != 11) {
+            checkingTimeInTop(time, level, rowCenter, colCenter);
         }
    
         //Restart or Exit to main menu
@@ -274,7 +279,7 @@ void pause(bool* exitToMenu, bool* returnToGame, int* pauseTime, int* winRow, in
 }
 
 //Main game
-void game(int** Back, char** Front, int const size, int const bombCount, bool const GodModeOn, bool* exitToMenu, int* winRow, int* winCol)  
+void game(int** Back, char** Front, int const size, int const level, int const bombCount, bool const GodModeOn, bool* exitToMenu, int* winRow, int* winCol)  
 {    
     //Returns the current calendar time encoded as a std::time_t object
     std::time_t beginTime = std::time(nullptr);
@@ -308,13 +313,13 @@ void game(int** Back, char** Front, int const size, int const bombCount, bool co
             if(winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize) || returnToGame) {
                 break;
             }
+            
+            int const time = Show_Timer(beginTime, size, matrixStartRow, matrixStartCol);  
 
             //Checking the game status
             if(isWin(Front, size, bombCount)) {
-                win(Back, Front, size, &restart, &(*exitToMenu), &(*winRow), &(*winCol));
+                win(Back, Front, size, time, level, &restart, &(*exitToMenu), GodModeOn, &(*winRow), &(*winCol));
             }
-
-            Show_Timer(beginTime, size, matrixStartRow, matrixStartCol);  
 
             int key = keypress();
             if(key == 'r' || key == 'R' || restart) {
