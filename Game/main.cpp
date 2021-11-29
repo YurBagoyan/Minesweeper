@@ -1,5 +1,4 @@
 #include <iostream>
-#include <unistd.h>
 
 #include "input.hpp"
 #include "show.hpp"
@@ -7,17 +6,14 @@
 
 int main()
 {
+    printf("\e[?25l");
+
     int winRow, winCol;
     userWinSize(&winRow, &winCol);
     int const rowCenter = winRow / 2 + 1;
     int const colCenter = winCol / 2 + 1;
 
-    //Gamename animation
-    int const gameName = 62;
-    for(int i = 0; i <= rowCenter - 12; ++i) {
-        Show_GameName(colCenter - gameName, i);
-        usleep(125000);
-    }
+    Show_GameNameAnimation(rowCenter, colCenter);
 
     int choosedLevel = 1, soundsVolume = 10, musicVolume = 10, current = 0;
     int customSize = 5, customBombCount = 1;
