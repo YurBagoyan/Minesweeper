@@ -7,6 +7,7 @@
 #include "show.hpp"
 #include "preGame.hpp"
 #include "options.hpp"
+#include "records.hpp"
  
 void selectedMenu(int const current, int* customSize, int* customBombCount, int* choosedLevel, bool* GodModeOn, int* soundsVolume, int* musicVolume, int* winRow, int* winCol)
 {
@@ -16,7 +17,7 @@ void selectedMenu(int const current, int* customSize, int* customBombCount, int*
         //Options
         case 1: options(&(*customSize), &(*customBombCount), &(*choosedLevel), &(*GodModeOn), &(*soundsVolume), &(*musicVolume), &(*winRow), &(*winCol)); break;
         //Records
-        case 2: break;
+        case 2: records(&(*winRow), &(*winCol)); break;
         //About
         case 3: Show_About(&(*winRow), &(*winCol)); break;
         //Exit
