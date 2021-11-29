@@ -48,18 +48,18 @@ void printChar(char** Front, int const i, int const j, int const matrixStartRow,
      
     //Print new character in its specific color
     switch(Front[i][j]) {
-        case 'X': colorCout("X", 5); break;
-        case 'F': colorCout("►", 7); break;
-        case ' ': std::cout << " ";  break;
-        case '#': std::cout << "#";  break;
-        case '1': colorCout("1", 4); break;
-        case '2': colorCout("2", 10);break;
-        case '3': colorCout("3", 5); break;
-        case '4': colorCout("4", 2); break;
-        case '5': colorCout("5", 6); break;
-        case '6': colorCout("6", 1); break;
-        case '7': colorCout("7", 7); break;
-        case '8': colorCout("8", 9); break;        
+        case 'X': colorCout("X", 5); break; //Red
+        case 'F': colorCout("►", 7); break; //Yellow
+        case ' ': std::cout << " ";  break; //
+        case '#': std::cout << "#";  break; //White
+        case '1': colorCout("1", 4); break; //Cyan
+        case '2': colorCout("2", 10);break; //Green
+        case '3': colorCout("3", 5); break; //Red
+        case '4': colorCout("4", 2); break; //Blue
+        case '5': colorCout("5", 6); break; //Pink
+        case '6': colorCout("6", 1); break; //Gray
+        case '7': colorCout("7", 7); break; //Yellow
+        case '8': colorCout("8", 9); break; //White  
     }
 }
 
