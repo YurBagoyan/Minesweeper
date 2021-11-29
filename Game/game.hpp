@@ -123,9 +123,11 @@ void win(int** Back, char** Front, int const size, int const time, int const lev
             }
         }
         
-        if (!GodModeOn && level != 11) {
+        /*if (!GodModeOn && level != 11) {
             checkingTimeInTop(time, level, rowCenter, colCenter);
-        }
+        }*/
+
+        checkingTimeInTop(time, level, rowCenter, colCenter);
    
         //Restart or Exit to main menu
         cbreak();
@@ -379,14 +381,18 @@ void game(int** Back, char** Front, int const size, int const level, int const b
                 case 10: //10 = Enter
                     switch(Back[i][j]) {
                         case -1: //There is mine under cage
-                            Boom(Back, Front, size, &(*exitToMenu), &restart, &(*winRow), &(*winCol));
+                            if(Front[i][j] != 'F') {
+                                Boom(Back, Front, size, &(*exitToMenu), &restart, &(*winRow), &(*winCol));
+                            }
                             break;
+
                         case 0: //Empty cage
                             Empty(Back, Front, i, j, &Fcount, matrixStartRow, matrixStartCol);
                             printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
                             break;
+
                         default: //There is a number under cage
-                            if(Back[i][j] != 10) {
+                            if(Back[i][j] != 10 && Front[i][j] != 'F') {
                                 Open(Back, Front, i, j, &Fcount, matrixStartRow, matrixStartCol);
                             }
                             break;            

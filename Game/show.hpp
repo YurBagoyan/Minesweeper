@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <unistd.h>
 
 #include "input.hpp"
 
@@ -35,6 +36,15 @@ void Show_GameName(int const printCol, int const printRow)
     gotoxy(printCol, printRow + 7); 
     colorCout(R"(                                              \|_________|                                                                 )", gameNameColor);
 
+}
+
+void Show_GameNameAnimation(int const rowCenter, int const colCenter)
+{
+    int const gameNameSize = 62;
+    for(int i = 0; i < rowCenter - 12; ++i) {
+        Show_GameName(colCenter - gameNameSize, i);
+        usleep(125000);
+    }
 }
 
 //Press Ecs or Restart
@@ -242,14 +252,14 @@ int Show_Timer(std::time_t beginTime, int const size, int const matrixStartRow, 
     int const timerStartRow = matrixStartRow + 1;
     
     gotoxy(timerStartCol - 2, timerStartRow);
-    colorCout("T I M E\t\t\t\t\n", 7);
+    colorCout("T I M E\n", 7);
 
     int const hours = time / 3600;
     int const min = (time % 3600) / 60;
     int const sec = (time % 3600) % 60;
 
     gotoxy(timerStartCol - 5, timerStartRow + 1);
-    std::cout << std::setw(2) << hours << " : " << std::setw(2) << min << " : " << std::setw(2) << sec << "\t\t\t\t\n";
+    std::cout << std::setw(2) << hours << " : " << std::setw(2) << min << " : " << std::setw(2) << sec << "\n";
 
     return time;
 }

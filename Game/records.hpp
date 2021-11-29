@@ -82,10 +82,13 @@ std::string inputUserNickName(int const rowCenter, int const colCenter)
     std::string userNickName;
 
     do {
-        gotoxy(colCenter - 60, rowCenter*2 - 6);
+        gotoxy(colCenter - 30, rowCenter*2 - 12);
         colorCout("Please enter your nickname which must be 10 characters long: ", 7);
         normal();
-        std::cin >> userNickName;
+        gotoxy(colCenter + 31, rowCenter*2 - 12);
+        getline(std::cin, userNickName);
+        gotoxy(colCenter - 30, rowCenter*2 - 12);
+        std::cout << "                                                                                  \n";
     } while(userNickName.length() > 10);
     
     return userNickName;
