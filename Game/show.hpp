@@ -233,7 +233,7 @@ void Show_GodMode(int** Back, int const size)
     }   
 }
 
-void Show_Timer(std::time_t beginTime, int const size, int const matrixStartRow, int const matrixStartCol)
+int Show_Timer(std::time_t beginTime, int const size, int const matrixStartRow, int const matrixStartCol)
 {   
     std::time_t currentTime = std::time(nullptr);
     int const time = currentTime - beginTime;
@@ -249,7 +249,9 @@ void Show_Timer(std::time_t beginTime, int const size, int const matrixStartRow,
     int const sec = (time % 3600) % 60;
 
     gotoxy(timerStartCol - 5, timerStartRow + 1);
-    std::cout << std::setw(2) << hours << " : " << std::setw(2) << min << " : " << std::setw(2) << sec << "\t\t\t\t\n";         
+    std::cout << std::setw(2) << hours << " : " << std::setw(2) << min << " : " << std::setw(2) << sec << "\t\t\t\t\n";
+
+    return time;
 }
 
 ///Levels
