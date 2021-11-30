@@ -8,6 +8,8 @@
 #include "show.hpp"
 #include "records.hpp"
 
+void OpenAround(int** Back, char** Front, int const size, int const i, int const j, int* Fcount, bool* exitToMenu, bool* restart, int const matrixStartRow, int const matrixStartCol, int* winRow, int* winCol);
+
 /* Brief: To print a character in green color, for cursor move
  * Inputs: Front: [char], i, j: integer
  * Pre: i < size, j < size; Front = { '#', 'X', 'F', ' ', '1' '2', '3', '4', '5', '6', '7', '8' }
@@ -330,6 +332,7 @@ void game(int** Back, char** Front, int const size, int const level, int const b
             int const time = Show_Timer(beginTime, size, matrixStartRow, matrixStartCol);
                         //Checking the game status
             if(isWin(Front, size, bombCount)) {
+                printBombCount(bombCount, bombCount, size, matrixStartRow, matrixStartCol);
                 win(Back, Front, size, time, level, &restart, &(*exitToMenu), GodModeOn, &(*winRow), &(*winCol));
             }
 
@@ -404,14 +407,58 @@ void game(int** Back, char** Front, int const size, int const level, int const b
 
                         default: //There is a number under cage
                             if(Back[i][j] != 10 && Front[i][j] != 'F') {
-                                Open(Back, Front, i, j, &Fcount, matrixStartRow, matrixStartCol);
-                            }
+                                if(Front[i][j] != '#') {
+                                    OpenAround(Back, Front, size, i, j, &Fcount, &(*exitToMenu), &restart, matrixStartRow, matrixStartCol, &(*winRow), &(*winCol));
+                                }
+                                else {
+                                    Open(Back, Front, i, j, &Fcount, matrixStartRow, matrixStartCol);
+                                    //printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
+                                }
                             break;            
-                    }
-                    break;
-            }    
+                        }
+                        break;
+                }    
+            }
         }
     }
+}
+
+void OpenAround(int** Back, char** Front, int const size, int const i, int const j, int* Fcount, bool* exitToMenu, bool* restart, int const matrixStartRow, int const matrixStartCol, int* winRow, int* winCol)
+{
+    int tempFlugs = 0;
+    //checking
+    for (int row_i = i - 1; row_i <= i + 1; ++row_i) {
+        for (int col_j = j - 1; col_j <= j + 1; ++col_j) {
+            if(Front[row_i][col_j] == 'F') {
+                ++tempFlugs;
+            }
+        }
+    }
+
+    if(tempFlugs == Back[i][j]) {
+        for (int row_i = i - 1; row_i <= i + 1; ++row_i) {
+            for (int col_j = j - 1; col_j <= j + 1; ++col_j) {
+                if(Front[row_i][col_j] == '#' && Front[row_i][col_j] != 'F') {
+                    switch(Back[row_i][col_j]) {
+                        case 0: 
+                            Empty(Back, Front, row_i, col_j, &(*Fcount), matrixStartRow, matrixStartCol);
+                            break;
+
+                        case -1: 
+                            Boom(Back, Front, size, &(*exitToMenu), &(*restart), &(*winRow), &(*winCol));
+                            break;
+                        
+                        default: 
+                            if(Back[row_i][col_j] != 10)
+                            Open(Back, Front, row_i, col_j, &(*Fcount), matrixStartRow, matrixStartCol);
+                            break;
+                    }  
+                }
+            }
+        }
+    }
+
+    printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
 }
 
 
