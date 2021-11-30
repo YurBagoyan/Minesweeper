@@ -50,17 +50,24 @@ void Show_GameNameAnimation(int const rowCenter, int const colCenter)
 //Press Ecs or Restart
 void Show_ExitRestart(int const rowCenter, int const colCenter, int const color)
 {
-    int const showExitStart = rowCenter*2 - 4;
+    int const showExitStart = rowCenter*2 - 5;
+    
     gotoxy(colCenter - 9, showExitStart);
+    colorCout("Press P for ", 7);
+
+    gotoxy(colCenter + 3, showExitStart);
+    colorCout("PAUSE", color);
+
+    gotoxy(colCenter - 9, showExitStart + 1);
     colorCout("Press R to ", 7);
     
-    gotoxy(colCenter + 2, showExitStart);
+    gotoxy(colCenter + 2, showExitStart + 1);
     colorCout("RESTART", color); 
 
-    gotoxy(colCenter - 16, showExitStart + 1);
+    gotoxy(colCenter - 16, showExitStart + 2);
     colorCout("Press Esc to return to ", 7); 
 
-    gotoxy(colCenter + 7, showExitStart + 1);
+    gotoxy(colCenter + 7, showExitStart + 2);
     colorCout("MAIN MENU", color);
 }
 
@@ -248,17 +255,17 @@ int Show_Timer(std::time_t beginTime, int const size, int const matrixStartRow, 
     std::time_t currentTime = std::time(nullptr);
     int const time = currentTime - beginTime;
 
-    int const timerStartCol = matrixStartCol + 8 + 2*size; 
+    int const timerStartCol = matrixStartCol + 6 + 2*size; 
     int const timerStartRow = matrixStartRow + 1;
     
-    gotoxy(timerStartCol - 2, timerStartRow);
-    colorCout("T I M E\n", 7);
+    gotoxy(timerStartCol, timerStartRow);
+    colorCout("T I M E\n", 4);
 
     int const hours = time / 3600;
     int const min = (time % 3600) / 60;
     int const sec = (time % 3600) % 60;
 
-    gotoxy(timerStartCol - 5, timerStartRow + 1);
+    gotoxy(timerStartCol - 3, timerStartRow + 1);
     std::cout << std::setw(2) << hours << " : " << std::setw(2) << min << " : " << std::setw(2) << sec << "\n";
 
     return time;

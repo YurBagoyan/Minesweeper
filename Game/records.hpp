@@ -2,7 +2,6 @@
 #define RECORDS
 
 #include <iostream>
-#include <iomanip>
 #include <fstream>
 
 #include "input.hpp"
