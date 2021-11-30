@@ -122,12 +122,10 @@ void win(int** Back, char** Front, int const size, int const time, int const lev
                 }    
             }
         }
-        
-        /*if (!GodModeOn && level != 11) {
-            checkingTimeInTop(time, level, rowCenter, colCenter);
-        }*/
 
-        checkingTimeInTop(time, level, rowCenter, colCenter);
+        if (!GodModeOn && level != 11) {
+            checkingTimeInTop(time, level, rowCenter, colCenter);
+        }
    
         //Restart or Exit to main menu
         cbreak();
@@ -280,6 +278,18 @@ void pause(bool* exitToMenu, bool* returnToGame, int* pauseTime, int* winRow, in
     }
 }
 
+void printBombCount(int const bombCount, int const Fcount, int const size, int const matrixStartRow, int const matrixStartCol)
+{
+    int const bombCountStartCol = matrixStartCol + 4 + 2*size; 
+    int const bombCountStartRow = matrixStartRow + 4;
+
+    gotoxy(bombCountStartCol, bombCountStartRow);
+    colorCout("Mines count", 4);
+
+    gotoxy(bombCountStartCol + 4, bombCountStartRow + 1);
+    std::cout << std::setw(2) << bombCount - Fcount << std::endl;
+}
+
 //Main game
 void game(int** Back, char** Front, int const size, int const level, int const bombCount, bool const GodModeOn, bool* exitToMenu, int* winRow, int* winCol)  
 {    
@@ -307,7 +317,8 @@ void game(int** Back, char** Front, int const size, int const level, int const b
         Show_Boards(size, matrixStartRow, matrixStartCol, 11);
         showNewFront(Front, size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
         Show_ExitRestart(rowCenter, colCenter, 4);
-        printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);    
+        printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
+        printBombCount(bombCount, Fcount, size, matrixStartRow, matrixStartCol);
 
         cbreak();
         while(true) {
@@ -316,9 +327,8 @@ void game(int** Back, char** Front, int const size, int const level, int const b
                 break;
             }
             
-            int const time = Show_Timer(beginTime, size, matrixStartRow, matrixStartCol);  
-
-            //Checking the game status
+            int const time = Show_Timer(beginTime, size, matrixStartRow, matrixStartCol);
+                        //Checking the game status
             if(isWin(Front, size, bombCount)) {
                 win(Back, Front, size, time, level, &restart, &(*exitToMenu), GodModeOn, &(*winRow), &(*winCol));
             }
@@ -369,6 +379,7 @@ void game(int** Back, char** Front, int const size, int const level, int const b
                         Front[i][j] = '#';
                         printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
                     }
+                    printBombCount(bombCount, Fcount, size, matrixStartRow, matrixStartCol);
                     break;
 
                 case 'p': case 'P':
