@@ -1,7 +1,7 @@
 #include <iostream>
-#include <unistd.h>
-#include <termios.h>
 #include <sys/ioctl.h>
+#include <termios.h>
+#include <unistd.h>
 
 int tty_mode = 0;
 struct termios orig_tty;

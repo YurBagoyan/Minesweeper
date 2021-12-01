@@ -1,11 +1,84 @@
 #ifndef RECORDS
 #define RECORDS
 
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
 #include "input.hpp"
 #include "show.hpp"
+
+void checkingTimeInTop(int const time, int const level, int const rowCenter, int const colCenter);
+std::string fileWay(int const level);
+void InputFromFile(std::string* topNickNames, int* topTimes, int const level);
+std::string inputUserNickName(int const rowCenter, int const colCenter);
+void newRecord(std::string* topNickNames, int* topTimes, int const time, int const level, int const rowCenter, int const colCenter);
+void outputFile(std::string* topNickNames, int* topTimes, int const level);
+void printRecords(int const level, int const recStartRow, int const recStartCol, int const rowCenter, int const colCenter);
+void printTime(int const time, int const timeStartRow, int const timeStartCol);
+void printTop(std::string* topNickNames, int* topTimes, int const rowCenter, int const colCenter);
+void records(int* winRow, int* winCol);
+
+
+void records(int* winRow, int* winCol)
+{
+    int level = 1;
+    bool exitToMenu = false;
+    while (true) {
+        if (exitToMenu) {
+            break;
+        }
+
+        int const rowCenter = *winRow / 2 + 1;
+        int const colCenter = *winCol / 2 + 1;
+        int const recStartRow = rowCenter, recStartCol = colCenter;
+
+        printRecords(level, recStartRow, recStartCol, rowCenter, colCenter);
+
+        cbreak();
+        while (true) {
+            int const minWinRowSize = 28, minWinColSize = 82;
+            if (winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize)) {
+                break;
+            }
+
+            int key = keypress();
+            if (key == 27) {
+                exitToMenu = true;
+                break;
+            }
+
+            switch (key) {
+            case 'a': case 'A':
+                level == 1 ? level = 5 : --level;
+                printRecords(level, recStartRow, recStartCol, rowCenter, colCenter);
+                break;
+
+            case 'd': case 'D':
+                level == 5 ? level = 1 : ++level;
+                printRecords(level, recStartRow, recStartCol, rowCenter, colCenter);
+                break;
+            }
+        }
+    }
+}
+
+void printRecords(int const level, int const recStartRow, int const recStartCol, int const rowCenter, int const colCenter)
+{
+    system("clear");
+    gotoxy(colCenter - 21, rowCenter * 2 - 4);
+    colorCout("Press 'A' or 'D' to see the other level records", 7);
+
+    gotoxy(colCenter - 16, rowCenter * 2 - 2);
+    colorCout("Press Esc to return to MAIN MENU", 7);
+
+    Show_levelName(level, rowCenter, colCenter);
+
+    std::string topNickNames[7] = { "" };
+    int topTimes[7] = { 0 };
+    InputFromFile(topNickNames, topTimes, level);
+
+    printTop(topNickNames, topTimes, rowCenter, colCenter);
+}
 
 std::string fileWay(int const level)
 {
@@ -52,45 +125,43 @@ void InputFromFile(std::string* topNickNames, int* topTimes, int const level)
     readFromFile.close();
 }
 
-void outputFile(std::string* topNickNames, int* topTimes, int const level)
-{ 
-    std::string way = fileWay(level);
+void printTop(std::string* topNickNames, int* topTimes, int const rowCenter, int const colCenter)
+{
+    int const nicksStartRow = rowCenter;
+    int const nicksStartCol = colCenter - 13;
 
-    std::ofstream writeInFile;
-    writeInFile.open(way);
+    int const timeStartRow = rowCenter;
+    int const timeStartCol = colCenter + 10;
 
-    if(!writeInFile.is_open()) {
-        std::cout << "File ERROR\n";
-        return;
-    }
-    
-    for(int i = 1; i <= 10; ++i) {
-        if(i <= 5) {
-            writeInFile << topNickNames[i] << "\n";
-        }
-        else {
-            writeInFile << topTimes[i - 5] << "\n";
+    for (int i = 1; i < 6; ++i) {
+        gotoxy(nicksStartCol, nicksStartRow + i - 1);
+        std::cout << i << ". " << topNickNames[i] << std::endl;
+
+        if (topTimes[i] != 1000000) {
+            printTime(topTimes[i], timeStartRow + i - 1, timeStartCol);
         }
     }
-
-    writeInFile.close();
 }
 
-std::string inputUserNickName(int const rowCenter, int const colCenter)
+void printTime(int const time, int const timeStartRow, int const timeStartCol)
 {
-    std::string userNickName;
+    int const hours = time / 3600;
+    int const min = (time % 3600) / 60;
+    int const sec = (time % 3600) % 60;
 
-    do {
-        gotoxy(colCenter - 30, rowCenter*2 - 12);
-        colorCout("Please enter your nickname which must be 10 characters long: ", 7);
-        normal();
-        gotoxy(colCenter + 31, rowCenter*2 - 12);
-        getline(std::cin, userNickName);
-        gotoxy(colCenter - 30, rowCenter*2 - 12);
-        std::cout << "                                                                                  \n";
-    } while(userNickName.length() > 10);
-    
-    return userNickName;
+    gotoxy(timeStartCol, timeStartRow);
+    std::cout << std::setw(2) << hours << " : " << std::setw(2) << min << " : " << std::setw(2) << sec << "\n";
+}
+
+void checkingTimeInTop(int const time, int const level, int const rowCenter, int const colCenter)
+{
+    std::string topNickNames[7] = { "" };
+    int topTimes[7] = { 0 };
+    InputFromFile(topNickNames, topTimes, level);
+
+    if (time < topTimes[5]) {
+        newRecord(topNickNames, topTimes, time, level, rowCenter, colCenter);
+    }
 }
 
 void newRecord(std::string* topNickNames, int* topTimes, int const time, int const level, int const rowCenter, int const colCenter)
@@ -111,106 +182,46 @@ void newRecord(std::string* topNickNames, int* topTimes, int const time, int con
     outputFile(topNickNames, topTimes, level);
 }
 
-void checkingTimeInTop(int const time, int const level, int const rowCenter, int const colCenter)
+std::string inputUserNickName(int const rowCenter, int const colCenter)
 {
-    std::string topNickNames[7] = { "" };
-    int topTimes[7] = { 0 };
-    InputFromFile(topNickNames, topTimes, level);
+    std::string userNickName;
 
-    if(time < topTimes[5]) {
-        newRecord(topNickNames, topTimes, time, level, rowCenter, colCenter);
+    do {
+        gotoxy(colCenter - 30, rowCenter * 2 - 12);
+        colorCout("Please enter your nickname which must be 10 characters long: ", 7);
+        normal();
+        gotoxy(colCenter + 31, rowCenter * 2 - 12);
+        getline(std::cin, userNickName);
+        gotoxy(colCenter - 30, rowCenter * 2 - 12);
+        std::cout << "                                                                                  \n";
+    } while (userNickName.length() > 10);
+
+    return userNickName;
+}
+
+void outputFile(std::string* topNickNames, int* topTimes, int const level)
+{
+    std::string way = fileWay(level);
+
+    std::ofstream writeInFile;
+    writeInFile.open(way);
+
+    if (!writeInFile.is_open()) {
+        std::cout << "File ERROR\n";
+        return;
     }
-}
 
-void printTime(int const time, int const timeStartRow, int const timeStartCol)
-{
-    int const hours = time / 3600;
-    int const min = (time % 3600) / 60;
-    int const sec = (time % 3600) % 60;
-
-    gotoxy(timeStartCol, timeStartRow);
-    std::cout <<std::setw(2) << hours << " : " << std::setw(2) << min << " : " << std::setw(2) << sec << "\n";
-}  
-
-void printTop(std::string* topNickNames, int* topTimes, int const rowCenter, int const colCenter)
-{
-    int const nicksStartRow = rowCenter;
-    int const nicksStartCol = colCenter - 13;
-
-    int const timeStartRow = rowCenter;
-    int const timeStartCol = colCenter + 10;
-
-    for(int i = 1; i < 6; ++i) {
-        gotoxy(nicksStartCol, nicksStartRow + i - 1);
-        std::cout << i << ". " << topNickNames[i] << std::endl;
-
-        if(topTimes[i] != 1000000) {
-            printTime(topTimes[i], timeStartRow + i - 1, timeStartCol);
+    for (int i = 1; i <= 10; ++i) {
+        if (i <= 5) {
+            writeInFile << topNickNames[i] << "\n";
         }
-    }   
-}
-
-void printRecords(int const level, int const recStartRow, int const recStartCol, int const rowCenter, int const colCenter)
-{
-    system("clear");
-    gotoxy(colCenter - 21, rowCenter*2 - 4);
-    colorCout("Press 'A' or 'D' to see the other level records", 7);
-    
-    gotoxy(colCenter - 16, rowCenter*2 - 2);
-    colorCout("Press Esc to return to MAIN MENU", 7);
-    
-    Show_levelName(level, rowCenter, colCenter);
-
-    std::string topNickNames[7]= { "" };
-    int topTimes[7] = { 0 };
-    InputFromFile(topNickNames, topTimes, level);
-
-    printTop(topNickNames, topTimes, rowCenter, colCenter);
-}
-
-void records(int* winRow, int* winCol)
-{  
-    int level = 1;
-    bool exitToMenu = false;
-    while(true) {
-        if(exitToMenu) {
-            break;
+        else {
+            writeInFile << topTimes[i - 5] << "\n";
         }
+    }
 
-        int const rowCenter = *winRow / 2 + 1;
-        int const colCenter = *winCol / 2 + 1;
-        int const recStartRow = rowCenter, recStartCol = colCenter;
-
-        printRecords(level, recStartRow, recStartCol, rowCenter, colCenter);
-    
-        cbreak();
-        while(true) {
-            int const minWinRowSize = 28, minWinColSize = 82;
-            if(winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize)) {
-                break;
-            }
-
-            int key = keypress();
-            if(key == 27) {
-                exitToMenu = true;
-                break;
-            }
-            
-            switch(key) {
-                case 'a': case 'A':
-                    level == 1 ? level = 5 : --level;
-                    printRecords(level, recStartRow, recStartCol, rowCenter, colCenter);
-                    break;
-    
-                case 'd': case 'D':
-                    level == 5 ? level = 1 : ++level;
-                    printRecords(level, recStartRow, recStartCol, rowCenter, colCenter);
-                    break;
-            }
-        }        
-    }   
+    writeInFile.close();
 }
 
 
 #endif
-

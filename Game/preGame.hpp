@@ -1,12 +1,78 @@
 #ifndef PREGAME
 #define PREGAME
 
-#include <iostream>
 #include <ctime>
+#include <iostream>
 
-#include "input.hpp"
 #include "game.hpp"
+#include "input.hpp"
 #include "show.hpp"
+
+void addNumbers(int** Back, int const size);
+void aroundMine(int** Back, int const size, int const i, int const j);
+void boundsOfMatrix(int** Back, char** Front, int const size);
+void level(int const choosedLevel, int* size, int* bombCount, int const customSize, int const customBombCount);
+void mainPreGame(int const customSize, int const customBombCount, int const choosedLevel, bool const GodModeOn, bool* exitFromGame, int* winRow, int* winCol);
+void preGame(int const customSize, int const customBombCount, int const choosedLevel, bool const GodModeOn, int* winRow, int* winCol);
+void randomMines(int** Back, int const size, int bombCount);
+
+void preGame(int const customSize, int const customBombCount, int const choosedLevel, bool const GodModeOn, int* winRow, int* winCol)
+{
+    bool exitFromGame = false;
+    while (!exitFromGame) {
+        mainPreGame(customSize, customBombCount, choosedLevel, GodModeOn, &exitFromGame, &(*winRow), &(*winCol));
+    }
+}
+
+void mainPreGame(int const customSize, int const customBombCount, int const choosedLevel, bool const GodModeOn, bool* exitFromGame, int* winRow, int* winCol)
+{
+    system("clear");
+
+    int size, bombCount;
+    level(choosedLevel, &size, &bombCount, customSize, customBombCount);
+    int** Back = new int* [size];        //Back is a matrix with numbers
+    char** Front = new char* [size];     //Front is a matrix that will see the user
+
+    for (int i = 0; i < size; ++i) {
+        Back[i] = new int[size];
+        Front[i] = new char[size];
+    }
+
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; j++) {
+            Back[i][j] = 0;
+            Front[i][j] = '#';
+        }
+    }
+
+    randomMines(Back, size, bombCount);
+    addNumbers(Back, size);
+    boundsOfMatrix(Back, Front, size);
+
+    //The main game
+    //This function is in game.hpp
+    game(Back, Front, size, choosedLevel, bombCount, GodModeOn, &(*exitFromGame), &(*winRow), &(*winCol));
+
+    //Deleting dinamic matrixes
+    for (int i = 0; i < size; ++i) {
+        delete[] Back[i];
+        delete[] Front[i];
+    }
+    delete[] Back;
+    delete[] Front;
+}
+
+void level(int const choosedLevel, int* size, int* bombCount, int const customSize, int const customBombCount)
+{
+    switch (choosedLevel) {
+    case 1: *size = 10; *bombCount = 10; break;   //Beginner
+    case 2: *size = 12; *bombCount = 20; break;   //Veteran
+    case 3: *size = 14; *bombCount = 35; break;   //Expert
+    case 4: *size = 17; *bombCount = 50; break;   //Pro
+    case 5: *size = 20; *bombCount = 99; break;   //Master
+    case 11: *size = customSize + 2; *bombCount = customBombCount; break; //Custom
+    }
+}
 
 //Choose the random cage and add there mine
 void randomMines(int** Back, int const size, int bombCount)
@@ -63,64 +129,5 @@ void boundsOfMatrix(int** Back, char** Front, int const size)
     }
 }
 
-void level(int const choosedLevel, int* size, int* bombCount, int const customSize, int const customBombCount)
-{
-    switch(choosedLevel) {
-        case 1: *size = 10; *bombCount = 10; break;   //Beginner
-        case 2: *size = 12; *bombCount = 20; break;   //Veteran
-        case 3: *size = 14; *bombCount = 35; break;   //Expert
-        case 4: *size = 17; *bombCount = 50; break;   //Pro
-        case 5: *size = 20; *bombCount = 99; break;   //Master
-        case 11: *size = customSize + 2; *bombCount = customBombCount; break; //Custom
-    }
-}
-
-void mainPreGame(int const customSize, int const customBombCount, int const choosedLevel, bool const GodModeOn, bool* exitFromGame, int* winRow, int* winCol)
-{ 
-    system("clear");
-
-    int size, bombCount;
-    level(choosedLevel, &size, &bombCount, customSize, customBombCount);
-    int** Back = new int* [size];        //Back is a matrix with numbers
-    char** Front = new char* [size];     //Front is a matrix that will see the user
-
-    for (int i = 0; i < size; ++i) {
-        Back[i] = new int[size];
-        Front[i] = new char [size];
-    }        
-    
-    for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < size; j++) {
-            Back[i][j] = 0;
-            Front[i][j] = '#';
-        }
-    }
-
-    randomMines(Back, size, bombCount);
-    addNumbers(Back, size);
-    boundsOfMatrix(Back, Front, size);
-            
-    //The main game
-    //This function is in game.hpp
-    game(Back, Front, size, choosedLevel, bombCount, GodModeOn, &(*exitFromGame), &(*winRow), &(*winCol));
-        
-    //Deleting dinamic matrixes
-    for(int i = 0; i < size; ++i) {
-        delete[] Back[i];
-        delete[] Front[i];
-    }
-    delete[] Back;
-    delete[] Front;
-}
-
-void preGame(int const customSize, int const customBombCount, int const choosedLevel, bool const GodModeOn, int* winRow, int* winCol)
-{
-    bool exitFromGame = false;
-    while(!exitFromGame) {
-        mainPreGame(customSize, customBombCount, choosedLevel, GodModeOn, &exitFromGame, &(*winRow), &(*winCol));
-    }
-}
-
 
 #endif
-
