@@ -1,13 +1,15 @@
 #include <iostream>
 
 #include "input.hpp"
-#include "show.hpp"
 #include "menu.hpp"
+#include "show.hpp"
 
 int main()
 {
+    //Don't show the console cursor in the game
     printf("\e[?25l");
 
+    //The console window size, will change it in the game for dynamic size of console window
     int winRow, winCol;
     userWinSize(&winRow, &winCol);
     int const rowCenter = winRow / 2 + 1;
@@ -15,9 +17,12 @@ int main()
 
     Show_GameNameAnimation(rowCenter, colCenter);
 
+    //menu in an endless loop, so declare the necessary variables here
     int choosedLevel = 1, soundsVolume = 10, musicVolume = 10, current = 0;
     int customSize = 5, customBombCount = 1;
     bool GodModeOn = false;
+
+    //Menu
     while(true) {
         Menu_choose(&current, &customSize, &customBombCount, &choosedLevel, &GodModeOn, &soundsVolume, &musicVolume, &winRow, &winCol);
     }

@@ -1,14 +1,184 @@
 #ifndef GAME
 #define GAME
 
-#include <iostream>
 #include <ctime>
+#include <iostream>
 
 #include "input.hpp"
-#include "show.hpp"
 #include "records.hpp"
+#include "show.hpp"
 
+void Boom(int** Back, char** Front, int const size, bool* exitToMenu, bool* restart, int* winRow, int* winCol);
+void Empty(int** Back, char** Front, int const i, int const j, int* Fcount, int const matrixStartRow, int const matrixStartCol);
+void game(int** Back, char** Front, int const size, int const level, int const bombCount, bool const GodModeOn, bool* exitToMenu, int* winRow, int* winCol);
+bool isWin(char** Front, int const size, int const bombCount);
+void Open(int** Back, char** Front, int const i, int const j, int* Fcount, int const matrixStartRow, int const matrixStartCol);
 void OpenAround(int** Back, char** Front, int const size, int const i, int const j, int* Fcount, bool* exitToMenu, bool* restart, int const matrixStartRow, int const matrixStartCol, int* winRow, int* winCol);
+void pause(bool* exitToMenu, bool* returnToGame, int* pauseTime, int* winRow, int* winCol);
+void printChar(char** Front, int const i, int const j, int const matrixStartRow, int const matrixStartCol);
+void printBombCount(int const bombCount, int const Fcount, int const size, int const matrixStartRow, int const matrixStartCol);
+void printGreenChar(char** Front, int const i, int const j, int const matrixStartRow, int const matrixStartCol);
+void showNewFront(char** Front, int const size, int const rowCenter, int const colCenter, int const matrixStartRow, int const matrixStartCol);
+void win(int** Back, char** Front, int const size, int const time, int const level, bool* restart, bool* exitToMenu, bool const GodModeOn, int* winRow, int* winCol);
+
+///Main game
+void game(int** Back, char** Front, int const size, int const level, int const bombCount, bool const GodModeOn, bool* exitToMenu, int* winRow, int* winCol)
+{
+    //Returns the current calendar time encoded as a std::time_t object
+    std::time_t beginTime = std::time(nullptr);
+    bool restart = false;
+    int i = 1, j = 1, Fcount = 0;
+
+    while (true) {
+        bool returnToGame = false;
+
+        if (*exitToMenu || restart) {
+            break;
+        }
+
+        if (GodModeOn) {
+            Show_GodMode(Back, size);
+        }
+
+        int const rowCenter = *winRow / 2 + 1;
+        int const colCenter = *winCol / 2 + 1;
+        int const matrixStartRow = rowCenter - 2 - size / 2;
+        int const matrixStartCol = colCenter - size + 1;
+
+        Show_Boards(size, matrixStartRow, matrixStartCol, 11);
+        showNewFront(Front, size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
+        Show_ExitRestart(rowCenter, colCenter, 4);
+        printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
+        printBombCount(bombCount, Fcount, size, matrixStartRow, matrixStartCol);
+
+        cbreak();
+        while (true) {
+            int const minWinRowSize = 30, minWinColSize = 82;
+            if (winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize) || returnToGame) {
+                break;
+            }
+
+            int const time = Show_Timer(beginTime, size, matrixStartRow, matrixStartCol);
+            //Checking the game status
+            if (isWin(Front, size, bombCount)) {
+                printBombCount(bombCount, bombCount, size, matrixStartRow, matrixStartCol);
+                win(Back, Front, size, time, level, &restart, &(*exitToMenu), GodModeOn, &(*winRow), &(*winCol));
+            }
+
+            int key = keypress();
+            if (key == 'r' || key == 'R' || restart) {
+                restart = true;
+                break;
+            }
+            if (key == 27 || *exitToMenu) {
+                *exitToMenu = true;
+                break;
+            }
+
+            switch (key) {
+            case 'w': case 'W':
+                printChar(Front, i, j, matrixStartRow, matrixStartCol);
+                i == 1 ? i = size - 2 : --i;
+                printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
+                break;
+
+            case 's': case 'S':
+                printChar(Front, i, j, matrixStartRow, matrixStartCol);
+                i == size - 2 ? i = 1 : ++i;
+                printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
+                break;
+
+            case 'a': case 'A':
+                printChar(Front, i, j, matrixStartRow, matrixStartCol);
+                j == 1 ? j = size - 2 : --j;
+                printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
+                break;
+
+            case 'd': case 'D':
+                printChar(Front, i, j, matrixStartRow, matrixStartCol);
+                j == size - 2 ? j = 1 : ++j;
+                printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
+                break;
+
+            case 'f': case 'F': //Flags 
+                if (Front[i][j] == '#' && Fcount < bombCount) {
+                    ++Fcount;
+                    Front[i][j] = 'F';
+                    printChar(Front, i, j, matrixStartRow, matrixStartCol);
+                }
+                else if (Front[i][j] == 'F') {
+                    --Fcount;
+                    Front[i][j] = '#';
+                    printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
+                }
+                printBombCount(bombCount, Fcount, size, matrixStartRow, matrixStartCol);
+                break;
+
+            case 'p': case 'P':
+                int pauseTime;
+                pause(&(*exitToMenu), &returnToGame, &pauseTime, &(*winRow), &(*winCol));
+                beginTime += pauseTime;
+                system("clear");
+                break;
+
+            case 10: //10 = Enter
+                switch (Back[i][j]) {
+                case -1: //There is mine under cage
+                    if (Front[i][j] != 'F') {
+                        Boom(Back, Front, size, &(*exitToMenu), &restart, &(*winRow), &(*winCol));
+                    }
+                    break;
+
+                case 0: //Empty cage
+                    Empty(Back, Front, i, j, &Fcount, matrixStartRow, matrixStartCol);
+                    printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
+                    break;
+
+                default: //There is a number under cage
+                    if (Back[i][j] != 10 && Front[i][j] != 'F') {
+                        if (Front[i][j] != '#') {
+                            OpenAround(Back, Front, size, i, j, &Fcount, &(*exitToMenu), &restart, matrixStartRow, matrixStartCol, &(*winRow), &(*winCol));
+                        }
+                        else {
+                            Open(Back, Front, i, j, &Fcount, matrixStartRow, matrixStartCol);
+                            //printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
+                        }
+                        break;
+                    }
+                    break;
+                }
+            }
+        }
+    }
+}
+
+/* Brief: To print a character in its specific color
+ * Inputs: Front: [char]; i, j: integer
+ * Pre: i < size; j < size; Front = { '#', 'X', 'F', ' ', '1' '2', '3', '4', '5', '6', '7', '8' }
+ * Output: Front : [char]
+ * Post: Front[i][j] with its specific color
+ */
+void printChar(char** Front, int const i, int const j, int const matrixStartRow, int const matrixStartCol)
+{
+    //The coordinate of F[i][j] in window
+    gotoxy(matrixStartCol + j * 2, matrixStartRow + i);
+
+    //Print new character in its specific color
+    switch (Front[i][j]) {
+    case 'X': colorCout("X", 5); break; //Red
+    case 'F': colorCout("►", 7); break; //Yellow
+    case ' ': std::cout << " ";  break; //
+    case '#': std::cout << "#";  break; //White
+    case '1': colorCout("1", 4); break; //Cyan
+    case '2': colorCout("2", 10); break; //Green
+    case '3': colorCout("3", 5); break; //Red
+    case '4': colorCout("4", 2); break; //Blue
+    case '5': colorCout("5", 6); break; //Pink
+    case '6': colorCout("6", 1); break; //Gray
+    case '7': colorCout("7", 7); break; //Yellow
+    case '8': colorCout("8", 9); break; //White  
+    }
+}
 
 /* Brief: To print a character in green color, for cursor move
  * Inputs: Front: [char], i, j: integer
@@ -35,34 +205,6 @@ void printGreenChar(char** Front, int const i, int const j, int const matrixStar
         case '6': colorCout("6", cursorColor); break;
         case '7': colorCout("7", cursorColor); break;
         case '8': colorCout("8", cursorColor); break;
-    }
-}
-
-/* Brief: To print a character in its specific color
- * Inputs: Front: [char]; i, j: integer
- * Pre: i < size; j < size; Front = { '#', 'X', 'F', ' ', '1' '2', '3', '4', '5', '6', '7', '8' }
- * Output: Front : [char]
- * Post: Front[i][j] with its specific color
- */
-void printChar(char** Front, int const i, int const j, int const matrixStartRow, int const matrixStartCol)  
-{
-    //The coordinate of F[i][j] in window
-    gotoxy(matrixStartCol + j*2, matrixStartRow + i);
-     
-    //Print new character in its specific color
-    switch(Front[i][j]) {
-        case 'X': colorCout("X", 5); break; //Red
-        case 'F': colorCout("►", 7); break; //Yellow
-        case ' ': std::cout << " ";  break; //
-        case '#': std::cout << "#";  break; //White
-        case '1': colorCout("1", 4); break; //Cyan
-        case '2': colorCout("2", 10);break; //Green
-        case '3': colorCout("3", 5); break; //Red
-        case '4': colorCout("4", 2); break; //Blue
-        case '5': colorCout("5", 6); break; //Pink
-        case '6': colorCout("6", 1); break; //Gray
-        case '7': colorCout("7", 7); break; //Yellow
-        case '8': colorCout("8", 9); break; //White  
     }
 }
 
@@ -150,16 +292,53 @@ void win(int** Back, char** Front, int const size, int const time, int const lev
     }
 }
 
-//Open the number
-void Open(int **Back, char** Front, int const i, int const j, int* Fcount, int const matrixStartRow, int const matrixStartCol)
+//Game over, print all mines positions
+void Boom(int** Back, char** Front, int const size, bool* exitToMenu, bool* restart, int* winRow, int* winCol)
 {
-    if(Front[i][j] == 'F') {
-        --(*Fcount);
-    }
+    while (true) {
+        if (*exitToMenu || *restart) {
+            break;
+        }
 
-    //In ASCII table symbol of the number = number + 48
-    Front[i][j] = Back[i][j] + 48;
-    printChar(Front, i, j, matrixStartRow, matrixStartCol);        
+        int const rowCenter = *winRow / 2 + 1;
+        int const colCenter = *winCol / 2 + 1;
+        int const matrixStartRow = rowCenter - 2 - size / 2;
+        int const matrixStartCol = colCenter - size + 1;
+
+        //Show inscription Game Over
+        Show_GameOver(size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
+
+        //Show matrix in new position if window size is changed
+        showNewFront(Front, size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
+
+        //Show all mines in red because user lose
+        for (int i = 1; i < size - 1; ++i) {
+            for (int j = 1; j < size - 1; ++j) {
+                if (Back[i][j] == -1) {
+                    Front[i][j] = 'X';
+                    printChar(Front, i, j, matrixStartRow, matrixStartCol);
+                }
+            }
+        }
+
+        cbreak();
+        while (true) {
+            int const minWinRowSize = 28, minWinColSize = 82;
+            if (winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize)) {
+                break;
+            }
+
+            int key = keypress();
+            if (key == 'r' || key == 'R') {
+                *restart = true;
+                break;
+            }
+            if (key == 27) {
+                *exitToMenu = true;
+                break;
+            }
+        }
+    }
 }
 
 /* Brief: If there are no mines or numbers under #
@@ -194,55 +373,66 @@ void Empty(int** Back, char** Front, int const i, int const j, int* Fcount, int 
     }
 }
 
-//Game over, print all mines positions
-void Boom(int **Back, char** Front, int const size, bool* exitToMenu, bool* restart, int* winRow, int* winCol)
-{   
-    while(true) {
-         if(*exitToMenu || *restart) {
-            break;
-        }
+//Open the number
+void Open(int** Back, char** Front, int const i, int const j, int* Fcount, int const matrixStartRow, int const matrixStartCol)
+{
+    if (Front[i][j] == 'F') {
+        --(*Fcount);
+    }
 
-        int const rowCenter = *winRow / 2 + 1;
-        int const colCenter = *winCol / 2 + 1; 
-        int const matrixStartRow = rowCenter - 2 - size / 2; 
-        int const matrixStartCol = colCenter - size + 1; 
-        
-        //Show_Win(size, rowCenter, colCenter);
-       
-        //Show inscription Game Over
-        Show_GameOver(size, rowCenter, colCenter, matrixStartRow, matrixStartCol); 
+    //In ASCII table symbol of the number = number + 48
+    Front[i][j] = Back[i][j] + 48;
+    printChar(Front, i, j, matrixStartRow, matrixStartCol);
+}
 
-        //Show matrix in new position if window size is changed
-        showNewFront(Front, size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
-
-        //Show all mines in red because user lose
-        for(int i = 1; i < size - 1; ++i) {
-            for(int j = 1; j < size - 1; ++j) {
-                if(Back[i][j] == -1) {
-                    Front[i][j] = 'X';
-                    printChar(Front, i, j, matrixStartRow, matrixStartCol);
-                }
-            }
-        }
-     
-        cbreak();
-        while(true) {
-            int const minWinRowSize = 28, minWinColSize = 82;      
-            if(winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize)) {
-                break;
-            }
-
-            int key = keypress();
-            if(key == 'r' || key == 'R') {
-                *restart = true;
-                break; 
-            }
-            if(key == 27) {
-                *exitToMenu = true;
-                break;
+void OpenAround(int** Back, char** Front, int const size, int const i, int const j, int* Fcount, bool* exitToMenu, bool* restart, int const matrixStartRow, int const matrixStartCol, int* winRow, int* winCol)
+{
+    int tempFlugs = 0;
+    //checking
+    for (int row_i = i - 1; row_i <= i + 1; ++row_i) {
+        for (int col_j = j - 1; col_j <= j + 1; ++col_j) {
+            if (Front[row_i][col_j] == 'F') {
+                ++tempFlugs;
             }
         }
     }
+
+    if (tempFlugs == Back[i][j]) {
+        for (int row_i = i - 1; row_i <= i + 1; ++row_i) {
+            for (int col_j = j - 1; col_j <= j + 1; ++col_j) {
+                if (Front[row_i][col_j] == '#' && Front[row_i][col_j] != 'F') {
+                    switch (Back[row_i][col_j]) {
+                    case 0:
+                        Empty(Back, Front, row_i, col_j, &(*Fcount), matrixStartRow, matrixStartCol);
+                        break;
+
+                    case -1:
+                        Boom(Back, Front, size, &(*exitToMenu), &(*restart), &(*winRow), &(*winCol));
+                        break;
+
+                    default:
+                        if (Back[row_i][col_j] != 10)
+                            Open(Back, Front, row_i, col_j, &(*Fcount), matrixStartRow, matrixStartCol);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
+}
+
+void printBombCount(int const bombCount, int const Fcount, int const size, int const matrixStartRow, int const matrixStartCol)
+{
+    int const bombCountStartCol = matrixStartCol + 4 + 2 * size;
+    int const bombCountStartRow = matrixStartRow + 4;
+
+    gotoxy(bombCountStartCol, bombCountStartRow);
+    colorCout("Mines count", 4);
+
+    gotoxy(bombCountStartCol + 4, bombCountStartRow + 1);
+    std::cout << std::setw(2) << bombCount - Fcount << std::endl;
 }
 
 void pause(bool* exitToMenu, bool* returnToGame, int* pauseTime, int* winRow, int* winCol)
@@ -280,187 +470,5 @@ void pause(bool* exitToMenu, bool* returnToGame, int* pauseTime, int* winRow, in
     }
 }
 
-void printBombCount(int const bombCount, int const Fcount, int const size, int const matrixStartRow, int const matrixStartCol)
-{
-    int const bombCountStartCol = matrixStartCol + 4 + 2*size; 
-    int const bombCountStartRow = matrixStartRow + 4;
-
-    gotoxy(bombCountStartCol, bombCountStartRow);
-    colorCout("Mines count", 4);
-
-    gotoxy(bombCountStartCol + 4, bombCountStartRow + 1);
-    std::cout << std::setw(2) << bombCount - Fcount << std::endl;
-}
-
-//Main game
-void game(int** Back, char** Front, int const size, int const level, int const bombCount, bool const GodModeOn, bool* exitToMenu, int* winRow, int* winCol)  
-{    
-    //Returns the current calendar time encoded as a std::time_t object
-    std::time_t beginTime = std::time(nullptr);
-    bool restart = false;
-    int i = 1, j = 1, Fcount = 0;
-
-    while(true) {
-        bool returnToGame = false;
-
-        if(*exitToMenu || restart) {
-            break;
-        }
-
-        if(GodModeOn) {
-            Show_GodMode(Back, size);
-        }
-
-        int const rowCenter = *winRow / 2 + 1;
-        int const colCenter = *winCol / 2 + 1;
-        int const matrixStartRow = rowCenter - 2 - size / 2; 
-        int const matrixStartCol = colCenter - size + 1; 
-        
-        Show_Boards(size, matrixStartRow, matrixStartCol, 11);
-        showNewFront(Front, size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
-        Show_ExitRestart(rowCenter, colCenter, 4);
-        printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
-        printBombCount(bombCount, Fcount, size, matrixStartRow, matrixStartCol);
-
-        cbreak();
-        while(true) {
-            int const minWinRowSize = 30, minWinColSize = 82;      
-            if(winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize) || returnToGame) {
-                break;
-            }
-            
-            int const time = Show_Timer(beginTime, size, matrixStartRow, matrixStartCol);
-                        //Checking the game status
-            if(isWin(Front, size, bombCount)) {
-                printBombCount(bombCount, bombCount, size, matrixStartRow, matrixStartCol);
-                win(Back, Front, size, time, level, &restart, &(*exitToMenu), GodModeOn, &(*winRow), &(*winCol));
-            }
-
-            int key = keypress();
-            if(key == 'r' || key == 'R' || restart) {
-                restart = true;
-                break;
-            }
-            if(key == 27 || *exitToMenu) {
-                *exitToMenu = true;
-                break;
-            }
-            
-            switch (key) {
-                case 'w': case 'W': 
-                    printChar(Front, i, j, matrixStartRow, matrixStartCol);
-                    i == 1 ? i = size - 2 : --i;
-                    printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
-                    break;
-    
-                case 's': case 'S':   
-                    printChar(Front, i, j, matrixStartRow, matrixStartCol);
-                    i == size - 2 ? i = 1 : ++i;
-                    printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
-                    break;
-    
-                case 'a': case 'A': 
-                    printChar(Front, i, j, matrixStartRow, matrixStartCol);
-                    j == 1 ? j = size - 2 : --j;
-                    printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
-                    break;
-    
-                case 'd': case 'D':  
-                    printChar(Front, i, j, matrixStartRow, matrixStartCol);
-                    j == size - 2 ? j = 1 : ++j;
-                    printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
-                    break;
-    
-                case 'f': case 'F': //Flags 
-                    if(Front[i][j] == '#' && Fcount < bombCount) {    
-                        ++Fcount;
-                        Front[i][j] = 'F';
-                        printChar(Front, i, j, matrixStartRow, matrixStartCol);     
-                    } 
-                    else if (Front[i][j] == 'F') {
-                        --Fcount;
-                        Front[i][j] = '#';
-                        printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
-                    }
-                    printBombCount(bombCount, Fcount, size, matrixStartRow, matrixStartCol);
-                    break;
-
-                case 'p': case 'P':
-                    int pauseTime;
-                    pause(&(*exitToMenu), &returnToGame, &pauseTime, &(*winRow), &(*winCol));
-                    beginTime += pauseTime;
-                    system("clear");
-                    break;
-
-                case 10: //10 = Enter
-                    switch(Back[i][j]) {
-                        case -1: //There is mine under cage
-                            if(Front[i][j] != 'F') {
-                                Boom(Back, Front, size, &(*exitToMenu), &restart, &(*winRow), &(*winCol));
-                            }
-                            break;
-
-                        case 0: //Empty cage
-                            Empty(Back, Front, i, j, &Fcount, matrixStartRow, matrixStartCol);
-                            printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
-                            break;
-
-                        default: //There is a number under cage
-                            if(Back[i][j] != 10 && Front[i][j] != 'F') {
-                                if(Front[i][j] != '#') {
-                                    OpenAround(Back, Front, size, i, j, &Fcount, &(*exitToMenu), &restart, matrixStartRow, matrixStartCol, &(*winRow), &(*winCol));
-                                }
-                                else {
-                                    Open(Back, Front, i, j, &Fcount, matrixStartRow, matrixStartCol);
-                                    //printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
-                                }
-                            break;            
-                        }
-                        break;
-                }    
-            }
-        }
-    }
-}
-
-void OpenAround(int** Back, char** Front, int const size, int const i, int const j, int* Fcount, bool* exitToMenu, bool* restart, int const matrixStartRow, int const matrixStartCol, int* winRow, int* winCol)
-{
-    int tempFlugs = 0;
-    //checking
-    for (int row_i = i - 1; row_i <= i + 1; ++row_i) {
-        for (int col_j = j - 1; col_j <= j + 1; ++col_j) {
-            if(Front[row_i][col_j] == 'F') {
-                ++tempFlugs;
-            }
-        }
-    }
-
-    if(tempFlugs == Back[i][j]) {
-        for (int row_i = i - 1; row_i <= i + 1; ++row_i) {
-            for (int col_j = j - 1; col_j <= j + 1; ++col_j) {
-                if(Front[row_i][col_j] == '#' && Front[row_i][col_j] != 'F') {
-                    switch(Back[row_i][col_j]) {
-                        case 0: 
-                            Empty(Back, Front, row_i, col_j, &(*Fcount), matrixStartRow, matrixStartCol);
-                            break;
-
-                        case -1: 
-                            Boom(Back, Front, size, &(*exitToMenu), &(*restart), &(*winRow), &(*winCol));
-                            break;
-                        
-                        default: 
-                            if(Back[row_i][col_j] != 10)
-                            Open(Back, Front, row_i, col_j, &(*Fcount), matrixStartRow, matrixStartCol);
-                            break;
-                    }  
-                }
-            }
-        }
-    }
-
-    printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
-}
-
 
 #endif
-
