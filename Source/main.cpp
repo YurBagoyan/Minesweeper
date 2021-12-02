@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "input.hpp"
-#include "menu.hpp"
-#include "show.hpp"
+#include "../Headers/input.hpp"
+#include "../Headers/menu.hpp"
+#include "../Headers/show.hpp"
 
 int main()
 {
@@ -14,10 +14,11 @@ int main()
     userWinSize(&winRow, &winCol);
     int const rowCenter = winRow / 2 + 1;
     int const colCenter = winCol / 2 + 1;
-
+    
+    //cbreak();
     Show_GameNameAnimation(rowCenter, colCenter);
 
-    //menu in an endless loop, so declare the necessary variables here
+    //Menu in an endless loop, so declare the necessary variables here
     int choosedLevel = 1, soundsVolume = 10, musicVolume = 10, current = 0;
     int customSize = 5, customBombCount = 1;
     bool GodModeOn = false;

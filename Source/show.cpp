@@ -2,8 +2,8 @@
 #include <iostream>
 #include <unistd.h>
 
-#include "show.hpp"
-#include "input.hpp"
+#include "../Headers/show.hpp"
+#include "../Headers/input.hpp"
 
 void Show_GameName(int const printCol, int const printRow)    
 { 
