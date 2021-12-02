@@ -72,11 +72,11 @@ std::string fileWay(int const level)
     std::string way;
 
     switch(level) {
-        case 1: way = "../Records/beginners.txt"; break;
-        case 2: way = "../Records/veterans.txt"; break;
-        case 3: way = "../Records/experts.txt"; break;
-        case 4: way = "../Records/pros.txt"; break;
-        case 5: way = "../Records/masters.txt"; break;
+        case 1: way = "Records/beginners.txt"; break;
+        case 2: way = "Records/veterans.txt"; break;
+        case 3: way = "Records/experts.txt"; break;
+        case 4: way = "Records/pros.txt"; break;
+        case 5: way = "Records/masters.txt"; break;
     }
 
     return way;
@@ -84,7 +84,6 @@ std::string fileWay(int const level)
 
 void InputFromFile(std::string* topNickNames, int* topTimes, int const level)
 {
-   
     std::string way = fileWay(level);
 
     std::ifstream readFromFile;
