@@ -1,11 +1,11 @@
 #include <iostream>
 
-#include "menu.hpp"
-#include "input.hpp"
-#include "options.hpp"
-#include "preGame.hpp"
-#include "records.hpp"
-#include "show.hpp"
+#include "../Headers/menu.hpp"
+#include "../Headers/input.hpp"
+#include "../Headers/options.hpp"
+#include "../Headers/preGame.hpp"
+#include "../Headers/records.hpp"
+#include "../Headers/show.hpp"
 
 
 

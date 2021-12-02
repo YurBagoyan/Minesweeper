@@ -2,10 +2,10 @@
 #include <iomanip>
 #include <iostream>
 
-#include "game.hpp"
-#include "input.hpp"
-#include "records.hpp"
-#include "show.hpp"
+#include "../Headers/game.hpp"
+#include "../Headers/input.hpp"
+#include "../Headers/records.hpp"
+#include "../Headers/show.hpp"
 
 ///Main game
 void game(int** Back, char** Front, int const size, int const level, int const bombCount, bool const GodModeOn, bool* exitToMenu, int* winRow, int* winCol)
