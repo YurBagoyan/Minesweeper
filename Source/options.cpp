@@ -29,7 +29,7 @@ void options(int* customSize, int* customBombCount, int* choosedLevel, bool* God
 
         std::string custom[2] = { "Custom size: ", "Custom bomb count: " };
 
-        std::string levelInfo[5] = { "   Size = 8x8, Mines = 10", // Beginnger
+        std::string levelInfo[5] = {  " Size = 8x8,   Mines = 10", // Beginnger
                                       " Size = 10x10, Mines = 20", // Veteran
                                       " Size = 12x12, Mines = 35", // Expert
                                       " Size = 15x15, Mines = 50", // Pro
@@ -57,7 +57,7 @@ void options(int* customSize, int* customBombCount, int* choosedLevel, bool* God
         while (true) {
 
             int const minWinRowSize = 27, minWinColSize = 130;
-            if (sizeChanged || winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize)) {
+            if (sizeChanged || winSizeChanged(winRow, winCol, minWinRowSize, minWinColSize)) {
                 break;
             }
 
@@ -167,7 +167,7 @@ void options(int* customSize, int* customBombCount, int* choosedLevel, bool* God
                     gotoxy(optionsStartCol, optionsStartRow + current);
                     std::cout << options[current];
 
-                    customMode(custom, &(*customSize), &(*customBombCount), &exitFromOptions, optionsStartRow, optionsStartCol, &sizeChanged, &(*winRow), &(*winCol));
+                    customMode(custom, customSize, customBombCount, &exitFromOptions, optionsStartRow, optionsStartCol, &sizeChanged, winRow, winCol);
 
                     gotoxy(optionsStartCol, optionsStartRow + current);
                     colorCout(options[current], 3);
@@ -279,7 +279,7 @@ void customMode(std::string* custom, int* customSize, int* customBombCount, bool
         }
 
         int const minWinRowSize = 27, minWinColSize = 130;
-        if (winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize)) {
+        if (winSizeChanged(winRow, winCol, minWinRowSize, minWinColSize)) {
             *sizeChanged = true;
             break;
         }
@@ -305,20 +305,17 @@ void customMode(std::string* custom, int* customSize, int* customBombCount, bool
                 gotoxy(customNumberStartCol, customStartRow + current);
 
                 if(current == 0 && *customSize > 5) {
-                    //std::cout << "  "; 
                     gotoxy(customNumberStartCol, customStartRow + current);
 
                     std::cout << std::setw(2) << --(*customSize) << std::endl; 
                     if((*customSize)*(*customSize) < *customBombCount) {
                         *customBombCount = (*customSize)*(*customSize);
                         gotoxy(customNumberStartCol, customStartRow + 1);
-                        //std::cout << "  ";
                         gotoxy(customNumberStartCol, customStartRow + 1);
                         std::cout << std::setw(2) << *customBombCount << std::endl;
                     }
                 }
-                else if (current == 1 && *customBombCount > 1) {   
-                    //std::cout << "  "; 
+                else if (current == 1 && *customBombCount > 1) {
                     gotoxy(customNumberStartCol, customStartRow + current);
                     std::cout << std::setw(2) << --(*customBombCount) << std::endl;
                 }
@@ -328,12 +325,10 @@ void customMode(std::string* custom, int* customSize, int* customBombCount, bool
                 gotoxy(customNumberStartCol, customStartRow + current);
 
                 if(current == 0 && *customSize < 18) {  
-                    //std::cout << "  ";
                     gotoxy(customNumberStartCol, customStartRow + current);
                     std::cout << std::setw(2) << ++(*customSize) << std::endl;                   
                 }
-                else if (current == 1 && *customBombCount < 99 && (*customSize)*(*customSize) > *customBombCount) { 
-                    //std::cout << "  ";
+                else if (current == 1 && *customBombCount < 99 && (*customSize) * (*customSize) > *customBombCount) { 
                     gotoxy(customNumberStartCol, customStartRow + current);
                     std::cout << std::setw(2) << ++(*customBombCount) << std::endl;
                 }

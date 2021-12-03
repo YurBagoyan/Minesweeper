@@ -31,7 +31,7 @@ void Menu_choose(int* current, int* customSize, int* customBombCount, int* choos
     while (true) {
         //Checking user windows size and change if it has changed
         int const minWinRowSize = 22, minWinColSize = 132;
-        if (winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize) || returnToMenu) {
+        if (winSizeChanged(winRow, winCol, minWinRowSize, minWinColSize) || returnToMenu) {
             break;
         }
 
@@ -58,7 +58,7 @@ void Menu_choose(int* current, int* customSize, int* customBombCount, int* choos
             break;
 
         case 10:
-            selectedMenu(*current, &(*customSize), &(*customBombCount), &(*choosedLevel), &(*GodModeOn), &(*soudnsVolume), &(*musicVolume), &(*winRow), &(*winCol));
+            selectedMenu(*current, customSize, customBombCount, choosedLevel, GodModeOn, soudnsVolume, musicVolume, winRow, winCol);
             returnToMenu = true;
             break;
         }
@@ -81,13 +81,13 @@ void selectedMenu(int const current, int* customSize, int* customBombCount, int*
 {
     switch (current) {
         //Start
-        case 0: preGame(*customSize, *customBombCount, *choosedLevel, *GodModeOn, &(*winRow), &(*winCol)); break;
+        case 0: preGame(*customSize, *customBombCount, *choosedLevel, *GodModeOn, winRow, winCol); break;
         //Options
-        case 1: options(&(*customSize), &(*customBombCount), &(*choosedLevel), &(*GodModeOn), &(*soundsVolume), &(*musicVolume), &(*winRow), &(*winCol)); break;
+        case 1: options(customSize, customBombCount, choosedLevel, GodModeOn, soundsVolume, musicVolume, winRow, winCol); break;
         //Records
-        case 2: records(&(*winRow), &(*winCol)); break;
+        case 2: records(winRow, winCol); break;
         //About
-        case 3: Show_About(&(*winRow), &(*winCol)); break;
+        case 3: Show_About(winRow, winCol); break;
         //Exit
         case 4: normal(); system("clear"); exit(0); break;
     }

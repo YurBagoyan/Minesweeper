@@ -106,6 +106,7 @@ bool winSizeChanged(int* winRow, int* winCol, int const minWinRowSize, int const
     }
 
     system("clear");
+    printf("\e[?25l");
     return true;    
 }
 

@@ -24,7 +24,7 @@ void records(int* winRow, int* winCol)
         cbreak();
         while (true) {
             int const minWinRowSize = 30, minWinColSize = 82;
-            if (winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize)) {
+            if (winSizeChanged(winRow, winCol, minWinRowSize, minWinColSize)) {
                 break;
             }
 
