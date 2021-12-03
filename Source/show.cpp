@@ -174,7 +174,7 @@ void Show_About(int* winRow, int* winCol)
         cbreak();
         while (true) {
             int const minWinRowSize = 39, minWinColSize = 104;
-            if (winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize)) {
+            if (winSizeChanged(winRow, winCol, minWinRowSize, minWinColSize)) {
                 break;
             }
 

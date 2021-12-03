@@ -40,7 +40,7 @@ void game(int** Back, char** Front, int const size, int const level, int const b
         cbreak();
         while (true) {
             int const minWinRowSize = 30, minWinColSize = 82;
-            if (winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize) || returnToGame) {
+            if (winSizeChanged(winRow, winCol, minWinRowSize, minWinColSize) || returnToGame) {
                 break;
             }
 
@@ -48,7 +48,7 @@ void game(int** Back, char** Front, int const size, int const level, int const b
             //Checking the game status
             if (isWin(Front, size, bombCount)) {
                 printBombCount(bombCount, bombCount, size, matrixStartRow, matrixStartCol);
-                win(Back, Front, size, time, level, &restart, &(*exitToMenu), GodModeOn, &(*winRow), &(*winCol));
+                win(Back, Front, size, time, level, &restart, exitToMenu, GodModeOn, winRow, winCol);
             }
 
             int key = keypress();
@@ -102,7 +102,7 @@ void game(int** Back, char** Front, int const size, int const level, int const b
 
             case 'p': case 'P':
                 int pauseTime;
-                pause(&(*exitToMenu), &returnToGame, &pauseTime, &(*winRow), &(*winCol));
+                pause(exitToMenu, &returnToGame, &pauseTime, winRow, winCol);
                 beginTime += pauseTime;
                 system("clear");
                 break;
@@ -111,7 +111,7 @@ void game(int** Back, char** Front, int const size, int const level, int const b
                 switch (Back[i][j]) {
                 case -1: //There is mine under cage
                     if (Front[i][j] != 'F') {
-                        Boom(Back, Front, size, &(*exitToMenu), &restart, &(*winRow), &(*winCol));
+                        Boom(Back, Front, size, exitToMenu, &restart, winRow, winCol);
                     }
                     break;
 
@@ -123,7 +123,7 @@ void game(int** Back, char** Front, int const size, int const level, int const b
                 default: //There is a number under cage
                     if (Back[i][j] != 10 && Front[i][j] != 'F') {
                         if (Front[i][j] != '#') {
-                            OpenAround(Back, Front, size, i, j, &Fcount, &(*exitToMenu), &restart, matrixStartRow, matrixStartCol, &(*winRow), &(*winCol));
+                            OpenAround(Back, Front, size, i, j, &Fcount, exitToMenu, &restart, matrixStartRow, matrixStartCol, winRow, winCol);
                         }
                         else {
                             Open(Back, Front, i, j, &Fcount, matrixStartRow, matrixStartCol);
@@ -151,18 +151,18 @@ void printChar(char** Front, int const i, int const j, int const matrixStartRow,
 
     //Print new character in its specific color
     switch (Front[i][j]) {
-    case 'X': colorCout("X", 5); break; //Red
-    case 'F': colorCout("►", 7); break; //Yellow
-    case ' ': std::cout << " ";  break; //
-    case '#': std::cout << "#";  break; //White
-    case '1': colorCout("1", 4); break; //Cyan
+    case 'X': colorCout("X", 5); break;  //Red
+    case 'F': colorCout("►", 7); break;  //Yellow
+    case ' ': std::cout << " ";  break;  //
+    case '#': std::cout << "#";  break;  //White
+    case '1': colorCout("1", 4); break;  //Cyan
     case '2': colorCout("2", 10); break; //Green
-    case '3': colorCout("3", 5); break; //Red
-    case '4': colorCout("4", 2); break; //Blue
-    case '5': colorCout("5", 6); break; //Pink
-    case '6': colorCout("6", 1); break; //Gray
-    case '7': colorCout("7", 7); break; //Yellow
-    case '8': colorCout("8", 9); break; //White  
+    case '3': colorCout("3", 5); break;  //Red
+    case '4': colorCout("4", 2); break;  //Blue
+    case '5': colorCout("5", 6); break;  //Pink
+    case '6': colorCout("6", 1); break;  //Gray
+    case '7': colorCout("7", 7); break;  //Yellow
+    case '8': colorCout("8", 9); break;  //White  
     }
 }
 
@@ -261,7 +261,7 @@ void win(int** Back, char** Front, int const size, int const time, int const lev
         cbreak();
         while(true) {
             int const minWinRowSize = 28, minWinColSize = 82;      
-            if(winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize)) {
+            if(winSizeChanged(winRow, winCol, minWinRowSize, minWinColSize)) {
                 break;
             }
 
@@ -310,7 +310,7 @@ void Boom(int** Back, char** Front, int const size, bool* exitToMenu, bool* rest
         cbreak();
         while (true) {
             int const minWinRowSize = 28, minWinColSize = 82;
-            if (winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize)) {
+            if (winSizeChanged(winRow, winCol, minWinRowSize, minWinColSize)) {
                 break;
             }
 
@@ -349,10 +349,10 @@ void Empty(int** Back, char** Front, int const i, int const j, int* Fcount, int 
                 }
 
                 if(Back[row_i][col_j] == 0) {
-                    Empty(Back, Front, row_i, col_j, &(*Fcount), matrixStartRow, matrixStartCol);
+                    Empty(Back, Front, row_i, col_j, Fcount, matrixStartRow, matrixStartCol);
                 }
                 else if(Back[row_i][col_j] < 9 && Back[row_i][col_j] != -2) {
-                    Open(Back, Front, row_i, col_j, &(*Fcount), matrixStartRow, matrixStartCol);
+                    Open(Back, Front, row_i, col_j, Fcount, matrixStartRow, matrixStartCol);
                 }
             }
         }   
@@ -389,16 +389,16 @@ void OpenAround(int** Back, char** Front, int const size, int const i, int const
                 if (Front[row_i][col_j] == '#' && Front[row_i][col_j] != 'F') {
                     switch (Back[row_i][col_j]) {
                     case 0:
-                        Empty(Back, Front, row_i, col_j, &(*Fcount), matrixStartRow, matrixStartCol);
+                        Empty(Back, Front, row_i, col_j, Fcount, matrixStartRow, matrixStartCol);
                         break;
 
                     case -1:
-                        Boom(Back, Front, size, &(*exitToMenu), &(*restart), &(*winRow), &(*winCol));
+                        Boom(Back, Front, size, exitToMenu, restart, winRow, winCol);
                         break;
 
                     default:
                         if (Back[row_i][col_j] != 10)
-                            Open(Back, Front, row_i, col_j, &(*Fcount), matrixStartRow, matrixStartCol);
+                            Open(Back, Front, row_i, col_j, Fcount, matrixStartRow, matrixStartCol);
                         break;
                     }
                 }
@@ -437,7 +437,7 @@ void pause(bool* exitToMenu, bool* returnToGame, int* pauseTime, int* winRow, in
         cbreak();
         while(true) {
             int const minWinRowSize = 30, minWinColSize = 82; 
-            if(winSizeChanged(&(*winRow), &(*winCol), minWinRowSize, minWinColSize)) {
+            if(winSizeChanged(winRow, winCol, minWinRowSize, minWinColSize)) {
                 break;
             }
 
