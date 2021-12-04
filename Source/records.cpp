@@ -113,11 +113,11 @@ void InputFromFile(std::string* topNickNames, int* topTimes, int const level)
 
 void printTop(std::string* topNickNames, int* topTimes, int const rowCenter, int const colCenter)
 {
-    int const nicksStartRow = rowCenter;
-    int const nicksStartCol = colCenter - 13;
+    int const nicksStartRow = rowCenter - 2;
+    int const nicksStartCol = colCenter - 15;
 
-    int const timeStartRow = rowCenter;
-    int const timeStartCol = colCenter + 10;
+    int const timeStartRow = nicksStartRow;
+    int const timeStartCol = nicksStartCol + 15;
 
     for (int i = 1; i < 6; ++i) {
         gotoxy(nicksStartCol, nicksStartRow + i - 1);
