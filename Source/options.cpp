@@ -231,12 +231,12 @@ void printOptions(std::string* options, std::string* volume, std::string* custom
     colorCout(custom[1], 7);
 
     //Print custom size
-    int const customNumberStartCol = customStartCol + 20;
+    int const customNumberStartCol = customStartCol + 19;
     gotoxy(customNumberStartCol, customStartRow);
-    std::cout << customSize << std::endl;
+    std::cout << std::setw(2) << customSize << std::endl;
     //Print custom bomb count
     gotoxy(customNumberStartCol, customStartRow + 1);
-    std::cout << customBombCount << std::endl;
+    std::cout << std::setw(2) << customBombCount << std::endl;
 
     std::cout << std::endl;
 }
