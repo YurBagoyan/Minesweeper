@@ -1,10 +1,10 @@
 #include <ctime>
 #include <iostream>
 
-#include "../Headers/preGame.hpp"
-#include "../Headers/game.hpp"
-#include "../Headers/input.hpp"
-#include "../Headers/show.hpp"
+#include "../Include/preGame.hpp"
+#include "../Include/game.hpp"
+#include "../Include/input.hpp"
+#include "../Include/show.hpp"
 
 void preGame(int const customSize, int const customBombCount, int const choosedLevel, bool const GodModeOn, int* winRow, int* winCol)
 {
