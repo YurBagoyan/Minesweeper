@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "../Headers/input.hpp"
-#include "../Headers/menu.hpp"
-#include "../Headers/show.hpp"
+#include "../Include/input.hpp"
+#include "../Include/menu.hpp"
+#include "../Include/show.hpp"
 
 int main()
 {

@@ -1,9 +1,9 @@
 #include <iomanip>
 #include <iostream>
 
-#include "../Headers/options.hpp"
-#include "../Headers/input.hpp"
-#include "../Headers/show.hpp"
+#include "../Include/options.hpp"
+#include "../Include/input.hpp"
+#include "../Include/show.hpp"
 
 void options(int* customSize, int* customBombCount, int* choosedLevel, bool* GodModeOn, int* soundsVolume, int* musicVolume, int* winRow, int* winCol)
 {

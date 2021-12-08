@@ -2,9 +2,9 @@
 #include <iomanip>
 #include <iostream>
 
-#include "../Headers/records.hpp"
-#include "../Headers/input.hpp"
-#include "../Headers/show.hpp"
+#include "../Include/records.hpp"
+#include "../Include/input.hpp"
+#include "../Include/show.hpp"
 
 void records(int* winRow, int* winCol)
 {
