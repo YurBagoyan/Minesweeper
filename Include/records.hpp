@@ -1,7 +1,7 @@
 #ifndef RECORDS_HPP
 #define RECORDS_HPP
 
-void checkingTimeInTop(int const time, int const level, int const rowCenter, int const colCenter);
+void checkingTimeInTop(int const time, int const level, bool* exitToMenu, int const rowCenter, int const colCenter);
 
 std::string fileWay(int const level);
 

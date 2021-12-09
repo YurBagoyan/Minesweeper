@@ -253,10 +253,12 @@ void win(int** Back, char** Front, int const size, int const time, int const lev
             }
         }
 
-        if (!GodModeOn && level != 11) {
+        /*if (!GodModeOn && level != 11) {
             checkingTimeInTop(time, level, rowCenter, colCenter);
-        }
+        }*/
    
+        checkingTimeInTop(time, level, exitToMenu, rowCenter, colCenter);
+
         //Restart or Exit to main menu
         cbreak();
         while(true) {
@@ -270,7 +272,7 @@ void win(int** Back, char** Front, int const size, int const time, int const lev
                 *restart = true;
                 break; 
             }
-            if(key == 27) {
+            if(key == 27 || *exitToMenu) {
                 *exitToMenu = true;
                 break;
             }
