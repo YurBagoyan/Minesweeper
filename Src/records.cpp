@@ -2,9 +2,11 @@
 #include <iomanip>
 #include <iostream>
 
+#include "../Include/firework.hpp"
 #include "../Include/records.hpp"
 #include "../Include/input.hpp"
 #include "../Include/show.hpp"
+
 
 void records(int* winRow, int* winCol)
 {
@@ -139,7 +141,7 @@ void printTime(int const time, int const timeStartRow, int const timeStartCol)
     std::cout << std::setw(2) << hours << " : " << std::setw(2) << min << " : " << std::setw(2) << sec << "\n";
 }
 
-void checkingTimeInTop(int const time, int const level, int const rowCenter, int const colCenter)
+void checkingTimeInTop(int const time, int const level, bool* exitToMenu, int const rowCenter, int const colCenter)
 {
     std::string topNickNames[7] = { "" };
     int topTimes[7] = { 0 };
@@ -147,6 +149,7 @@ void checkingTimeInTop(int const time, int const level, int const rowCenter, int
 
     if (time < topTimes[5]) {
         newRecord(topNickNames, topTimes, time, level, rowCenter, colCenter);
+        *exitToMenu = true;
     }
 }
 
@@ -178,9 +181,13 @@ std::string inputUserNickName(int const rowCenter, int const colCenter)
         normal();
         gotoxy(colCenter + 31, rowCenter * 2 - 12);
         getline(std::cin, userNickName);
+       
         gotoxy(colCenter - 30, rowCenter * 2 - 12);
         std::cout << "                                                                                  \n";
     } while (userNickName.length() > 10);
+
+    system("clear");
+    firework();
 
     return userNickName;
 }
