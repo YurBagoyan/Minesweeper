@@ -1,8 +1,8 @@
 #include <iomanip>
 #include <iostream>
 
-#include "../Include/options.hpp"
 #include "../Include/input.hpp"
+#include "../Include/options.hpp"
 #include "../Include/show.hpp"
 
 void options(int& customSize, int& customBombCount, int& choosedLevel, bool& GodModeOn, int& soundsVolume, int& musicVolume, int& winRow, int& winCol)
@@ -24,29 +24,29 @@ void options(int& customSize, int& customBombCount, int& choosedLevel, bool& God
         gotoxy(colCenter - 16, rowCenter * 2 - 2);
         colorCout("Press Esc to return to MAIN MENU", 7);
 
-        int const optionsSize = 11;
-        std::string options[optionsSize] = { "Beginner", "Veteran", "Expert", "Pro", "Master", "", "Sounds", "Music", "", "God Mode", "Custom Mode >" };
+        constexpr size_t optionsSize = 11;
+        const std::string options[optionsSize] = { "Beginner", "Veteran", "Expert", "Pro", "Master", "", "Sounds", "Music", "", "God Mode", "Custom Mode >" };
 
-        std::string custom[2] = { "Custom size: ", "Custom bomb count: " };
+        const std::string custom[2] = { "Custom size: ", "Custom bomb count: " };
 
-        std::string levelInfo[5] = {  " Size = 8x8,   Mines = 10", // Beginnger
-                                      " Size = 10x10, Mines = 20", // Veteran
-                                      " Size = 12x12, Mines = 35", // Expert
-                                      " Size = 15x15, Mines = 50", // Pro
-                                      " Size = 18x18, Mines = 99", // Master
-        };
+        const std::string levelInfo[5] = {  " Size = 8x8,   Mines = 10", // Beginnger
+                                            " Size = 10x10, Mines = 20", // Veteran
+                                            " Size = 12x12, Mines = 35", // Expert
+                                            " Size = 15x15, Mines = 50", // Pro
+                                            " Size = 18x18, Mines = 99", // Master
+                                                                                };
 
-        std::string volume[11] = { "[□□□□□□□□□□]   0%",
-                                   "[■□□□□□□□□□]  10%",
-                                   "[■■□□□□□□□□]  20%",
-                                   "[■■■□□□□□□□]  30%",
-                                   "[■■■■□□□□□□]  40%",
-                                   "[■■■■■□□□□□]  50%",
-                                   "[■■■■■■□□□□]  60%",
-                                   "[■■■■■■■□□□]  70%",
-                                   "[■■■■■■■■□□]  80%",
-                                   "[■■■■■■■■■□]  90%",
-                                   "[■■■■■■■■■■] 100%" };
+        const std::string volume[11] = {"[□□□□□□□□□□]   0%",
+                                        "[■□□□□□□□□□]  10%",
+                                        "[■■□□□□□□□□]  20%",
+                                        "[■■■□□□□□□□]  30%",
+                                        "[■■■■□□□□□□]  40%",
+                                        "[■■■■■□□□□□]  50%",
+                                        "[■■■■■■□□□□]  60%",
+                                        "[■■■■■■■□□□]  70%",
+                                        "[■■■■■■■■□□]  80%",
+                                        "[■■■■■■■■■□]  90%",
+                                        "[■■■■■■■■■■] 100%" };
 
         int const optionsStartRow = rowCenter;
         int const optionsStartCol = colCenter - 4;
@@ -187,7 +187,7 @@ void options(int& customSize, int& customBombCount, int& choosedLevel, bool& God
     }
 }
 
-void printOptions(std::string* options, std::string* volume, std::string* custom, std::string* levelInfo, int const current, int const optionsSize, int const choosedLevel, bool const GodModeOn, int const soundsVolume, int const musicVolume, int const optionsStartRow, int const optionsStartCol, int const customSize, int const customBombCount)
+void printOptions(const std::string* options, const std::string* volume, const std::string* custom, const std::string* levelInfo, int const current, int const optionsSize, int const choosedLevel, bool const GodModeOn, int const soundsVolume, int const musicVolume, int const optionsStartRow, int const optionsStartCol, int const customSize, int const customBombCount)
 {
     //Print options in cyan color
     gotoxy(optionsStartCol, optionsStartRow - 2);
@@ -241,7 +241,7 @@ void printOptions(std::string* options, std::string* volume, std::string* custom
     std::cout << std::endl;
 }
 
-void customMode(std::string* custom, int& customSize, int& customBombCount, bool& exitFromOptions, int const optionsStartRow, int const optionsStartCol, bool& sizeChanged, int& winRow, int& winCol)
+void customMode(const std::string* custom, int& customSize, int& customBombCount, bool& exitFromOptions, int const optionsStartRow, int const optionsStartCol, bool& sizeChanged, int& winRow, int& winCol)
 {      
     int const customStartRow = optionsStartRow + 10;  
     int const customStartCol = optionsStartCol + 15;

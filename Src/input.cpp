@@ -59,7 +59,7 @@ void gotoxy(int x, int y)
 }
 
 //For colors in the game
-void colorCout(std::string text, int const textColor)
+void colorCout(const std::string text, const int textColor)
 {
     switch(textColor) { 
         case  1: std::cout << "\x1b[90;1m" << text << "\x1b[0m\n"; break; // gray               1
@@ -85,7 +85,7 @@ void userWinSize(int& winRow, int& winCol)
     winCol = w.ws_col;
 }
 
-bool winSizeChanged(int& winRow, int& winCol, int const minWinRowSize, int const minWinColSize) {
+bool winSizeChanged(int& winRow, int& winCol, const int minWinRowSize, const int minWinColSize) {
     int newWinRow, newWinCol;
     userWinSize(newWinRow, newWinCol);
 
@@ -108,5 +108,11 @@ bool winSizeChanged(int& winRow, int& winCol, int const minWinRowSize, int const
     system("clear");
     printf("\e[?25l");
     return true;    
+}
+
+void clearLine(const int line)
+{
+    gotoxy(0, line);
+    printf("\33[2K\r");
 }
 

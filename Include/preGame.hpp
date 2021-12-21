@@ -1,18 +1,18 @@
 #ifndef PREGAME_HPP
 #define PREGAME_HPP
 
-void addNumbers(int** Back, int const size);
+void addNumbers(int** Back, const size_t size);
 
-void aroundMine(int** Back, int const size, int const i, int const j);
+void aroundMine(int** Back, const size_t size, const int i, const int j);
 
-void boundsOfMatrix(int** Back, char** Front, int const size);
+void boundsOfMatrix(int** Back, const size_t size);
 
-void level(int const choosedLevel, int& size, int& bombCount, int const customSize, int const customBombCount);
+void level(int const choosedLevel, size_t& size, size_t& bombCount, const int customSize, const int customBombCount);
 
-void mainPreGame(int const customSize, int const customBombCount, int const choosedLevel, bool const GodModeOn, bool& exitFromGame, int& winRow, int& winCol);
+void mainPreGame(const int customSize, const int customBombCount, const int choosedLevel, const bool GodModeOn, bool& exitFromGame, int& winRow, int& winCol);
 
-void preGame(int const customSize, int const customBombCount, int const choosedLevel, bool const GodModeOn, int& winRow, int& winCol);
+void preGame(const int customSize, const int customBombCount, const int choosedLevel, const bool GodModeOn, int& winRow, int& winCol);
 
-void randomMines(int** Back, int const size, int bombCount);
+void randomMines(int** Back, const size_t size, size_t bombCount);
 
 #endif //PREGAME_HPP
