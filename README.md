@@ -1,7 +1,8 @@
 # How To Run
-You need to install ncurses at first:
+You need to install ncurses and make at first:
 ```
 sudo apt-get install libncurses5-dev
+sudo apt-get install make
 ```
 After that just run in main directory:
 ```
