@@ -21,8 +21,8 @@ void gotoxy(int,int);
 
 void colorCout(std::string, int const);
 
-void userWinSize(int*, int*);
+void userWinSize(int&, int&);
 
-bool winSizeChanged(int*, int*, int const, int const);
+bool winSizeChanged(int&, int&, int const, int const);
 
 #endif // INPUT_HPP

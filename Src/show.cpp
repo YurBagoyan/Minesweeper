@@ -2,8 +2,8 @@
 #include <iostream>
 #include <unistd.h>
 
-#include "../Include/show.hpp"
 #include "../Include/input.hpp"
+#include "../Include/show.hpp"
 
 void Show_GameName(int const printCol, int const printRow)    
 { 
@@ -101,14 +101,14 @@ void Show_Control(int const showControlRowStart, int const showControlColStart)
     std::cout << R"(  |/__\| |/__\| |/__\|       |/_______\|  )";
 }
 
-void Show_About(int* winRow, int* winCol)
+void Show_About(int& winRow, int& winCol)
 {
     bool exitFromAbout = false;
     while (!exitFromAbout) {
         system("clear");
 
-        int const rowCenter = *winRow / 2 + 1;
-        int const colCenter = *winCol / 2 + 1;
+        int const rowCenter = winRow / 2 + 1;
+        int const colCenter = winCol / 2 + 1;
 
         int const aboutStart = 3;
         gotoxy(colCenter - 8, aboutStart);
@@ -288,7 +288,6 @@ void Show_Pause(int const rowCenter, int const colCenter)
     gotoxy(colCenter - 16, rowCenter * 2 - 3);
     colorCout("Press Esc to return to MAIN MENU", 7);
 }
-
 
 ///Levels
 void Show_levelName(int const level, int const rowCenter, int const colCenter)

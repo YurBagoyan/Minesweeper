@@ -3,12 +3,12 @@
 #include <iostream>
 
 #include "../Include/firework.hpp"
-#include "../Include/records.hpp"
 #include "../Include/input.hpp"
+#include "../Include/records.hpp"
 #include "../Include/show.hpp"
 
 
-void records(int* winRow, int* winCol)
+void records(int& winRow, int& winCol)
 {
     int level = 1;
     bool exitToMenu = false;
@@ -17,8 +17,8 @@ void records(int* winRow, int* winCol)
             break;
         }
 
-        int const rowCenter = *winRow / 2 + 1;
-        int const colCenter = *winCol / 2 + 1;
+        int const rowCenter = winRow / 2 + 1;
+        int const colCenter = winCol / 2 + 1;
         int const recStartRow = rowCenter, recStartCol = colCenter;
 
         printRecords(level, recStartRow, recStartCol, rowCenter, colCenter);
@@ -141,7 +141,7 @@ void printTime(int const time, int const timeStartRow, int const timeStartCol)
     std::cout << std::setw(2) << hours << " : " << std::setw(2) << min << " : " << std::setw(2) << sec << "\n";
 }
 
-void checkingTimeInTop(int const time, int const level, bool* exitToMenu, int const rowCenter, int const colCenter)
+void checkingTimeInTop(int const time, int const level, bool& exitToMenu, int const rowCenter, int const colCenter)
 {
     std::string topNickNames[7] = { "" };
     int topTimes[7] = { 0 };
@@ -149,7 +149,7 @@ void checkingTimeInTop(int const time, int const level, bool* exitToMenu, int co
 
     if (time < topTimes[5]) {
         newRecord(topNickNames, topTimes, time, level, rowCenter, colCenter);
-        *exitToMenu = true;
+        exitToMenu = true;
     }
 }
 

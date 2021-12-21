@@ -5,7 +5,7 @@
 #include "../Include/input.hpp"
 #include "../Include/show.hpp"
 
-void options(int* customSize, int* customBombCount, int* choosedLevel, bool* GodModeOn, int* soundsVolume, int* musicVolume, int* winRow, int* winCol)
+void options(int& customSize, int& customBombCount, int& choosedLevel, bool& GodModeOn, int& soundsVolume, int& musicVolume, int& winRow, int& winCol)
 {
     int current = 0;
     bool exitFromOptions = false;
@@ -15,8 +15,8 @@ void options(int* customSize, int* customBombCount, int* choosedLevel, bool* God
             break;
         }
 
-        int const rowCenter = *winRow / 2 + 1;
-        int const colCenter = *winCol / 2 + 1;
+        int const rowCenter = winRow / 2 + 1;
+        int const colCenter = winCol / 2 + 1;
 
         int const gameName = 67;
         Show_GameName(colCenter - gameName, rowCenter - 11);
@@ -50,7 +50,7 @@ void options(int* customSize, int* customBombCount, int* choosedLevel, bool* God
 
         int const optionsStartRow = rowCenter;
         int const optionsStartCol = colCenter - 4;
-        printOptions(options, volume, custom, levelInfo, current, optionsSize, *choosedLevel, *GodModeOn, *soundsVolume, *musicVolume, optionsStartRow, optionsStartCol, *customSize, *customBombCount);
+        printOptions(options, volume, custom, levelInfo, current, optionsSize, choosedLevel, GodModeOn, soundsVolume, musicVolume, optionsStartRow, optionsStartCol, customSize, customBombCount);
 
         bool sizeChanged = false;
         cbreak();
@@ -121,22 +121,22 @@ void options(int* customSize, int* customBombCount, int* choosedLevel, bool* God
             case 'a': case 'A':
                 gotoxy(optionsStartCol + 8, optionsStartRow + current);
 
-                if (current == 6 && *soundsVolume > 0) {
-                    std::cout << volume[--(*soundsVolume)] << std::endl;
+                if (current == 6 && soundsVolume > 0) {
+                    std::cout << volume[--soundsVolume] << std::endl;
                 }
-                else if (current == 7 && *musicVolume > 0) {
-                    std::cout << volume[--(*musicVolume)] << std::endl;
+                else if (current == 7 && musicVolume > 0) {
+                    std::cout << volume[--musicVolume] << std::endl;
                 }
                 break;
 
             case 'd': case 'D':
                 gotoxy(optionsStartCol + 8, optionsStartRow + current);
 
-                if (current == 6 && *soundsVolume < 10) {
-                    std::cout << volume[++(*soundsVolume)] << std::endl;
+                if (current == 6 && soundsVolume < 10) {
+                    std::cout << volume[++soundsVolume] << std::endl;
                 }
-                else if (current == 7 && *musicVolume < 10) {
-                    std::cout << volume[++(*musicVolume)] << std::endl;
+                else if (current == 7 && musicVolume < 10) {
+                    std::cout << volume[++musicVolume] << std::endl;
                 }
                 break;
 
@@ -145,12 +145,12 @@ void options(int* customSize, int* customBombCount, int* choosedLevel, bool* God
                 case 9: // God Mode
                     gotoxy(optionsStartCol + 9, optionsStartRow + current);
 
-                    if (*GodModeOn) {
-                        *GodModeOn = false;
+                    if (GodModeOn) {
+                        GodModeOn = false;
                         colorCout("Off", 5);
                     }
                     else {
-                        *GodModeOn = true;
+                        GodModeOn = true;
                         colorCout("On ", 3);
                     }
                     break;
@@ -159,24 +159,24 @@ void options(int* customSize, int* customBombCount, int* choosedLevel, bool* God
                     break;
 
                 case 10: //Custom Mode
-                    gotoxy(optionsStartCol - 2, optionsStartRow + *choosedLevel - 1);
+                    gotoxy(optionsStartCol - 2, optionsStartRow + choosedLevel - 1);
                     std::cout << " ";
-                    *choosedLevel = 11;
-                    gotoxy(optionsStartCol - 2, optionsStartRow + *choosedLevel - 1);
+                    choosedLevel = 11;
+                    gotoxy(optionsStartCol - 2, optionsStartRow + choosedLevel - 1);
                     colorCout("►", 7);
                     gotoxy(optionsStartCol, optionsStartRow + current);
                     std::cout << options[current];
 
-                    customMode(custom, customSize, customBombCount, &exitFromOptions, optionsStartRow, optionsStartCol, &sizeChanged, winRow, winCol);
+                    customMode(custom, customSize, customBombCount, exitFromOptions, optionsStartRow, optionsStartCol, sizeChanged, winRow, winCol);
 
                     gotoxy(optionsStartCol, optionsStartRow + current);
                     colorCout(options[current], 3);
                     break;
 
                 default:
-                    gotoxy(optionsStartCol - 2, optionsStartRow + *choosedLevel - 1);
+                    gotoxy(optionsStartCol - 2, optionsStartRow + choosedLevel - 1);
                     std::cout << " ";
-                    *choosedLevel = current + 1;
+                    choosedLevel = current + 1;
                     gotoxy(optionsStartCol - 2, optionsStartRow + current);
                     colorCout("►", 7);
                     break;
@@ -241,7 +241,7 @@ void printOptions(std::string* options, std::string* volume, std::string* custom
     std::cout << std::endl;
 }
 
-void customMode(std::string* custom, int* customSize, int* customBombCount, bool* exitFromOptions, int const optionsStartRow, int const optionsStartCol, bool* sizeChanged, int* winRow, int* winCol)
+void customMode(std::string* custom, int& customSize, int& customBombCount, bool& exitFromOptions, int const optionsStartRow, int const optionsStartCol, bool& sizeChanged, int& winRow, int& winCol)
 {      
     int const customStartRow = optionsStartRow + 10;  
     int const customStartCol = optionsStartCol + 15;
@@ -256,10 +256,10 @@ void customMode(std::string* custom, int* customSize, int* customBombCount, bool
     //Print custom size
     int const customNumberStartCol = customStartCol + 19;
     gotoxy(customNumberStartCol, customStartRow);
-    std::cout << std::setw(2) << *customSize << std::endl;
+    std::cout << std::setw(2) << customSize << std::endl;
     //Print custom bomb count
     gotoxy(customNumberStartCol, customStartRow + 1);
-    std::cout << std::setw(2) << *customBombCount << std::endl;
+    std::cout << std::setw(2) << customBombCount << std::endl;
    
     int current = 0;
     cbreak();
@@ -273,14 +273,14 @@ void customMode(std::string* custom, int* customSize, int* customBombCount, bool
             colorCout(custom[1], 7);
 
             if(key == 27) {
-                *exitFromOptions = true; 
+                exitFromOptions = true; 
             }
             break;    
         }
 
         int const minWinRowSize = 27, minWinColSize = 130;
         if (winSizeChanged(winRow, winCol, minWinRowSize, minWinColSize)) {
-            *sizeChanged = true;
+            sizeChanged = true;
             break;
         }
 
@@ -304,33 +304,33 @@ void customMode(std::string* custom, int* customSize, int* customBombCount, bool
             case 'a': case 'A': 
                 gotoxy(customNumberStartCol, customStartRow + current);
 
-                if(current == 0 && *customSize > 5) {
+                if(current == 0 && customSize > 5) {
                     gotoxy(customNumberStartCol, customStartRow + current);
 
-                    std::cout << std::setw(2) << --(*customSize) << std::endl; 
-                    if((*customSize)*(*customSize) < *customBombCount) {
-                        *customBombCount = (*customSize)*(*customSize);
+                    std::cout << std::setw(2) << --customSize << std::endl; 
+                    if(customSize * customSize < customBombCount) {
+                        customBombCount = customSize * customSize;
                         gotoxy(customNumberStartCol, customStartRow + 1);
                         gotoxy(customNumberStartCol, customStartRow + 1);
-                        std::cout << std::setw(2) << *customBombCount << std::endl;
+                        std::cout << std::setw(2) << customBombCount << std::endl;
                     }
                 }
-                else if (current == 1 && *customBombCount > 1) {
+                else if (current == 1 && customBombCount > 1) {
                     gotoxy(customNumberStartCol, customStartRow + current);
-                    std::cout << std::setw(2) << --(*customBombCount) << std::endl;
+                    std::cout << std::setw(2) << --customBombCount << std::endl;
                 }
                 break;
 
             case 'd': case 'D': 
                 gotoxy(customNumberStartCol, customStartRow + current);
 
-                if(current == 0 && *customSize < 18) {  
+                if(current == 0 && customSize < 18) {  
                     gotoxy(customNumberStartCol, customStartRow + current);
-                    std::cout << std::setw(2) << ++(*customSize) << std::endl;                   
+                    std::cout << std::setw(2) << ++customSize << std::endl;                   
                 }
-                else if (current == 1 && *customBombCount < 99 && (*customSize) * (*customSize) > *customBombCount) { 
+                else if (current == 1 && customBombCount < 99 && customSize * customSize > customBombCount) { 
                     gotoxy(customNumberStartCol, customStartRow + current);
-                    std::cout << std::setw(2) << ++(*customBombCount) << std::endl;
+                    std::cout << std::setw(2) << ++customBombCount << std::endl;
                 }
                 break;
         }

@@ -8,7 +8,7 @@
 #include "../Include/show.hpp"
 
 ///Main game
-void game(int** Back, char** Front, int const size, int const level, int const bombCount, bool const GodModeOn, bool* exitToMenu, int* winRow, int* winCol)
+void game(int** Back, char** Front, int const size, int const level, int const bombCount, bool const GodModeOn, bool& exitToMenu, int& winRow, int& winCol)
 {
     //Returns the current calendar time encoded as a std::time_t object
     std::time_t beginTime = std::time(nullptr);
@@ -18,7 +18,7 @@ void game(int** Back, char** Front, int const size, int const level, int const b
     while (true) {
         bool returnToGame = false;
 
-        if (*exitToMenu || restart) {
+        if (exitToMenu || restart) {
             break;
         }
 
@@ -26,8 +26,8 @@ void game(int** Back, char** Front, int const size, int const level, int const b
             Show_GodMode(Back, size);
         }
 
-        int const rowCenter = *winRow / 2 + 1;
-        int const colCenter = *winCol / 2 + 1;
+        int const rowCenter = winRow / 2 + 1;
+        int const colCenter = winCol / 2 + 1;
         int const matrixStartRow = rowCenter - 2 - size / 2;
         int const matrixStartCol = colCenter - size + 1;
 
@@ -48,7 +48,7 @@ void game(int** Back, char** Front, int const size, int const level, int const b
             //Checking the game status
             if (isWin(Front, size, bombCount)) {
                 printBombCount(bombCount, bombCount, size, matrixStartRow, matrixStartCol);
-                win(Back, Front, size, time, level, &restart, exitToMenu, GodModeOn, winRow, winCol);
+                win(Back, Front, size, time, level, restart, exitToMenu, GodModeOn, winRow, winCol);
             }
 
             int key = keypress();
@@ -56,8 +56,8 @@ void game(int** Back, char** Front, int const size, int const level, int const b
                 restart = true;
                 break;
             }
-            if (key == 27 || *exitToMenu) {
-                *exitToMenu = true;
+            if (key == 27 || exitToMenu) {
+                exitToMenu = true;
                 break;
             }
 
@@ -102,7 +102,7 @@ void game(int** Back, char** Front, int const size, int const level, int const b
 
             case 'p': case 'P':
                 int pauseTime;
-                pause(exitToMenu, &returnToGame, &pauseTime, winRow, winCol);
+                pause(exitToMenu, returnToGame, pauseTime, winRow, winCol);
                 beginTime += pauseTime;
                 system("clear");
                 break;
@@ -111,22 +111,22 @@ void game(int** Back, char** Front, int const size, int const level, int const b
                 switch (Back[i][j]) {
                 case -1: //There is mine under cage
                     if (Front[i][j] != 'F') {
-                        Boom(Back, Front, size, exitToMenu, &restart, winRow, winCol);
+                        Boom(Back, Front, size, exitToMenu, restart, winRow, winCol);
                     }
                     break;
 
                 case 0: //Empty cage
-                    Empty(Back, Front, i, j, &Fcount, matrixStartRow, matrixStartCol);
+                    Empty(Back, Front, i, j, Fcount, matrixStartRow, matrixStartCol);
                     printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
                     break;
 
                 default: //There is a number under cage
                     if (Back[i][j] != 10 && Front[i][j] != 'F') {
                         if (Front[i][j] != '#') {
-                            OpenAround(Back, Front, size, i, j, &Fcount, exitToMenu, &restart, matrixStartRow, matrixStartCol, winRow, winCol);
+                            OpenAround(Back, Front, size, i, j, Fcount, exitToMenu, restart, matrixStartRow, matrixStartCol, winRow, winCol);
                         }
                         else {
-                            Open(Back, Front, i, j, &Fcount, matrixStartRow, matrixStartCol);
+                            Open(Back, Front, i, j, Fcount, matrixStartRow, matrixStartCol);
                             //printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
                         }
                         break;
@@ -225,15 +225,15 @@ bool isWin(char** Front, int const size, int const bombCount)
 }
 
 //Print after winning
-void win(int** Back, char** Front, int const size, int const time, int const level, bool* restart, bool* exitToMenu, bool const GodModeOn, int* winRow, int* winCol)
+void win(int** Back, char** Front, int const size, int const time, int const level, bool& restart, bool& exitToMenu, bool const GodModeOn, int& winRow, int& winCol)
 {
     while(true) {
-        if(*exitToMenu || *restart) {
+        if(exitToMenu || restart) {
             break;
         }
 
-        int const rowCenter = *winRow / 2 + 1;
-        int const colCenter = *winCol / 2 + 1; 
+        int const rowCenter = winRow / 2 + 1;
+        int const colCenter = winCol / 2 + 1; 
         int const matrixStartRow = rowCenter - 2 - size / 2; 
         int const matrixStartCol = colCenter - size + 1; 
         
@@ -269,11 +269,11 @@ void win(int** Back, char** Front, int const size, int const time, int const lev
 
             int key = keypress();
             if(key == 'r' || key == 'R') {
-                *restart = true;
+                restart = true;
                 break; 
             }
-            if(key == 27 || *exitToMenu) {
-                *exitToMenu = true;
+            if(key == 27 || exitToMenu) {
+                exitToMenu = true;
                 break;
             }
         }
@@ -281,15 +281,15 @@ void win(int** Back, char** Front, int const size, int const time, int const lev
 }
 
 //Game over, print all mines positions
-void Boom(int** Back, char** Front, int const size, bool* exitToMenu, bool* restart, int* winRow, int* winCol)
+void Boom(int** Back, char** Front, int const size, bool& exitToMenu, bool& restart, int& winRow, int& winCol)
 {
     while (true) {
-        if (*exitToMenu || *restart) {
+        if (exitToMenu || restart) {
             break;
         }
 
-        int const rowCenter = *winRow / 2 + 1;
-        int const colCenter = *winCol / 2 + 1;
+        int const rowCenter = winRow / 2 + 1;
+        int const colCenter = winCol / 2 + 1;
         int const matrixStartRow = rowCenter - 2 - size / 2;
         int const matrixStartCol = colCenter - size + 1;
 
@@ -318,11 +318,11 @@ void Boom(int** Back, char** Front, int const size, bool* exitToMenu, bool* rest
 
             int key = keypress();
             if (key == 'r' || key == 'R') {
-                *restart = true;
+                restart = true;
                 break;
             }
             if (key == 27) {
-                *exitToMenu = true;
+                exitToMenu = true;
                 break;
             }
         }
@@ -335,7 +335,7 @@ void Boom(int** Back, char** Front, int const size, bool* exitToMenu, bool* rest
  * Output: Back : [integer], Front : [char], Fcount : integer 
  * Post: Front[i][j] = '_', Back[i][j] = 10, 
  */
-void Empty(int** Back, char** Front, int const i, int const j, int* Fcount, int const matrixStartRow, int const matrixStartCol)
+void Empty(int** Back, char** Front, int const i, int const j, int& Fcount, int const matrixStartRow, int const matrixStartCol)
 {
     Front[i][j] = ' ';
     Back[i][j] = 10;
@@ -347,7 +347,7 @@ void Empty(int** Back, char** Front, int const i, int const j, int* Fcount, int 
             if(Front[row_i][col_j] == '#' || Front[row_i][col_j] == 'F') {
                 if(Front[row_i][col_j] == 'F') {
                     //Flag count
-                    --(*Fcount);
+                    --Fcount;
                 }
 
                 if(Back[row_i][col_j] == 0) {
@@ -362,10 +362,10 @@ void Empty(int** Back, char** Front, int const i, int const j, int* Fcount, int 
 }
 
 //Open the number
-void Open(int** Back, char** Front, int const i, int const j, int* Fcount, int const matrixStartRow, int const matrixStartCol)
+void Open(int** Back, char** Front, int const i, int const j, int& Fcount, int const matrixStartRow, int const matrixStartCol)
 {
     if (Front[i][j] == 'F') {
-        --(*Fcount);
+        --Fcount;
     }
 
     //In ASCII table symbol of the number = number + 48
@@ -373,7 +373,7 @@ void Open(int** Back, char** Front, int const i, int const j, int* Fcount, int c
     printChar(Front, i, j, matrixStartRow, matrixStartCol);
 }
 
-void OpenAround(int** Back, char** Front, int const size, int const i, int const j, int* Fcount, bool* exitToMenu, bool* restart, int const matrixStartRow, int const matrixStartCol, int* winRow, int* winCol)
+void OpenAround(int** Back, char** Front, int const size, int const i, int const j, int& Fcount, bool& exitToMenu, bool& restart, int const matrixStartRow, int const matrixStartCol, int& winRow, int& winCol)
 {
     int tempFlugs = 0;
     //checking
@@ -423,17 +423,17 @@ void printBombCount(int const bombCount, int const Fcount, int const size, int c
     std::cout << std::setw(2) << bombCount - Fcount << std::endl;
 }
 
-void pause(bool* exitToMenu, bool* returnToGame, int* pauseTime, int* winRow, int* winCol)
+void pause(bool& exitToMenu, bool& returnToGame, int& pauseTime, int& winRow, int& winCol)
 {
     std::time_t pauseStart = std::time(nullptr);
        while(true) {
-        if(*exitToMenu || *returnToGame) {
+        if(exitToMenu || returnToGame) {
             break;
         }
 
         system("clear");
-        int const rowCenter = *winRow / 2 + 1;
-        int const colCenter = *winCol / 2 + 1;
+        int const rowCenter = winRow / 2 + 1;
+        int const colCenter = winCol / 2 + 1;
         Show_Pause(rowCenter, colCenter);
        
         cbreak();
@@ -446,12 +446,12 @@ void pause(bool* exitToMenu, bool* returnToGame, int* pauseTime, int* winRow, in
             int key = keypress();
             if(key == 'p' || key == 'P') { 
                 std::time_t currentTime = std::time(nullptr);
-                *pauseTime = currentTime - pauseStart;
-                *returnToGame = true;
+                pauseTime = currentTime - pauseStart;
+                returnToGame = true;
                 break;
             }
             else if(key == 27) { 
-                *exitToMenu = true;
+                exitToMenu = true;
                 break;
             }
         }

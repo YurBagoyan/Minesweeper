@@ -11,11 +11,11 @@ int main()
 
     //The console window size, will change it in the game for dynamic size of console window
     int winRow, winCol;
-    userWinSize(&winRow, &winCol);
+    userWinSize(winRow, winCol);
     int const rowCenter = winRow / 2 + 1;
     int const colCenter = winCol / 2 + 1;
     
-    //cbreak();
+    cbreak();
     Show_GameNameAnimation(rowCenter, colCenter);
 
     //Menu in an endless loop, so declare the necessary variables here
@@ -25,7 +25,7 @@ int main()
 
     //Menu
     while(true) {
-        Menu_choose(&current, &customSize, &customBombCount, &choosedLevel, &GodModeOn, &soundsVolume, &musicVolume, &winRow, &winCol);
+        Menu_choose(current, customSize, customBombCount, choosedLevel, GodModeOn, soundsVolume, musicVolume, winRow, winCol);
     }
 }
 

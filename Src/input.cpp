@@ -77,29 +77,29 @@ void colorCout(std::string text, int const textColor)
     }
 }
 
-void userWinSize(int* winRow, int* winCol)
+void userWinSize(int& winRow, int& winCol)
 {
     struct winsize w;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-    *winRow = w.ws_row;
-    *winCol = w.ws_col;
+    winRow = w.ws_row;
+    winCol = w.ws_col;
 }
 
-bool winSizeChanged(int* winRow, int* winCol, int const minWinRowSize, int const minWinColSize) {
+bool winSizeChanged(int& winRow, int& winCol, int const minWinRowSize, int const minWinColSize) {
     int newWinRow, newWinCol;
-    userWinSize(&newWinRow, &newWinCol);
+    userWinSize(newWinRow, newWinCol);
 
     if(newWinRow < minWinRowSize) {
-        *winRow = minWinRowSize; 
-        std::cout << "\e[8;" << *winRow << ";" << *winCol << "t";
+        winRow = minWinRowSize; 
+        std::cout << "\e[8;" << winRow << ";" << winCol << "t";
     } 
     else if (newWinCol < minWinColSize) {
-        *winCol = minWinColSize;
-        std::cout << "\e[8;" << *winRow << ";" << *winCol << "t";
+        winCol = minWinColSize;
+        std::cout << "\e[8;" << winRow << ";" << winCol << "t";
     }
-    else if (newWinRow != (*winRow) || newWinCol != (*winCol)) {
-            *winRow = newWinRow; 
-            *winCol = newWinCol;
+    else if (newWinRow != (winRow) || newWinCol != (winCol)) {
+            winRow = newWinRow; 
+            winCol = newWinCol;
     }
     else {
         return false;
