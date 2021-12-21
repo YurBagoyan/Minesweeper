@@ -5,10 +5,10 @@
 #include "../Include/input.hpp"
 #include "../Include/show.hpp"
 
-void Show_GameName(int const printCol, int const printRow)    
+void Show_GameName(const int printCol, const int printRow)
 { 
     system("clear");
-    int const gameNameColor = 5;
+    constexpr int gameNameColor = 5;
     
     gotoxy(printCol, printRow);
     colorCout(R"(   _____ ______   ___  ________   _______   ________  ___       __   _______   _______   ________  _______   ________      )", gameNameColor);
@@ -36,24 +36,24 @@ void Show_GameName(int const printCol, int const printRow)
 
 }
 
-void Show_GameNameAnimation(int const rowCenter, int const colCenter)
+void Show_GameNameAnimation(const int rowCenter, const int colCenter)
 {
-    int const gameNameSize = 62;
+    constexpr int gameNameSize = 62;
     for(int i = 0; i < rowCenter - 12; ++i) {
         Show_GameName(colCenter - gameNameSize, i);
         usleep(125000);
     }
 }
 
-void Show_GameOver(int const size ,int const rowCenter, int const colCenter, int const matrixStartRow, int const matrixStartCol)
+void Show_GameOver(const size_t size, const int rowCenter, const int colCenter, const int matrixStartRow, const int matrixStartCol)
 {   
-    int const gameOverColor = 5; //5 = red
+    constexpr int gameOverColor = 5; //5 = red
 
     //Print red boards and letters because user is lose
     Show_ExitRestart(rowCenter, colCenter, gameOverColor);
     Show_Boards(size, matrixStartRow, matrixStartCol, gameOverColor);
 
-    int const textColSize = 21, gameOverStart = 2;
+    constexpr int textColSize = 21, gameOverStart = 2;
     gotoxy(colCenter - textColSize, gameOverStart);
     colorCout("██████████████████████████████████████████", gameOverColor); gotoxy(colCenter - textColSize, gameOverStart + 1);
     colorCout("█────█────█─███─█───████────█─█─█───█────█", gameOverColor); gotoxy(colCenter - textColSize, gameOverStart + 2);
@@ -64,15 +64,15 @@ void Show_GameOver(int const size ,int const rowCenter, int const colCenter, int
     colorCout("██████████████████████████████████████████", gameOverColor);
 }
 
-void Show_Win(int const size, int const rowCenter, int const colCenter, int const matrixStartRow, int const matrixStartCol)
+void Show_Win(const size_t size, const int rowCenter, const int colCenter, const int matrixStartRow, const int matrixStartCol)
 {   
-    int const winColor = 10; //10 = bright green 
+    constexpr int winColor = 10; //10 = bright green 
 
     //Print green boards and letters because user is win
     Show_ExitRestart(rowCenter, colCenter, winColor);
     Show_Boards(size, matrixStartRow, matrixStartCol, winColor);
 
-    int const textColSize = 21, winStart = 2;
+    constexpr int textColSize = 21, winStart = 2;
     gotoxy(colCenter - textColSize, winStart);
     colorCout("██████████████████████████████████████████", winColor); gotoxy(colCenter - textColSize, winStart + 1);
     colorCout("█─███─█───█─██─█─██─█───█────███████─█─█─█", winColor); gotoxy(colCenter - textColSize, winStart + 2);
@@ -84,7 +84,7 @@ void Show_Win(int const size, int const rowCenter, int const colCenter, int cons
 }
 
 //How to play
-void Show_Control(int const showControlRowStart, int const showControlColStart)
+void Show_Control(const int showControlRowStart, const int showControlColStart)
 {
     gotoxy(showControlColStart + 15, showControlRowStart);
     colorCout("How to play", 4);
@@ -107,14 +107,14 @@ void Show_About(int& winRow, int& winCol)
     while (!exitFromAbout) {
         system("clear");
 
-        int const rowCenter = winRow / 2 + 1;
-        int const colCenter = winCol / 2 + 1;
+        const int rowCenter = winRow / 2 + 1;
+        const int colCenter = winCol / 2 + 1;
 
-        int const aboutStart = 3;
+        constexpr int aboutStart = 3;
         gotoxy(colCenter - 8, aboutStart);
         colorCout("About Minesweeper", 4);
 
-        int const textColSize = 51;
+        constexpr int textColSize = 51;
         gotoxy(colCenter - textColSize, aboutStart + 2);
         std::cout << " Minesweeper is a single-player puzzle video game. The objective of the game is to clear a rectangular\n";
         gotoxy(colCenter - textColSize, aboutStart + 3);
@@ -127,7 +127,7 @@ void Show_About(int& winRow, int& winCol)
         gotoxy(colCenter - textColSize + 10, aboutStart + 6);
         colorCout("‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗", 4);
 
-        int const gamePlayStart = 11;
+        constexpr int gamePlayStart = 11;
         gotoxy(colCenter - 4, gamePlayStart);
         colorCout("Gameplay", 4);
 
@@ -160,8 +160,8 @@ void Show_About(int& winRow, int& winCol)
         gotoxy(colCenter - textColSize + 10, gamePlayStart + 15);
         colorCout("‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗", 4);
 
-        int const showControlRowStart = gamePlayStart + 17;
-        int const showControlColStart = colCenter - 21;
+        const int showControlRowStart = gamePlayStart + 17;
+        const int showControlColStart = colCenter - 21;
         Show_Control(showControlRowStart, showControlColStart);
 
         gotoxy(showControlColStart - 20, showControlRowStart + 10);
@@ -173,7 +173,7 @@ void Show_About(int& winRow, int& winCol)
         exitFromAbout = false;
         cbreak();
         while (true) {
-            int const minWinRowSize = 39, minWinColSize = 104;
+            constexpr int minWinRowSize = 39, minWinColSize = 104;
             if (winSizeChanged(winRow, winCol, minWinRowSize, minWinColSize)) {
                 break;
             }
@@ -188,9 +188,9 @@ void Show_About(int& winRow, int& winCol)
 }
 
 //Press Ecs or Restart
-void Show_ExitRestart(int const rowCenter, int const colCenter, int const color)
+void Show_ExitRestart(const int rowCenter, const int colCenter, const int color)
 {
-    int const showExitStart = rowCenter * 2 - 5;
+    const int showExitStart = rowCenter * 2 - 5;
 
     gotoxy(colCenter - 9, showExitStart);
     colorCout("Press P for ", 7);
@@ -212,7 +212,7 @@ void Show_ExitRestart(int const rowCenter, int const colCenter, int const color)
 }
 
 //Boards of playing field
-void Show_Boards(int const size, int const matrixStartRow, int const matrixStartCol, int const color)
+void Show_Boards(const size_t size, const int matrixStartRow, const int matrixStartCol, const int color)
 {
     for (int i = 0; i < size - 1; ++i) {
         gotoxy(matrixStartCol, matrixStartRow + 1 + i);
@@ -233,7 +233,7 @@ void Show_Boards(int const size, int const matrixStartRow, int const matrixStart
 
 //Cheat mode for easy play
 //When Gode mode is on, the user's nickname will not be added in records
-void Show_GodMode(int** Back, int const size)
+void Show_GodMode(const int* const* Back, const size_t size)
 {
     for(int i = 1; i < size - 1; ++i) {
         for(int j = 1; j < size - 1; ++j) {
@@ -248,20 +248,20 @@ void Show_GodMode(int** Back, int const size)
     }   
 }
 
-int Show_Timer(std::time_t beginTime, int const size, int const matrixStartRow, int const matrixStartCol)
+int Show_Timer(const std::time_t beginTime, const size_t size, const int matrixStartRow, const int matrixStartCol)
 {   
     std::time_t currentTime = std::time(nullptr);
-    int const time = currentTime - beginTime;
+    const int time = currentTime - beginTime;
 
-    int const timerStartCol = matrixStartCol + 6 + 2*size; 
-    int const timerStartRow = matrixStartRow + 1;
+    const int timerStartCol = matrixStartCol + 6 + 2*size;
+    const int timerStartRow = matrixStartRow + 1;
     
     gotoxy(timerStartCol, timerStartRow);
     colorCout("T I M E\n", 4);
 
-    int const hours = time / 3600;
-    int const min = (time % 3600) / 60;
-    int const sec = (time % 3600) % 60;
+    const int hours = time / 3600;
+    const int min = (time % 3600) / 60;
+    const int sec = (time % 3600) % 60;
 
     gotoxy(timerStartCol - 3, timerStartRow + 1);
     std::cout << std::setw(2) << hours << " : " << std::setw(2) << min << " : " << std::setw(2) << sec << "\n";
@@ -269,11 +269,11 @@ int Show_Timer(std::time_t beginTime, int const size, int const matrixStartRow, 
     return time;
 }
 
-void Show_Pause(int const rowCenter, int const colCenter)
+void Show_Pause(const int rowCenter, const int colCenter)
 {
-    int const textSize = 33, pauseColor = 2;
-    int const pauseStartRow = rowCenter - 15;
-    int const pauseStartCol = colCenter - textSize / 2;
+    constexpr int textSize = 33, pauseColor = 2;
+    const int pauseStartRow = rowCenter - 15;
+    const int pauseStartCol = colCenter - textSize / 2;
 
     gotoxy(pauseStartCol, pauseStartRow);
     colorCout(R"( ______                           )", pauseColor); gotoxy(pauseStartCol, pauseStartRow + 1);
@@ -290,7 +290,7 @@ void Show_Pause(int const rowCenter, int const colCenter)
 }
 
 ///Levels
-void Show_levelName(int const level, int const rowCenter, int const colCenter)
+void Show_levelName(const int level, const int rowCenter, const int colCenter)
 {
     switch (level) {
     case 1: Show_Beginner(rowCenter, colCenter); break;
@@ -301,11 +301,11 @@ void Show_levelName(int const level, int const rowCenter, int const colCenter)
     }
 }
 
-void Show_Beginner(int const rowCenter, int const colCenter)
+void Show_Beginner(const int rowCenter, const int colCenter)
 {
-    int const textSize = 53, easyColor = 4;
-    int const beginnerStartRow = rowCenter - 15;
-    int const beginnerStartCol = colCenter - textSize/2;
+    constexpr int textSize = 53, easyColor = 4;
+    const int beginnerStartRow = rowCenter - 15;
+    const int beginnerStartCol = colCenter - textSize/2;
 
     gotoxy(beginnerStartCol, beginnerStartRow);
     colorCout(R"( ______               _                            )", easyColor); gotoxy(beginnerStartCol, beginnerStartRow + 1);
@@ -318,11 +318,11 @@ void Show_Beginner(int const rowCenter, int const colCenter)
     colorCout(R"(               |___/                               )", easyColor);
 }
 
-void Show_Veteran(int const rowCenter, int const colCenter)
+void Show_Veteran(const int rowCenter, const int colCenter)
 {
-    int const textSize = 47, veteranColor = 3;
-    int const veteranStartRow = rowCenter - 15;
-    int const veteranStartCol = colCenter - textSize/2;
+    constexpr int textSize = 47, veteranColor = 3;
+    const int veteranStartRow = rowCenter - 15;
+    const int veteranStartCol = colCenter - textSize/2;
 
     gotoxy(veteranStartCol, veteranStartRow);
     colorCout(R"(  _   _        _                              )", veteranColor); gotoxy(veteranStartCol, veteranStartRow + 1);
@@ -333,11 +333,11 @@ void Show_Veteran(int const rowCenter, int const colCenter)
     colorCout(R"(  \___/  \___| \__| \___||_|    \__,_||_| |_| )", veteranColor);
 }
 
-void Show_Expert(int const rowCenter, int const colCenter)
+void Show_Expert(const int rowCenter, const int colCenter)
 {
-    int const textSize = 39, expertColor = 2;
-    int const expertStartRow = rowCenter - 15;
-    int const expertStartCol = colCenter - textSize/2;
+    constexpr int textSize = 39, expertColor = 2;
+    const int expertStartRow = rowCenter - 15;
+    const int expertStartCol = colCenter - textSize / 2;
 
     gotoxy(expertStartCol, expertStartRow);
     colorCout(R"(  _____                           _    )", expertColor);  gotoxy(expertStartCol, expertStartRow + 1);
@@ -351,11 +351,11 @@ void Show_Expert(int const rowCenter, int const colCenter)
 
 }
 
-void Show_Pro(int const rowCenter, int const colCenter)
+void Show_Pro(const int rowCenter, const int colCenter)
 {   
-    int const textSize = 22, proColor = 6;
-    int const proStartRow = rowCenter - 15;
-    int const proStartCol = colCenter - textSize/2;
+    constexpr int textSize = 22, proColor = 6;
+    const int proStartRow = rowCenter - 15;
+    const int proStartCol = colCenter - textSize/2;
 
     gotoxy(proStartCol, proStartRow);
     colorCout(R"( ______               )", proColor); gotoxy(proStartCol, proStartRow + 1);
@@ -366,11 +366,11 @@ void Show_Pro(int const rowCenter, int const colCenter)
     colorCout(R"( \_|    |_|    \___/  )", proColor);
 }
 
-void Show_Master(int const rowCenter, int const colCenter)
+void Show_Master(const int rowCenter, const int colCenter)
 {
-    int const textSize = 41, masterColor = 5;
-    int const masterStartRow = rowCenter - 15;
-    int const masterStartCol = colCenter - textSize/2;
+    constexpr int textSize = 41, masterColor = 5;
+    const int masterStartRow = rowCenter - 15;
+    const int masterStartCol = colCenter - textSize/2;
 
     gotoxy(masterStartCol, masterStartRow);
     colorCout(R"( ___  ___             _                )", masterColor); gotoxy(masterStartCol, masterStartRow + 1);

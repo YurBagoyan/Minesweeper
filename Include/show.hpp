@@ -5,36 +5,36 @@
 
 void Show_About(int& winRow, int& winCol);
 
-void Show_Beginner(int const rowCenter, int const colCenter);
+void Show_Beginner(const int rowCenter, const int colCenter);
 
-void Show_Boards(int const size, int const matrixStartRow, int const matrixStartCol, int const color);
+void Show_Boards(const size_t size, const int matrixStartRow, const int matrixStartCol, const int color);
 
-void Show_Control(int const showControlRowStart, int const showControlColStart);
+void Show_Control(const int showControlRowStart, const int showControlColStart);
 
-void Show_ExitRestart(int const rowCenter, int const colCenter, int const color);
+void Show_ExitRestart(const int rowCenter, const int colCenter, const int color);
 
-void Show_Expert(int const rowCenter, int const colCenter);
+void Show_Expert(const int rowCenter, const int colCenter);
 
-void Show_GameName(int const printCol, int const printRow);
+void Show_GameName(const int printCol, const int printRow);
 
-void Show_GameNameAnimation(int const rowCenter, int const colCenter);
+void Show_GameNameAnimation(const int rowCenter, const int colCenter);
 
-void Show_GameOver(int const size, int const rowCenter, int const colCenter, int const matrixStartRow, int const matrixStartCol);
+void Show_GameOver(const size_t size, const int rowCenter, const int colCenter, const int matrixStartRow, const int matrixStartCol);
 
-void Show_GodMode(int** Back, int const size);
+void Show_GodMode(const int* const* Back, const size_t size);
 
-void Show_levelName(int const level, int const rowCenter, int const colCenter);
+void Show_levelName(const int level, const int rowCenter, const int colCenter);
 
-void Show_Master(int const rowCenter, int const colCenter);
+void Show_Master(const int rowCenter, const int colCenter);
 
-void Show_Pause(int const rowCenter, int const colCenter);
+void Show_Pause(const int rowCenter, const int colCenter);
 
-void Show_Pro(int const rowCenter, int const colCenter);
+void Show_Pro(const int rowCenter, const int colCenter);
 
-int  Show_Timer(std::time_t beginTime, int const size, int const matrixStartRow, int const matrixStartCol);
+int  Show_Timer(const std::time_t beginTime, const size_t size, const int matrixStartRow, const int matrixStartCol);
 
-void Show_Veteran(int const rowCenter, int const colCenter);
+void Show_Veteran(const int rowCenter, const int colCenter);
 
-void Show_Win(int const size, int const rowCenter, int const colCenter, int const matrixStartRow, int const matrixStartCol);
+void Show_Win(const size_t size, const int rowCenter, const int colCenter, const int matrixStartRow, const int matrixStartCol);
 
 #endif //SHOW_HPP

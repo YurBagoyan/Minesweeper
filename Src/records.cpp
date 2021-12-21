@@ -17,15 +17,15 @@ void records(int& winRow, int& winCol)
             break;
         }
 
-        int const rowCenter = winRow / 2 + 1;
-        int const colCenter = winCol / 2 + 1;
-        int const recStartRow = rowCenter, recStartCol = colCenter;
+        const int rowCenter = winRow / 2 + 1;
+        const int colCenter = winCol / 2 + 1;
+        const int recStartRow = rowCenter, recStartCol = colCenter;
 
         printRecords(level, recStartRow, recStartCol, rowCenter, colCenter);
 
         cbreak();
         while (true) {
-            int const minWinRowSize = 30, minWinColSize = 82;
+            constexpr int minWinRowSize = 30, minWinColSize = 82;
             if (winSizeChanged(winRow, winCol, minWinRowSize, minWinColSize)) {
                 break;
             }
@@ -51,7 +51,7 @@ void records(int& winRow, int& winCol)
     }
 }
 
-void printRecords(int const level, int const recStartRow, int const recStartCol, int const rowCenter, int const colCenter)
+void printRecords(const int level, const int recStartRow, const int recStartCol, const int rowCenter, const int colCenter)
 {
     system("clear");
     gotoxy(colCenter - 21, rowCenter * 2 - 4);
@@ -69,7 +69,7 @@ void printRecords(int const level, int const recStartRow, int const recStartCol,
     printTop(topNickNames, topTimes, rowCenter, colCenter);
 }
 
-std::string fileWay(int const level)
+std::string fileWay(const int level)
 {
     std::string way;
 
@@ -84,7 +84,7 @@ std::string fileWay(int const level)
     return way;
 }
 
-void InputFromFile(std::string* topNickNames, int* topTimes, int const level)
+void InputFromFile(std::string* topNickNames, int* topTimes, const int level)
 {
     std::string way = fileWay(level);
 
@@ -113,13 +113,13 @@ void InputFromFile(std::string* topNickNames, int* topTimes, int const level)
     readFromFile.close();
 }
 
-void printTop(std::string* topNickNames, int* topTimes, int const rowCenter, int const colCenter)
+void printTop(std::string* topNickNames, int* topTimes, const int rowCenter, const int colCenter)
 {
-    int const nicksStartRow = rowCenter - 2;
-    int const nicksStartCol = colCenter - 17;
+    const int nicksStartRow = rowCenter - 2;
+    const int nicksStartCol = colCenter - 17;
 
-    int const timeStartRow = nicksStartRow;
-    int const timeStartCol = nicksStartCol + 17;
+    const int timeStartRow = nicksStartRow;
+    const int timeStartCol = nicksStartCol + 17;
 
     for (int i = 1; i < 6; ++i) {
         gotoxy(nicksStartCol, nicksStartRow + i - 1);
@@ -131,17 +131,17 @@ void printTop(std::string* topNickNames, int* topTimes, int const rowCenter, int
     }
 }
 
-void printTime(int const time, int const timeStartRow, int const timeStartCol)
+void printTime(const int time, const int timeStartRow, const int timeStartCol)
 {
-    int const hours = time / 3600;
-    int const min = (time % 3600) / 60;
-    int const sec = (time % 3600) % 60;
+    const int hours = time / 3600;
+    const int min = (time % 3600) / 60;
+    const int sec = (time % 3600) % 60;
 
     gotoxy(timeStartCol, timeStartRow);
     std::cout << std::setw(2) << hours << " : " << std::setw(2) << min << " : " << std::setw(2) << sec << "\n";
 }
 
-void checkingTimeInTop(int const time, int const level, bool& exitToMenu, int const rowCenter, int const colCenter)
+void checkingTimeInTop(const int time, const int level, bool& exitToMenu, const int rowCenter, const int colCenter)
 {
     std::string topNickNames[7] = { "" };
     int topTimes[7] = { 0 };
@@ -153,7 +153,7 @@ void checkingTimeInTop(int const time, int const level, bool& exitToMenu, int co
     }
 }
 
-void newRecord(std::string* topNickNames, int* topTimes, int const time, int const level, int const rowCenter, int const colCenter)
+void newRecord(std::string* topNickNames, int* topTimes, const int time, const int level, const int rowCenter, const int colCenter)
 {
     std::string userNickName = inputUserNickName(rowCenter, colCenter);
 
@@ -171,7 +171,7 @@ void newRecord(std::string* topNickNames, int* topTimes, int const time, int con
     outputFile(topNickNames, topTimes, level);
 }
 
-std::string inputUserNickName(int const rowCenter, int const colCenter)
+std::string inputUserNickName(const int rowCenter, const int colCenter)
 {
     std::string userNickName;
 
@@ -182,8 +182,7 @@ std::string inputUserNickName(int const rowCenter, int const colCenter)
         gotoxy(colCenter + 31, rowCenter * 2 - 12);
         getline(std::cin, userNickName);
        
-        gotoxy(colCenter - 30, rowCenter * 2 - 12);
-        std::cout << "                                                                                  \n";
+        clearLine(rowCenter * 2 - 12);
     } while (userNickName.length() > 10);
 
     system("clear");
@@ -192,7 +191,7 @@ std::string inputUserNickName(int const rowCenter, int const colCenter)
     return userNickName;
 }
 
-void outputFile(std::string* topNickNames, int* topTimes, int const level)
+void outputFile(std::string* topNickNames, int* topTimes, const int level)
 {
     std::string way = fileWay(level);
 

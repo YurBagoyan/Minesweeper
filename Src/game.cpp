@@ -1,4 +1,3 @@
-#include <ctime>
 #include <iomanip>
 #include <iostream>
 
@@ -8,7 +7,7 @@
 #include "../Include/show.hpp"
 
 ///Main game
-void game(int** Back, char** Front, int const size, int const level, int const bombCount, bool const GodModeOn, bool& exitToMenu, int& winRow, int& winCol)
+void game(int** Back, char** Front, const size_t size, int const level, const size_t bombCount, const bool GodModeOn, bool& exitToMenu, int& winRow, int& winCol)
 {
     //Returns the current calendar time encoded as a std::time_t object
     std::time_t beginTime = std::time(nullptr);
@@ -26,10 +25,10 @@ void game(int** Back, char** Front, int const size, int const level, int const b
             Show_GodMode(Back, size);
         }
 
-        int const rowCenter = winRow / 2 + 1;
-        int const colCenter = winCol / 2 + 1;
-        int const matrixStartRow = rowCenter - 2 - size / 2;
-        int const matrixStartCol = colCenter - size + 1;
+        const int rowCenter = winRow / 2 + 1;
+        const int colCenter = winCol / 2 + 1;
+        const int matrixStartRow = rowCenter - 2 - size / 2;
+        const int matrixStartCol = colCenter - size + 1;
 
         Show_Boards(size, matrixStartRow, matrixStartCol, 11);
         showNewFront(Front, size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
@@ -39,12 +38,12 @@ void game(int** Back, char** Front, int const size, int const level, int const b
 
         cbreak();
         while (true) {
-            int const minWinRowSize = 30, minWinColSize = 82;
+            constexpr int minWinRowSize = 30, minWinColSize = 82;
             if (winSizeChanged(winRow, winCol, minWinRowSize, minWinColSize) || returnToGame) {
                 break;
             }
 
-            int const time = Show_Timer(beginTime, size, matrixStartRow, matrixStartCol);
+            const int time = Show_Timer(beginTime, size, matrixStartRow, matrixStartCol);
             //Checking the game status
             if (isWin(Front, size, bombCount)) {
                 printBombCount(bombCount, bombCount, size, matrixStartRow, matrixStartCol);
@@ -144,7 +143,7 @@ void game(int** Back, char** Front, int const size, int const level, int const b
  * Output: Front : [char]
  * Post: Front[i][j] with its specific color
  */
-void printChar(char** Front, int const i, int const j, int const matrixStartRow, int const matrixStartCol)
+void printChar(const char* const* Front, const int i, const int j, const int matrixStartRow, const int matrixStartCol)
 {
     //The coordinate of F[i][j] in window
     gotoxy(matrixStartCol + j * 2, matrixStartRow + i);
@@ -172,12 +171,12 @@ void printChar(char** Front, int const i, int const j, int const matrixStartRow,
  * Output: Front : [char]
  * Post: Front[i][j] with green color
  */
-void printGreenChar(char** Front, int const i, int const j, int const matrixStartRow, int const matrixStartCol)
+void printGreenChar(const char* const* Front, const int i, const int j, const int matrixStartRow, const int matrixStartCol)
 {
     //The coordinate of F[i][j] in window
     gotoxy(matrixStartCol + j*2, matrixStartRow + i);
 
-    int cursorColor = 3; //3 = green
+    constexpr int cursorColor = 3; //3 = green
     switch(Front[i][j]) {
         case 'X': colorCout("X", cursorColor); break; 
         case 'F': colorCout("►", cursorColor); break; 
@@ -194,21 +193,21 @@ void printGreenChar(char** Front, int const i, int const j, int const matrixStar
     }
 }
 
-void showNewFront(char** Front, int const size, int const rowCenter, int const colCenter, int const matrixStartRow, int const matrixStartCol)
+void showNewFront(const char* const* Front, const size_t size, const int rowCenter, const int colCenter, const int matrixStartRow, const int matrixStartCol)
 {
-    for (int i = 1; i < size - 1; ++i) {
-        for (int j = 1; j < size - 1; ++j) {
+    for (size_t i = 1; i < size - 1; ++i) {
+        for (size_t j = 1; j < size - 1; ++j) {
             printChar(Front, i, j, matrixStartRow, matrixStartCol);
         }
     }
 }
 
 //Checking for a win
-bool isWin(char** Front, int const size, int const bombCount)
+bool isWin(const char* const* Front, const size_t size, const size_t bombCount)
 {
     int tempFlagCount = 0, tempCloseCaseCount = 0;
-    for(int i = 1; i < size - 1; ++i) {
-        for(int j = 1; j < size - 1 ; ++j) {
+    for(size_t i = 1; i < size - 1; ++i) {
+        for(size_t j = 1; j < size - 1 ; ++j) {
             if(Front[i][j] == '#') {
                 ++tempCloseCaseCount;
             }
@@ -225,17 +224,17 @@ bool isWin(char** Front, int const size, int const bombCount)
 }
 
 //Print after winning
-void win(int** Back, char** Front, int const size, int const time, int const level, bool& restart, bool& exitToMenu, bool const GodModeOn, int& winRow, int& winCol)
+void win(const int* const* Back, char** Front, const size_t size, const int time, const int level, bool& restart, bool& exitToMenu, const bool GodModeOn, int& winRow, int& winCol)
 {
     while(true) {
         if(exitToMenu || restart) {
             break;
         }
 
-        int const rowCenter = winRow / 2 + 1;
-        int const colCenter = winCol / 2 + 1; 
-        int const matrixStartRow = rowCenter - 2 - size / 2; 
-        int const matrixStartCol = colCenter - size + 1; 
+        const int rowCenter = winRow / 2 + 1;
+        const int colCenter = winCol / 2 + 1;
+        const int matrixStartRow = rowCenter - 2 - size / 2;
+        const int matrixStartCol = colCenter - size + 1;
         
         //Show inscription WINNER
         Show_Win(size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
@@ -244,8 +243,8 @@ void win(int** Back, char** Front, int const size, int const time, int const lev
         showNewFront(Front, size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
 
         //Print all mines positions in green
-        for(int i = 1; i < size-1; ++i) {
-            for(int j = 1; j < size-1; ++j) {
+        for(size_t i = 1; i < size-1; ++i) {
+            for(size_t j = 1; j < size-1; ++j) {
                 if(Back[i][j] == -1) {
                     Front[i][j] = 'X';
                     printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
@@ -281,17 +280,17 @@ void win(int** Back, char** Front, int const size, int const time, int const lev
 }
 
 //Game over, print all mines positions
-void Boom(int** Back, char** Front, int const size, bool& exitToMenu, bool& restart, int& winRow, int& winCol)
+void Boom(const int* const* Back, char** Front, const size_t size, bool& exitToMenu, bool& restart, int& winRow, int& winCol)
 {
     while (true) {
         if (exitToMenu || restart) {
             break;
         }
 
-        int const rowCenter = winRow / 2 + 1;
-        int const colCenter = winCol / 2 + 1;
-        int const matrixStartRow = rowCenter - 2 - size / 2;
-        int const matrixStartCol = colCenter - size + 1;
+        const int rowCenter = winRow / 2 + 1;
+        const int colCenter = winCol / 2 + 1;
+        const int matrixStartRow = rowCenter - 2 - size / 2;
+        const int matrixStartCol = colCenter - size + 1;
 
         //Show inscription Game Over
         Show_GameOver(size, rowCenter, colCenter, matrixStartRow, matrixStartCol);
@@ -311,7 +310,7 @@ void Boom(int** Back, char** Front, int const size, bool& exitToMenu, bool& rest
 
         cbreak();
         while (true) {
-            int const minWinRowSize = 28, minWinColSize = 82;
+            constexpr int minWinRowSize = 28, minWinColSize = 82;
             if (winSizeChanged(winRow, winCol, minWinRowSize, minWinColSize)) {
                 break;
             }
@@ -335,7 +334,7 @@ void Boom(int** Back, char** Front, int const size, bool& exitToMenu, bool& rest
  * Output: Back : [integer], Front : [char], Fcount : integer 
  * Post: Front[i][j] = '_', Back[i][j] = 10, 
  */
-void Empty(int** Back, char** Front, int const i, int const j, int& Fcount, int const matrixStartRow, int const matrixStartCol)
+void Empty(int** Back, char** Front, int const i, int const j, int& Fcount, const int matrixStartRow, const int matrixStartCol)
 {
     Front[i][j] = ' ';
     Back[i][j] = 10;
@@ -362,7 +361,7 @@ void Empty(int** Back, char** Front, int const i, int const j, int& Fcount, int 
 }
 
 //Open the number
-void Open(int** Back, char** Front, int const i, int const j, int& Fcount, int const matrixStartRow, int const matrixStartCol)
+void Open(const int* const* Back, char** Front, const int i, const int j, int& Fcount, const int matrixStartRow, const int matrixStartCol)
 {
     if (Front[i][j] == 'F') {
         --Fcount;
@@ -373,7 +372,7 @@ void Open(int** Back, char** Front, int const i, int const j, int& Fcount, int c
     printChar(Front, i, j, matrixStartRow, matrixStartCol);
 }
 
-void OpenAround(int** Back, char** Front, int const size, int const i, int const j, int& Fcount, bool& exitToMenu, bool& restart, int const matrixStartRow, int const matrixStartCol, int& winRow, int& winCol)
+void OpenAround(int** Back, char** Front, const size_t size, const int i, const int j, int& Fcount, bool& exitToMenu, bool& restart, int const matrixStartRow, const int matrixStartCol, int& winRow, int& winCol)
 {
     int tempFlugs = 0;
     //checking
@@ -411,10 +410,10 @@ void OpenAround(int** Back, char** Front, int const size, int const i, int const
     printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
 }
 
-void printBombCount(int const bombCount, int const Fcount, int const size, int const matrixStartRow, int const matrixStartCol)
+void printBombCount(const size_t bombCount, const int Fcount, const size_t size, const int matrixStartRow, const int matrixStartCol)
 {
-    int const bombCountStartCol = matrixStartCol + 4 + 2 * size;
-    int const bombCountStartRow = matrixStartRow + 4;
+    const int bombCountStartCol = matrixStartCol + 4 + 2 * size;
+    const int bombCountStartRow = matrixStartRow + 4;
 
     gotoxy(bombCountStartCol, bombCountStartRow);
     colorCout("Mines count", 4);
@@ -426,19 +425,19 @@ void printBombCount(int const bombCount, int const Fcount, int const size, int c
 void pause(bool& exitToMenu, bool& returnToGame, int& pauseTime, int& winRow, int& winCol)
 {
     std::time_t pauseStart = std::time(nullptr);
-       while(true) {
+    while(true) {
         if(exitToMenu || returnToGame) {
             break;
         }
 
         system("clear");
-        int const rowCenter = winRow / 2 + 1;
-        int const colCenter = winCol / 2 + 1;
+        const int rowCenter = winRow / 2 + 1;
+        const int colCenter = winCol / 2 + 1;
         Show_Pause(rowCenter, colCenter);
        
         cbreak();
         while(true) {
-            int const minWinRowSize = 30, minWinColSize = 82; 
+            constexpr int minWinRowSize = 30, minWinColSize = 82;
             if(winSizeChanged(winRow, winCol, minWinRowSize, minWinColSize)) {
                 break;
             }

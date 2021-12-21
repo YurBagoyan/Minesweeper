@@ -9,17 +9,17 @@
 
 void Menu_choose(int& current, int& customSize, int& customBombCount, int& choosedLevel, bool& GodModeOn, int& soudnsVolume, int& musicVolume, int& winRow, int& winCol)
 {
-    int const rowCenter = winRow / 2 + 1;
-    int const colCenter = winCol / 2 + 1;
+    const int rowCenter = winRow / 2 + 1;
+    const int colCenter = winCol / 2 + 1;
 
-    int const gameName = 62;
+    constexpr int gameName = 62;
     Show_GameName(colCenter - gameName, rowCenter - 11);
 
-    const int menuSize = 5;
-    std::string Menu[menuSize] = { "Start", "Options", "Records", "About", "Exit" };
+    constexpr size_t menuSize = 5;
+    const std::string Menu[menuSize] = { "Start", "Options", "Records", "About", "Exit" };
 
-    int const menuStartRow = rowCenter - 2;
-    int const menuStartCol = colCenter - 3;
+    const int menuStartRow = rowCenter - 2;
+    const int menuStartCol = colCenter - 3;
     printMenu(Menu, menuSize, current, menuStartRow, menuStartCol);
 
     //Need when the user will return to the menu
@@ -28,7 +28,7 @@ void Menu_choose(int& current, int& customSize, int& customBombCount, int& choos
     cbreak();
     while (true) {
         //Checking user windows size and change if it has changed
-        int const minWinRowSize = 22, minWinColSize = 132;
+        constexpr int minWinRowSize = 22, minWinColSize = 132;
         if (winSizeChanged(winRow, winCol, minWinRowSize, minWinColSize) || returnToMenu) {
             break;
         }
@@ -39,7 +39,7 @@ void Menu_choose(int& current, int& customSize, int& customBombCount, int& choos
             gotoxy(menuStartCol, menuStartRow + current);
             std::cout << Menu[current];
 
-            current == 0 ? current = menuSize - 1 : --(current);
+            current == 0 ? current = menuSize - 1 : --current;
 
             gotoxy(menuStartCol, menuStartRow + current);
             colorCout(Menu[current], 3);
@@ -49,7 +49,7 @@ void Menu_choose(int& current, int& customSize, int& customBombCount, int& choos
             gotoxy(menuStartCol, menuStartRow + current);
             std::cout << Menu[current];
 
-            current == menuSize - 1 ? current = 0 : ++(current);
+            current == menuSize - 1 ? current = 0 : ++current;
 
             gotoxy(menuStartCol, menuStartRow + current);
             colorCout(Menu[current], 3);
@@ -63,7 +63,7 @@ void Menu_choose(int& current, int& customSize, int& customBombCount, int& choos
     }
 }
 
-void printMenu(std::string* Menu, int const menuSize, int const current, int const menuStartRow, int const menuStartCol)
+void printMenu(const std::string* Menu, const int menuSize, const int current, const int menuStartRow, const int menuStartCol)
 {
     gotoxy(menuStartCol, menuStartRow);
     for(int i = 0; i < menuSize; ++i) {

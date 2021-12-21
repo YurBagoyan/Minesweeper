@@ -1,28 +1,28 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-void Boom(int** Back, char** Front, int const size, bool& exitToMenu, bool& restart, int& winRow, int& winCol);
+void Boom(const int* const* Back, char** Front, const size_t size, bool& exitToMenu, bool& restart, int& winRow, int& winCol);
 
-void Empty(int** Back, char** Front, int const i, int const j, int& Fcount, int const matrixStartRow, int const matrixStartCol);
+void Empty(int** Back, char** Front, const int i, const int j, int& Fcount, const int matrixStartRow, const int matrixStartCol);
 
-void game(int** Back, char** Front, int const size, int const level, int const bombCount, bool const GodModeOn, bool& exitToMenu, int& winRow, int& winCol);
+void game(int** Back, char** Front, const size_t size, const int level, const size_t bombCount, const bool GodModeOn, bool& exitToMenu, int& winRow, int& winCol);
 
-bool isWin(char** Front, int const size, int const bombCount);
+bool isWin(const char* const* Front, const size_t size, const size_t bombCount);
 
-void Open(int** Back, char** Front, int const i, int const j, int& Fcount, int const matrixStartRow, int const matrixStartCol);
+void Open(const int* const* Back, char** Front, const int i, const int j, int& Fcount, const int matrixStartRow, const int matrixStartCol);
 
-void OpenAround(int** Back, char** Front, int const size, int const i, int const j, int& Fcount, bool& exitToMenu, bool& restart, int const matrixStartRow, int const matrixStartCol, int& winRow, int& winCol);
+void OpenAround(int** Back, char** Front, const size_t size, const int i, const int j, int& Fcount, bool& exitToMenu, bool& restart, const int matrixStartRow, const int matrixStartCol, int& winRow, int& winCol);
 
 void pause(bool& exitToMenu, bool& returnToGame, int& pauseTime, int& winRow, int& winCol);
 
-void printChar(char** Front, int const i, int const j, int const matrixStartRow, int const matrixStartCol);
+void printChar(const char* const* Front, const int i, const int j, const int matrixStartRow, const int matrixStartCol);
 
-void printBombCount(int const bombCount, int const Fcount, int const size, int const matrixStartRow, int const matrixStartCol);
+void printBombCount(const size_t bombCount, const int Fcount, const size_t size, const int matrixStartRow, const int matrixStartCol);
 
-void printGreenChar(char** Front, int const i, int const j, int const matrixStartRow, int const matrixStartCol);
+void printGreenChar(const char* const* Front, const int i, const int j, const int matrixStartRow, const int matrixStartCol);
 
-void showNewFront(char** Front, int const size, int const rowCenter, int const colCenter, int const matrixStartRow, int const matrixStartCol);
+void showNewFront(const char* const* Front, const size_t size, const int rowCenter, const int colCenter, const int matrixStartRow, const int matrixStartCol);
 
-void win(int** Back, char** Front, int const size, int const time, int const level, bool& restart, bool& exitToMenu, bool const GodModeOn, int& winRow, int& winCol);
+void win(const int* const* Back, char** Front, const size_t size, const int time, const int level, bool& restart, bool& exitToMenu, const bool GodModeOn, int& winRow, int& winCol);
 
 #endif //GAME_HPP
