@@ -17,13 +17,13 @@ ObjFiles/preGame.o: Src/preGame.cpp
 
 ObjFiles/game.o: Src/game.cpp
 	g++ -c Src/game.cpp -o ObjFiles/game.o 
- 
+
 ObjFiles/options.o: Src/options.cpp
 	g++ -c Src/options.cpp -o ObjFiles/options.o
 
 ObjFiles/records.o: Src/records.cpp
 	g++ -c Src/records.cpp -o ObjFiles/records.o
- 
+
 ObjFiles/show.o: Src/show.cpp
 	g++ -c Src/show.cpp -o ObjFiles/show.o
 

@@ -3,7 +3,7 @@
 
 #include <ctime>
 
-void Show_About(int* winRow, int* winCol);
+void Show_About(int& winRow, int& winCol);
 
 void Show_Beginner(int const rowCenter, int const colCenter);
 

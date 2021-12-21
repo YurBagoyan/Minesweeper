@@ -1,28 +1,26 @@
 #include <iostream>
 
-#include "../Include/menu.hpp"
 #include "../Include/input.hpp"
+#include "../Include/menu.hpp"
 #include "../Include/options.hpp"
 #include "../Include/preGame.hpp"
 #include "../Include/records.hpp"
 #include "../Include/show.hpp"
 
-
-
-void Menu_choose(int* current, int* customSize, int* customBombCount, int* choosedLevel, bool* GodModeOn, int* soudnsVolume, int* musicVolume, int* winRow, int* winCol)
+void Menu_choose(int& current, int& customSize, int& customBombCount, int& choosedLevel, bool& GodModeOn, int& soudnsVolume, int& musicVolume, int& winRow, int& winCol)
 {
-    int const rowCenter = *winRow / 2 + 1;
-    int const colCenter = *winCol / 2 + 1;
+    int const rowCenter = winRow / 2 + 1;
+    int const colCenter = winCol / 2 + 1;
 
     int const gameName = 62;
     Show_GameName(colCenter - gameName, rowCenter - 11);
 
-    int const menuSize = 5;
+    const int menuSize = 5;
     std::string Menu[menuSize] = { "Start", "Options", "Records", "About", "Exit" };
 
     int const menuStartRow = rowCenter - 2;
     int const menuStartCol = colCenter - 3;
-    printMenu(Menu, menuSize, *current, menuStartRow, menuStartCol);
+    printMenu(Menu, menuSize, current, menuStartRow, menuStartCol);
 
     //Need when the user will return to the menu
     bool returnToMenu = false;
@@ -38,27 +36,27 @@ void Menu_choose(int* current, int* customSize, int* customBombCount, int* choos
         int key = keypress();
         switch (key) {
         case 'w': case 'W':
-            gotoxy(menuStartCol, menuStartRow + *current);
-            std::cout << Menu[*current];
+            gotoxy(menuStartCol, menuStartRow + current);
+            std::cout << Menu[current];
 
-            *current == 0 ? *current = menuSize - 1 : --(*current);
+            current == 0 ? current = menuSize - 1 : --(current);
 
-            gotoxy(menuStartCol, menuStartRow + *current);
-            colorCout(Menu[*current], 3);
+            gotoxy(menuStartCol, menuStartRow + current);
+            colorCout(Menu[current], 3);
             break;
 
         case 's': case 'S':
-            gotoxy(menuStartCol, menuStartRow + *current);
-            std::cout << Menu[*current];
+            gotoxy(menuStartCol, menuStartRow + current);
+            std::cout << Menu[current];
 
-            *current == menuSize - 1 ? *current = 0 : ++(*current);
+            current == menuSize - 1 ? current = 0 : ++(current);
 
-            gotoxy(menuStartCol, menuStartRow + *current);
-            colorCout(Menu[*current], 3);
+            gotoxy(menuStartCol, menuStartRow + current);
+            colorCout(Menu[current], 3);
             break;
 
         case 10:
-            selectedMenu(*current, customSize, customBombCount, choosedLevel, GodModeOn, soudnsVolume, musicVolume, winRow, winCol);
+            selectedMenu(current, customSize, customBombCount, choosedLevel, GodModeOn, soudnsVolume, musicVolume, winRow, winCol);
             returnToMenu = true;
             break;
         }
@@ -77,11 +75,11 @@ void printMenu(std::string* Menu, int const menuSize, int const current, int con
     std::cout << std::endl;
 }
          
-void selectedMenu(int const current, int* customSize, int* customBombCount, int* choosedLevel, bool* GodModeOn, int* soundsVolume, int* musicVolume, int* winRow, int* winCol)
+void selectedMenu(const int current, int& customSize, int& customBombCount, int& choosedLevel, bool& GodModeOn, int& soundsVolume, int& musicVolume, int& winRow, int& winCol)
 {
     switch (current) {
         //Start
-        case 0: preGame(*customSize, *customBombCount, *choosedLevel, *GodModeOn, winRow, winCol); break;
+        case 0: preGame(customSize, customBombCount, choosedLevel, GodModeOn, winRow, winCol); break;
         //Options
         case 1: options(customSize, customBombCount, choosedLevel, GodModeOn, soundsVolume, musicVolume, winRow, winCol); break;
         //Records

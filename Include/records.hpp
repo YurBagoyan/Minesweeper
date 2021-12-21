@@ -1,7 +1,7 @@
 #ifndef RECORDS_HPP
 #define RECORDS_HPP
 
-void checkingTimeInTop(int const time, int const level, bool* exitToMenu, int const rowCenter, int const colCenter);
+void checkingTimeInTop(int const time, int const level, bool& exitToMenu, int const rowCenter, int const colCenter);
 
 std::string fileWay(int const level);
 
@@ -19,6 +19,6 @@ void printTime(int const time, int const timeStartRow, int const timeStartCol);
 
 void printTop(std::string* topNickNames, int* topTimes, int const rowCenter, int const colCenter);
 
-void records(int* winRow, int* winCol);
+void records(int& winRow, int& winCol);
 
 #endif //RECORDS_HPP

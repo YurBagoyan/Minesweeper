@@ -1,25 +1,25 @@
 #include <ctime>
 #include <iostream>
 
-#include "../Include/preGame.hpp"
 #include "../Include/game.hpp"
 #include "../Include/input.hpp"
+#include "../Include/preGame.hpp"
 #include "../Include/show.hpp"
 
-void preGame(int const customSize, int const customBombCount, int const choosedLevel, bool const GodModeOn, int* winRow, int* winCol)
+void preGame(int const customSize, int const customBombCount, int const choosedLevel, bool const GodModeOn, int& winRow, int& winCol)
 {
     bool exitFromGame = false;
     while (!exitFromGame) {
-        mainPreGame(customSize, customBombCount, choosedLevel, GodModeOn, &exitFromGame, winRow, winCol);
+        mainPreGame(customSize, customBombCount, choosedLevel, GodModeOn, exitFromGame, winRow, winCol);
     }
 }
 
-void mainPreGame(int const customSize, int const customBombCount, int const choosedLevel, bool const GodModeOn, bool* exitFromGame, int* winRow, int* winCol)
+void mainPreGame(int const customSize, int const customBombCount, int const choosedLevel, bool const GodModeOn, bool& exitFromGame, int& winRow, int& winCol)
 {
     system("clear");
 
     int size, bombCount;
-    level(choosedLevel, &size, &bombCount, customSize, customBombCount);
+    level(choosedLevel, size, bombCount, customSize, customBombCount);
     int** Back = new int* [size];        //Back is a matrix with numbers
     char** Front = new char* [size];     //Front is a matrix that will see the user
 
@@ -52,15 +52,15 @@ void mainPreGame(int const customSize, int const customBombCount, int const choo
     delete[] Front;
 }
 
-void level(int const choosedLevel, int* size, int* bombCount, int const customSize, int const customBombCount)
+void level(int const choosedLevel, int& size, int& bombCount, int const customSize, int const customBombCount)
 {
     switch (choosedLevel) {
-    case 1: *size = 10; *bombCount = 10; break;   //Beginner
-    case 2: *size = 12; *bombCount = 20; break;   //Veteran
-    case 3: *size = 14; *bombCount = 35; break;   //Expert
-    case 4: *size = 17; *bombCount = 50; break;   //Pro
-    case 5: *size = 20; *bombCount = 99; break;   //Master
-    case 11: *size = customSize + 2; *bombCount = customBombCount; break; //Custom
+    case 1: size = 10; bombCount = 10; break;   //Beginner
+    case 2: size = 12; bombCount = 20; break;   //Veteran
+    case 3: size = 14; bombCount = 35; break;   //Expert
+    case 4: size = 17; bombCount = 50; break;   //Pro
+    case 5: size = 20; bombCount = 99; break;   //Master
+    case 11: size = customSize + 2; bombCount = customBombCount; break; //Custom
     }
 }
 
