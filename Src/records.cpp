@@ -62,11 +62,12 @@ void printRecords(const int level, const int recStartRow, const int recStartCol,
 
     Show_levelName(level, rowCenter, colCenter);
 
-    std::string topNickNames[7] = { "" };
-    int topTimes[7] = { 0 };
-    InputFromFile(topNickNames, topTimes, level);
+    constexpr size_t topSize = 5;
+    std::string topNickNames[topSize + 1] = { "" };
+    int topTimes[topSize + 1] = { 0 };
+    InputFromFile(topNickNames, topTimes, topSize, level);
 
-    printTop(topNickNames, topTimes, rowCenter, colCenter);
+    printTop(topNickNames, topTimes, topSize, rowCenter, colCenter);
 }
 
 std::string fileWay(const int level)
@@ -84,7 +85,7 @@ std::string fileWay(const int level)
     return way;
 }
 
-void InputFromFile(std::string* topNickNames, int* topTimes, const int level)
+void InputFromFile(std::string* topNickNames, int* topTimes, const size_t topSize, const int level)
 {
     std::string way = fileWay(level);
 
@@ -98,12 +99,12 @@ void InputFromFile(std::string* topNickNames, int* topTimes, const int level)
     
     std::string temp;
     for(int i = 1; !readFromFile.eof(); ++i) {
-        if(i <= 5) {
+        if(i <= topSize) {
             std::getline(readFromFile, topNickNames[i]);  
         }
-        else if (i <= 10){
+        else if (i <= topSize*2){
             std::getline(readFromFile, temp);
-            topTimes[i - 5] = std::stoi(temp);
+            topTimes[i - topSize] = std::stoi(temp);
         }
         else {
             std::getline(readFromFile, temp);
@@ -113,7 +114,9 @@ void InputFromFile(std::string* topNickNames, int* topTimes, const int level)
     readFromFile.close();
 }
 
-void printTop(std::string* topNickNames, int* topTimes, const int rowCenter, const int colCenter)
+constexpr int MAXTIME = 1000000;
+
+void printTop(std::string* topNickNames, int* topTimes, const size_t topSize, const int rowCenter, const int colCenter)
 {
     const int nicksStartRow = rowCenter - 2;
     const int nicksStartCol = colCenter - 17;
@@ -121,11 +124,11 @@ void printTop(std::string* topNickNames, int* topTimes, const int rowCenter, con
     const int timeStartRow = nicksStartRow;
     const int timeStartCol = nicksStartCol + 17;
 
-    for (int i = 1; i < 6; ++i) {
+    for (int i = 1; i <= topSize; ++i) {
         gotoxy(nicksStartCol, nicksStartRow + i - 1);
         std::cout << i << ". " << topNickNames[i] << std::endl;
 
-        if (topTimes[i] != 1000000) {
+        if (topTimes[i] != MAXTIME) {
             printTime(topTimes[i], timeStartRow + i - 1, timeStartCol);
         }
     }
@@ -143,46 +146,47 @@ void printTime(const int time, const int timeStartRow, const int timeStartCol)
 
 void checkingTimeInTop(const int time, const int level, bool& exitToMenu, const int rowCenter, const int colCenter)
 {
-    std::string topNickNames[7] = { "" };
-    int topTimes[7] = { 0 };
-    InputFromFile(topNickNames, topTimes, level);
+    constexpr size_t topSize = 5;
+    std::string topNickNames[topSize + 1] = { "" };
+    int topTimes[topSize + 1] = { 0 };
+    InputFromFile(topNickNames, topTimes, topSize, level);
 
-    if (time < topTimes[5]) {
-        newRecord(topNickNames, topTimes, time, level, rowCenter, colCenter);
+    if (time < topTimes[topSize]) {
+        newRecord(topNickNames, topTimes, topSize, time, level, rowCenter, colCenter);
         exitToMenu = true;
     }
 }
 
-void newRecord(std::string* topNickNames, int* topTimes, const int time, const int level, const int rowCenter, const int colCenter)
+void newRecord(std::string* topNickNames, int* topTimes, const size_t topSize, const int time, const int level, const int rowCenter, const int colCenter)
 {
     std::string userNickName = inputUserNickName(rowCenter, colCenter);
 
-    int i = 5;
-    while(time < topTimes[i] && i >= 1) {
+    for (int i = topSize - 1; time < topTimes[i] && i > 0; --i)
+    {
         topTimes[i + 1] = topTimes[i];
         topTimes[i] = time;
 
         topNickNames[i + 1] = topNickNames[i];
         topNickNames[i] = userNickName;
-
-        --i;
     }
 
-    outputFile(topNickNames, topTimes, level);
+    outputFile(topNickNames, topTimes, topSize, level);
 }
 
 std::string inputUserNickName(const int rowCenter, const int colCenter)
 {
     std::string userNickName;
+    const int inputNickStartCol = colCenter - 30;
+    const int inputNickStartRow = rowCenter * 2 - 12;
 
     do {
-        gotoxy(colCenter - 30, rowCenter * 2 - 12);
+        gotoxy(inputNickStartCol, inputNickStartRow);
         colorCout("Please enter your nickname which must be 10 characters long: ", 7);
         normal();
-        gotoxy(colCenter + 31, rowCenter * 2 - 12);
+        gotoxy(colCenter - 5, inputNickStartRow + 1);
         getline(std::cin, userNickName);
        
-        clearLine(rowCenter * 2 - 12);
+        clearLine(inputNickStartRow);
     } while (userNickName.length() > 10);
 
     system("clear");
@@ -191,7 +195,7 @@ std::string inputUserNickName(const int rowCenter, const int colCenter)
     return userNickName;
 }
 
-void outputFile(std::string* topNickNames, int* topTimes, const int level)
+void outputFile(std::string* topNickNames, int* topTimes, const size_t topSize, const int level)
 {
     std::string way = fileWay(level);
 
@@ -203,12 +207,15 @@ void outputFile(std::string* topNickNames, int* topTimes, const int level)
         return;
     }
 
-    for (int i = 1; i <= 10; ++i) {
-        if (i <= 5) {
+    gotoxy(1, 1);
+    std::cout << "aaaaaaaaaaaaaaaaaaaa\n";
+
+    for (int i = 1; i <= topSize*2; ++i) {
+        if (i <= topSize) {
             writeInFile << topNickNames[i] << "\n";
         }
         else {
-            writeInFile << topTimes[i - 5] << "\n";
+            writeInFile << topTimes[i - topSize] << "\n";
         }
     }
 

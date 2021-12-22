@@ -9,9 +9,14 @@ int main()
     //Don't show the console cursor in the game
     printf("\e[?25l");
 
-    //The console window size, will change it in the game for dynamic size of console window
+    //Get current size of window
     int winRow, winCol;
     userWinSize(winRow, winCol);
+
+    //The console window size, will change it in the game for dynamic size of console window
+    constexpr int minWinRowSize = 22, minWinColSize = 132;
+    winSizeChanged(winRow, winCol, minWinRowSize, minWinColSize);
+
     int const rowCenter = winRow / 2 + 1;
     int const colCenter = winCol / 2 + 1;
     

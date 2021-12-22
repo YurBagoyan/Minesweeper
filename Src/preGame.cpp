@@ -10,18 +10,21 @@ void preGame(const int customSize, const int customBombCount, const int choosedL
 {
     bool exitFromGame = false;
     while (!exitFromGame) {
-        mainPreGame(customSize, customBombCount, choosedLevel, GodModeOn, exitFromGame, winRow, winCol);
+        gamePreparation(customSize, customBombCount, choosedLevel, GodModeOn, exitFromGame, winRow, winCol);
     }
 }
 
-void mainPreGame(const int customSize, const int customBombCount, const int choosedLevel, const bool GodModeOn, bool& exitFromGame, int& winRow, int& winCol)
+void gamePreparation(const int customSize, const int customBombCount, const int choosedLevel, const bool GodModeOn, bool& exitFromGame, int& winRow, int& winCol)
 {
     system("clear");
 
     size_t size, bombCount;
+
+    // Selection size of the matrix and bomb count depending on the choice of level from user
     level(choosedLevel, size, bombCount, customSize, customBombCount);
-    int** Back = new int* [size];        //Back is a matrix with numbers
-    char** Front = new char* [size];     //Front is a matrix that will see the user
+
+    int** Back = new int* [size];       //Back is a matrix with numbers
+    char** Front = new char* [size];    //Front is a matrix that will see the user
 
     for (size_t i = 0; i < size; ++i) {
         Back[i] = new int[size];
@@ -35,12 +38,12 @@ void mainPreGame(const int customSize, const int customBombCount, const int choo
         }
     }
     
-    randomMines(Back, size, bombCount);
-    addNumbers(Back, size);
-    boundsOfMatrix(Back, size);
+    fillRandomMines(Back, size, bombCount);
+    fillNumbersAroundMines(Back, size);
+    fillBoundsOfMatrix(Back, size);
 
     //The main game
-    //This function is in game.hpp
+    //This function is in game.cpp
     game(Back, Front, size, choosedLevel, bombCount, GodModeOn, exitFromGame, winRow, winCol);
 
     //Deleting dinamic matrixes
@@ -52,7 +55,7 @@ void mainPreGame(const int customSize, const int customBombCount, const int choo
     delete[] Front;
 }
 
-void level(int const choosedLevel, size_t& size, size_t& bombCount, const int customSize, const int customBombCount)
+void level(const int choosedLevel, size_t& size, size_t& bombCount, const int customSize, const int customBombCount)
 {
     switch (choosedLevel) {
     case 1: size = 10; bombCount = 10; break;   //Beginner
@@ -65,7 +68,7 @@ void level(int const choosedLevel, size_t& size, size_t& bombCount, const int cu
 }
 
 //Choose the random cage and add there mine
-void randomMines(int** Back, const size_t size, size_t bombCount)
+void fillRandomMines(int** Back, const size_t size, size_t bombCount)
 {  
     srand(time(NULL));
     const int min = 1, max = size - 1;
@@ -82,7 +85,7 @@ void randomMines(int** Back, const size_t size, size_t bombCount)
     }
 }
 
-void aroundMine(int** Back, const size_t size, const int i, const int j)
+void addOneInCellsAround(int** Back, const size_t size, const int i, const int j)
 {
     for (size_t row = i - 1; row <= i + 1; ++row) {
         for (size_t col = j - 1; col <= j + 1; ++col) {
@@ -93,20 +96,20 @@ void aroundMine(int** Back, const size_t size, const int i, const int j)
     }
 }
 
-void addNumbers(int** Back, const size_t size)
+void fillNumbersAroundMines(int** Back, const size_t size)
 {
     for (size_t i = 1; i < size - 1; ++i) {
         for (size_t j = 1; j < size - 1; ++j) {
             //Find the mine
             if (Back[i][j] == -1) {
-                // +1 in cages around mine 
-                aroundMine(Back, size, i, j); 
+                // +1 to the cells around the mine
+                addOneInCellsAround(Back, size, i, j);
             }
         }
     }
 }
 
-void boundsOfMatrix(int** Back, const size_t size)
+void fillBoundsOfMatrix(int** Back, const size_t size)
 {
     for(size_t i = 0; i < size; ++i) {
         Back[0][i] = -2;
