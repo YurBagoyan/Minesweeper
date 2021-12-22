@@ -256,7 +256,9 @@ void win(const int* const* Back, char** Front, const size_t size, const int time
             checkingTimeInTop(time, level, rowCenter, colCenter);
         }*/
    
-        checkingTimeInTop(time, level, exitToMenu, rowCenter, colCenter);
+        if(level != 11) {
+            checkingTimeInTop(time, level, exitToMenu, rowCenter, colCenter);
+        }
 
         //Restart or Exit to main menu
         cbreak();
