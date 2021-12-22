@@ -5,11 +5,14 @@
 #include "../Include/input.hpp"
 #include "../Include/show.hpp"
 
-void Show_GameName(const int printCol, const int printRow)
+void Show_GameName(int printCol, const int printRow)
 { 
     system("clear");
-    constexpr int gameNameColor = 5;
-    
+    constexpr int gameNameColor = 5; // 5 = red
+    constexpr int gameNameSize = 62;
+
+    printCol -= gameNameSize;
+   
     gotoxy(printCol, printRow);
     colorCout(R"(   _____ ______   ___  ________   _______   ________  ___       __   _______   _______   ________  _______   ________      )", gameNameColor);
     
@@ -38,9 +41,9 @@ void Show_GameName(const int printCol, const int printRow)
 
 void Show_GameNameAnimation(const int rowCenter, const int colCenter)
 {
-    constexpr int gameNameSize = 62;
-    for(int i = 0; i < rowCenter - 12; ++i) {
-        Show_GameName(colCenter - gameNameSize, i);
+    const int endRowOfAnimation = rowCenter - 12;
+    for(int i = 0; i < endRowOfAnimation; ++i) {
+        Show_GameName(colCenter, i);
         usleep(125000);
     }
 }
@@ -214,19 +217,20 @@ void Show_ExitRestart(const int rowCenter, const int colCenter, const int color)
 //Boards of playing field
 void Show_Boards(const size_t size, const int matrixStartRow, const int matrixStartCol, const int color)
 {
-    for (int i = 0; i < size - 1; ++i) {
-        gotoxy(matrixStartCol, matrixStartRow + 1 + i);
-        colorCout("█", color);
-
-        gotoxy(matrixStartCol + size * 2 - 2, matrixStartRow + i);
-        colorCout("█", color);
-    }
-
-    for (int i = -1; i < (size - 1) * 2; ++i) {
-        gotoxy(matrixStartCol + i + 1, matrixStartRow);
+    for (int i = 0; i < (size-1)*2 + 1; ++i) {
+        if (i < size - 1) {
+            // Left board
+            gotoxy(matrixStartCol, matrixStartRow + i);
+            colorCout("█", color);
+            // Right board
+            gotoxy(matrixStartCol + size * 2 - 2, matrixStartRow + i);
+            colorCout("█", color);
+        }
+        // Top board
+        gotoxy(matrixStartCol + i, matrixStartRow);
         colorCout("▄", color);
-
-        gotoxy(matrixStartCol + i + 1, matrixStartRow + size - 1);
+        // Bottom board
+        gotoxy(matrixStartCol + i, matrixStartRow + size - 1);
         colorCout("▀", color);
     }
 }
@@ -250,7 +254,7 @@ void Show_GodMode(const int* const* Back, const size_t size)
 
 int Show_Timer(const std::time_t beginTime, const size_t size, const int matrixStartRow, const int matrixStartCol)
 {   
-    std::time_t currentTime = std::time(nullptr);
+    const std::time_t currentTime = std::time(nullptr);
     const int time = currentTime - beginTime;
 
     const int timerStartCol = matrixStartCol + 6 + 2*size;

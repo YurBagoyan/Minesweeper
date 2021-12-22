@@ -7,13 +7,14 @@
 #include "../Include/records.hpp"
 #include "../Include/show.hpp"
 
+constexpr int cursorColor = 3; // 3 = green
+
 void Menu_choose(int& current, int& customSize, int& customBombCount, int& choosedLevel, bool& GodModeOn, int& soudnsVolume, int& musicVolume, int& winRow, int& winCol)
 {
     const int rowCenter = winRow / 2 + 1;
     const int colCenter = winCol / 2 + 1;
 
-    constexpr int gameName = 62;
-    Show_GameName(colCenter - gameName, rowCenter - 11);
+    Show_GameName(colCenter, rowCenter - 11);
 
     constexpr size_t menuSize = 5;
     const std::string Menu[menuSize] = { "Start", "Options", "Records", "About", "Exit" };
@@ -22,12 +23,11 @@ void Menu_choose(int& current, int& customSize, int& customBombCount, int& choos
     const int menuStartCol = colCenter - 3;
     printMenu(Menu, menuSize, current, menuStartRow, menuStartCol);
 
-    //Need when the user will return to the menu
     bool returnToMenu = false;
 
     cbreak();
     while (true) {
-        //Checking user windows size and change if it has changed
+        //Checking user windows size and change if it has changed by user
         constexpr int minWinRowSize = 22, minWinColSize = 132;
         if (winSizeChanged(winRow, winCol, minWinRowSize, minWinColSize) || returnToMenu) {
             break;
@@ -35,26 +35,11 @@ void Menu_choose(int& current, int& customSize, int& customBombCount, int& choos
 
         int key = keypress();
         switch (key) {
-        case 'w': case 'W':
-            gotoxy(menuStartCol, menuStartRow + current);
-            std::cout << Menu[current];
-
-            current == 0 ? current = menuSize - 1 : --current;
-
-            gotoxy(menuStartCol, menuStartRow + current);
-            colorCout(Menu[current], 3);
-            break;
-
-        case 's': case 'S':
-            gotoxy(menuStartCol, menuStartRow + current);
-            std::cout << Menu[current];
-
-            current == menuSize - 1 ? current = 0 : ++current;
-
-            gotoxy(menuStartCol, menuStartRow + current);
-            colorCout(Menu[current], 3);
-            break;
-
+        // UP
+        case 'w': case 'W': CursorMoveInMenu(Menu, menuSize, current, key, menuStartCol, menuStartRow); break;
+        // DOWN
+        case 's': case 'S': CursorMoveInMenu(Menu, menuSize, current, key, menuStartCol, menuStartRow); break;
+        // Enter
         case 10:
             selectedMenu(current, customSize, customBombCount, choosedLevel, GodModeOn, soudnsVolume, musicVolume, winRow, winCol);
             returnToMenu = true;
@@ -63,16 +48,34 @@ void Menu_choose(int& current, int& customSize, int& customBombCount, int& choos
     }
 }
 
-void printMenu(const std::string* Menu, const int menuSize, const int current, const int menuStartRow, const int menuStartCol)
+void CursorMoveInMenu(const std::string* Menu, const size_t menuSize, int& current, const int key, const int menuStartCol, const int menuStartRow)
 {
-    gotoxy(menuStartCol, menuStartRow);
-    for(int i = 0; i < menuSize; ++i) {
-        gotoxy(menuStartCol, menuStartRow + i);
-        std::cout << Menu[i];                                
-    }
     gotoxy(menuStartCol, menuStartRow + current);
-    colorCout(Menu[current], 3);
-    std::cout << std::endl;
+    std::cout << Menu[current];
+
+    if (key == 'w' || key == 'W') {
+        current == 0 ? current = menuSize - 1 : --current;
+    }
+    else if (key == 's' || key == 'S') {
+        current == menuSize - 1 ? current = 0 : ++current;
+    }
+
+    gotoxy(menuStartCol, menuStartRow + current);
+    colorCout(Menu[current], cursorColor);
+}
+
+void printMenu(const std::string* Menu, const size_t menuSize, const int current, const int menuStartRow, const int menuStartCol)
+{
+    for (size_t i = 0; i < menuSize; ++i) {
+        if (i == current) {
+            gotoxy(menuStartCol, menuStartRow + current);
+            colorCout(Menu[current], cursorColor);
+            continue;
+        }
+        gotoxy(menuStartCol, menuStartRow + i);
+        std::cout << Menu[i];
+        std::cout << std::endl;
+    }
 }
          
 void selectedMenu(const int current, int& customSize, int& customBombCount, int& choosedLevel, bool& GodModeOn, int& soundsVolume, int& musicVolume, int& winRow, int& winCol)
