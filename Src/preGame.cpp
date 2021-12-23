@@ -85,10 +85,10 @@ void fillRandomMines(int** Back, const size_t size, size_t bombCount)
     }
 }
 
-void addOneInCellsAround(int** Back, const size_t size, const int i, const int j)
+void addOneInCellsAround(int** Back, const int i, const int j)
 {
-    for (size_t row = i - 1; row <= i + 1; ++row) {
-        for (size_t col = j - 1; col <= j + 1; ++col) {
+    for (int row = i - 1; row <= i + 1; ++row) {
+        for (int col = j - 1; col <= j + 1; ++col) {
             if (Back[row][col] != -1) {
                 ++Back[row][col];
             }   
@@ -103,7 +103,7 @@ void fillNumbersAroundMines(int** Back, const size_t size)
             //Find the mine
             if (Back[i][j] == -1) {
                 // +1 to the cells around the mine
-                addOneInCellsAround(Back, size, i, j);
+                addOneInCellsAround(Back, i, j);
             }
         }
     }
