@@ -126,23 +126,16 @@ void game(int** Back, char** Front, const size_t size, int const level, const si
                         }
                         else {
                             Open(Back, Front, i, j, Fcount, matrixStartRow, matrixStartCol);
-                            //printGreenChar(Front, i, j, matrixStartRow, matrixStartCol);
                         }
                         break;
                     }
-                    break;
+                break;
                 }
             }
         }
     }
 }
 
-/* Brief: To print a character in its specific color
- * Inputs: Front: [char]; i, j: integer
- * Pre: i < size; j < size; Front = { '#', 'X', 'F', ' ', '1' '2', '3', '4', '5', '6', '7', '8' }
- * Output: Front : [char]
- * Post: Front[i][j] with its specific color
- */
 void printChar(const char* const* Front, const int i, const int j, const int matrixStartRow, const int matrixStartCol)
 {
     //The coordinate of F[i][j] in window
@@ -165,12 +158,6 @@ void printChar(const char* const* Front, const int i, const int j, const int mat
     }
 }
 
-/* Brief: To print a character in green color, for cursor move
- * Inputs: Front: [char], i, j: integer
- * Pre: i < size, j < size; Front = { '#', 'X', 'F', ' ', '1' '2', '3', '4', '5', '6', '7', '8' }
- * Output: Front : [char]
- * Post: Front[i][j] with green color
- */
 void printGreenChar(const char* const* Front, const int i, const int j, const int matrixStartRow, const int matrixStartCol)
 {
     //The coordinate of F[i][j] in window
@@ -330,12 +317,6 @@ void Boom(const int* const* Back, char** Front, const size_t size, bool& exitToM
     }
 }
 
-/* Brief: If there are no mines or numbers under #
- * Inputs: Back: [integer], Front : [char], i, j, Fcount: integer
- * Pre: i < size, j < size, Fcount < Bomb_Count, Back[i][j] = 0
- * Output: Back : [integer], Front : [char], Fcount : integer 
- * Post: Front[i][j] = '_', Back[i][j] = 10, 
- */
 void Empty(int** Back, char** Front, int const i, int const j, int& Fcount, const int matrixStartRow, const int matrixStartCol)
 {
     Front[i][j] = ' ';
