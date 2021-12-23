@@ -63,8 +63,8 @@ void printRecords(const int level, const int recStartRow, const int recStartCol,
     Show_levelName(level, rowCenter, colCenter);
 
     constexpr size_t topSize = 5;
-    std::string topNickNames[topSize + 1] = { "" };
-    int topTimes[topSize + 1] = { 0 };
+    std::string topNickNames[topSize + 2] = { "" };
+    int topTimes[topSize + 2] = { 0 };
     InputFromFile(topNickNames, topTimes, topSize, level);
 
     printTop(topNickNames, topTimes, topSize, rowCenter, colCenter);
@@ -147,8 +147,8 @@ void printTime(const int time, const int timeStartRow, const int timeStartCol)
 void checkingTimeInTop(const int time, const int level, bool& exitToMenu, const int rowCenter, const int colCenter)
 {
     constexpr size_t topSize = 5;
-    std::string topNickNames[topSize + 1] = { "" };
-    int topTimes[topSize + 1] = { 0 };
+    std::string topNickNames[topSize + 2] = { "" };
+    int topTimes[topSize + 2] = { MAXTIME };
     InputFromFile(topNickNames, topTimes, topSize, level);
 
     if (time < topTimes[topSize]) {
@@ -161,7 +161,7 @@ void newRecord(std::string* topNickNames, int* topTimes, const size_t topSize, c
 {
     std::string userNickName = inputUserNickName(rowCenter, colCenter);
 
-    for (int i = topSize - 1; time < topTimes[i] && i > 0; --i)
+    for (int i = topSize; time < topTimes[i] && i > 0; --i)
     {
         topTimes[i + 1] = topTimes[i];
         topTimes[i] = time;

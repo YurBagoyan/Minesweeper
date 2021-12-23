@@ -239,14 +239,10 @@ void win(const int* const* Back, char** Front, const size_t size, const int time
             }
         }
 
-        /*if (!GodModeOn && level != 11) {
+        if (!GodModeOn && level != 11) {
             checkingTimeInTop(time, level, rowCenter, colCenter);
-        }*/
-   
-        if(level != 11) {
-            checkingTimeInTop(time, level, exitToMenu, rowCenter, colCenter);
         }
-
+   
         //Restart or Exit to main menu
         cbreak();
         while(true) {
