@@ -1,7 +1,3 @@
-# Slide Link
-```
-https://www.canva.com/design/DAEzZV2SUIQ/wFahqbBC2dG1R5eUrA1h8w/view?utm_content=DAEzZV2SUIQ&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&fbclid=IwAR08BJo3DTaNjzPouRQnqR-WdJ9M3OE-iS-lQDBveypc0MKRgHh2iLBtrgU
-```
 # How To Run
 You need to install ncurses and make at first:
 ```
@@ -49,6 +45,8 @@ To win the game, players must uncover all non-mine cells, at which point, the ti
 
 
 # References
+
+Minesweeper slide link - https://clck.ru/ZsQ4U
 
 About game in Wikipedia - https://en.wikipedia.org/wiki/Minesweeper_(video_game)
 
