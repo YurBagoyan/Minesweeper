@@ -1,36 +1,49 @@
+Omain = Bin/main.o
+Oinput = Bin/input.o
+Omenu = Bin/menu.o
+OpreGame = Bin/preGame.o
+Ogame = Bin/game.o
+Ooptions = Bin/options.o
+Orecords = Bin/records.o
+Oshow = Bin/show.o
+Ofirework = Bin/firework.o
+Oparticle = Bin/particle.o
+ncurses = /usr/lib/x86_64-linux-gnu/libm.so -lncurses 
+Oall = $(Oinput) $(Omain) $(Omenu) $(OpreGame) $(Ogame) $(Ooptions) $(Orecords) $(Oshow) $(Ofirework) $(Oparticle)
+
 all: main
 
-main: ObjFiles/input.o ObjFiles/main.o ObjFiles/menu.o ObjFiles/preGame.o ObjFiles/game.o ObjFiles/options.o ObjFiles/records.o ObjFiles/show.o ObjFiles/firework.o ObjFiles/particle.o
-	@g++ ObjFiles/input.o ObjFiles/main.o ObjFiles/menu.o ObjFiles/preGame.o ObjFiles/game.o ObjFiles/options.o ObjFiles/records.o ObjFiles/show.o ObjFiles/firework.o ObjFiles/particle.o /usr/lib/x86_64-linux-gnu/libm.so -lncurses -o main -lm
+main: $(Oall)
+	@g++ $(Oall) $(ncurses) -o main -lm
 
-ObjFiles/input.o: Src/input.cpp
-	g++ -c Src/input.cpp -o ObjFiles/input.o
+$(Oinput): Src/input.cpp
+	g++ -c Src/input.cpp -o $(Oinput)
 
-ObjFiles/main.o: Src/main.cpp
-	g++ -c Src/main.cpp -o ObjFiles/main.o
+$(Omain): Src/main.cpp
+	g++ -c Src/main.cpp -o $(Omain)
 
-ObjFiles/menu.o: Src/menu.cpp
-	g++ -c Src/menu.cpp -o ObjFiles/menu.o 
+$(Omenu): Src/menu.cpp
+	g++ -c Src/menu.cpp -o $(Omenu) 
 
-ObjFiles/preGame.o: Src/preGame.cpp
-	g++ -c Src/preGame.cpp -o ObjFiles/preGame.o
+$(OpreGame): Src/preGame.cpp
+	g++ -c Src/preGame.cpp -o $(OpreGame)
 
-ObjFiles/game.o: Src/game.cpp
-	g++ -c Src/game.cpp -o ObjFiles/game.o 
+$(ogame): Src/game.cpp
+	g++ -c Src/game.cpp -o $(ogame)
 
-ObjFiles/options.o: Src/options.cpp
-	g++ -c Src/options.cpp -o ObjFiles/options.o
+$(Ooptions): Src/options.cpp
+	g++ -c Src/options.cpp -o $(Ooptions)
 
-ObjFiles/records.o: Src/records.cpp
-	g++ -c Src/records.cpp -o ObjFiles/records.o
+$(Orecords): Src/records.cpp
+	g++ -c Src/records.cpp -o $(Orecords)
 
-ObjFiles/show.o: Src/show.cpp
-	g++ -c Src/show.cpp -o ObjFiles/show.o
+$(show): Src/show.cpp
+	g++ -c Src/show.cpp -o $(show)
 
-ObjFiles/firework.o: Src/firework.cpp
-	g++ -c Src/firework.cpp -o ObjFiles/firework.o -lm
+$(Ofirework): Src/firework.cpp
+	g++ -c Src/firework.cpp -o $(Ofirework) -lm
 
-ObjFiles/particle.o: Src/particle.cpp
-	g++ -c Src/particle.cpp -o ObjFiles/particle.o -lm
+$(Oparticle): Src/particle.cpp
+	g++ -c Src/particle.cpp -o $(Oparticle) -lm
 
 

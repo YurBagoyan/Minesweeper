@@ -75,11 +75,11 @@ std::string fileWay(const int level)
     std::string way;
 
     switch(level) {
-        case 1: way = "Records/beginners.txt"; break;
-        case 2: way = "Records/veterans.txt"; break;
-        case 3: way = "Records/experts.txt"; break;
-        case 4: way = "Records/pros.txt"; break;
-        case 5: way = "Records/masters.txt"; break;
+        case 1: way = "Data/beginners.txt"; break;
+        case 2: way = "Data/veterans.txt"; break;
+        case 3: way = "Data/experts.txt"; break;
+        case 4: way = "Data/pros.txt"; break;
+        case 5: way = "Data/masters.txt"; break;
     }
 
     return way;

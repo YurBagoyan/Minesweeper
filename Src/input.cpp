@@ -3,6 +3,7 @@
 #include <termios.h>
 #include <unistd.h>
 
+
 int tty_mode = 0;
 struct termios orig_tty;
 struct termios new_tty;
