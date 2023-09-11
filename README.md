@@ -44,6 +44,14 @@ To win the game, players must uncover all non-mine cells, at which point, the ti
 [ P ] - Pause
 
 
+# Screenshots
+
+![Main Menu](https://github.com/YurBagoyan/Minesweeper/assets/90376899/ad31bd60-d633-4779-a3a5-fac982d0eb10)
+![Options](https://github.com/YurBagoyan/Minesweeper/assets/90376899/7f4e7672-d772-4879-8bc6-e2c1e9f6b8c0)
+![Records](https://github.com/YurBagoyan/Minesweeper/assets/90376899/b7f3d5fe-c985-42b7-9ba0-afd1df2782ee)
+![How to play](https://github.com/YurBagoyan/Minesweeper/assets/90376899/6bada904-c74a-4bec-96dc-40ec0e61ca82)
+
+
 # References
 
 Minesweeper slide link - https://clck.ru/ZsQ4U
